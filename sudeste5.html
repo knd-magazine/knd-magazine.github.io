@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>
+      <span id="title">V; Chau Doc, Saigón y Hué. Vietnam</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            Esos son los momentos en que confirmas la decisión de viajar sin rumbo fijo, sin recorridos predeterminados, sin esperanzas preconcebidas para ningún lugar.
+            <img src="img/sudeste5.JPG" alt="Khao San Road" style="display: block; margin: 10px auto; max-width: 100%; height: auto;">
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`Salimos de phnom penh en un barquito que navegaría unas cinco horas pasando por el mítico rio Mekong, dejandonos en la pequeña ciudad de Chau Doc. la otra chance era ir en un bus directo a la ciudad de ho chi minh, o saigón, que demoraba 6 horas. El mekong es un obligado a cualquiera que viaje por el sudeste asiático, y mi encuentro con este magnífico río fue alucinante. Ves las aldeas de pescadores, los embarques de arroz, los pueblos costeros. En definitiva un “must go” si andan por allá.
+ 	Con visado en mano pasamos la frontera fluvial camboyana y en la de vietnam el conductor desapareció un rato, volviendo con los visados firmados y timbrados de entrada a vietnam y sin siquiera cachar los bolsos. Desembarcamos en chau doc y nos quiso afilar con su hotel flotante pero chao no más, nosotros y una pareja de neozelandeses nos lanzamos hacia donde se veía más urbanización, al rato por el calor se vencieron y tomaron un ciclo, onda tuk tuk pero en bicicleta, y los perdimos de vista. Yo soy un poco más terco, y cargado hasta el mazo con las mochilas, aguanté unas dos cuadras más. Pasaban y pasaban los conductores de cyclos, hasta que le pregunté a uno y por 1 dólar nos llevaba a un hotel decente.
+ 	Bien ahí por el dato, resultó ser un muy buen hotel. Haciendo el chequeo el wn nos dice que había que dejar el pasaporte en el hotel, por normas que no me supo explicar muy bien, pero comenzó diciendo “Es que vietnam es una república socialista y estamos obligados...” no sé qué. Será no más. Venían bajando los mismos neozelandeses de quienes nos habíamos separado hace un rato. Pueblo chico.
+ 	En la tarde, en ese mismo cyclo que en menos de 1 metro cuadrado habíamos entrado los dos con las mochilas (fue impactante), me pegué un city tour con phun, el conductor. Y lo más freak del tema es que en un rato el wn me dice que me invita a comer y tomar una cerveza. La raja, pensé. La cosa es que estaciona en un local ultra manya, el sector se cachaba no muy de recorrido turístico, nos sentamos y le pide a la vieja que le traiga supuestamente una cerveza... la verdad me empecé a pasar un poco de rollos, chucha quizá qué brebaje le traen al wn, en una de esas es algun somnífero y el wn me roba lo que llevo encima (y en todo caso andaba con la cámara y unas cuantas monedas, nada mas), lo siento, fue la omnipresente actitud capitalista y “madura” de pensar que siempre te quieren cagar. Llegó la chela en un bidón antihigiénico. Hielos. El wn prende un cigarro, me convida uno, me sirve un vaso y se sirve del mismo elíxir. Y para continuar con la mega sugestión pienso como dumas, que el conde de montecristo se acostumbraba a ingerir bruxina, de a poco, aumentando un miligramo al día, y en un año el wn podía resistir lo más bien una dosis que mataba a cualquier otro cristiano. Imaginé lo mismo con la cerveza, pero le mandé un sorbito. Después llegó una comida como papas fritas rellenas con algo que, según phun me dijo, no era ni pollo ni cerdo ni pescado. Csm. Mis conocimientos culinarios identifican sólo esas tres carnes como comestibles. Creo que habrá sido lo más cercano a comer ratas o perro. Pero no estaba malo.
+ 	Entre conversa y conversa, en su poco inglés y mis gestos sin sentido, logramos entender nuestras diferencias, y puta que hay mundo que ver wn. Primero lo traté como un simple cabro, pero el wn tenía 33 y parecía de 25 la cagó. Con dos hijos, viviendo con sus viejos, trabajando de 07:00 am a 10:00 pm. Su mayor sueño es tener una moto para poder cambiar la bicicleta. Con lo que a mí me costó el pasaje de avión, él y su familia viven un año. De sus dos hijos sólo uno va al colegio. Y me invitó por que según me dijo, me cachó que yo no era el típico turista gringo que recorre lugares para sacar más y más fotos de postales, no tenia pico idea de chile, sólo cachaba brasil, y le sonaba como algo tan exótico como decir nosotros turkmekistán, dijo que muy pocos le piden recorrer la ciudad y como que le caí bien y quiso invitarme a comer para conversar y saber de mi forma de vivir. Y practicar un poco de inglés.
+ 	Esos son los momentos en que confirmas la decisión de viajar sin rumbo fijo, sin recorridos predeterminados, sin esperanzas preconcebidas para ningún lugar. Por que chau doc nunca aparece en los tours, por que no hay motivo de peso para pasar por ahí y el bote seguía hasta long vinh que era mucho mas “ciudad”, por que no hay aire acondicionado en los cyclo, pero encuentras gente tan simpática como mi yunta phun (que no logré pronunciarlo bien ni él mi nombre), y con conversar con él una hora sales con otra mirada. Que los mensajes socialistas en los parlantes que veía en cada poste, que casi todos trabajan de lunes a domingo de sol a sol. Que él distingue claramente un chino de un japonés de puro mirarlo. Que mil cosas que nos alejan tanto de creer que alguna vez seremos un solo país en el mundo, que las costumbres son tan pero tan diferentes, que nos creemos el hoyo del queque y no somos ni siquiera migas.
+ 	Cuando salí, la botella de chela la habíamos consumido fifty fifty. Hay veces, pocas veces, que simplemente te olvidas de la civilización y la prudencia y te dispones a vivir sin prejuicios. Y se pasa la raja. Quién sabe, si hubiese aceptado la invitación de la señora del chicken bus en belice. Cosas que pasan, oportunidades en las que decides y que marcan la óptica con que ves un viaje.
+ 	Al otro día me dio el dato de un bus cama hacia ho chi minh. Altercados exógenos nos impidieron tomar ese bus y terminamos en uno normalito. 6 horas para llegar a saigón, parada a comer y a fumar incluida y en el bus un reality show onda american idol todo el rato, con el volumen al máximo.
+ 	Y la rutina de antes.
+ 	 Llegar a una calle cualquiera de ho chi minh. 
+ 	 Hacer caso omiso de los miles de viejos ofreciendote alojamiento. 
+ 	 Caminar hacia donde indique el mapa o hacia donde se vea mas muestras de civilización (lo que a veces no es coincidente). 
+ 	 Cagarse tanto de calor con el peso de las mochilas y el sol a destajo- 
+ 	 tomar un taxi y pedir que te lleve a la calle más frecuentada por los mochileros. 
+ 	 Cachar 3 o 4 hoteles y decidir. 
+ 	Y ya estamos en saigón. La antigua capital de vietnam del sur durante la guerra de vietnam. Recorrido callejero y encuentras el peor, pero degenerado, caos urbano que te puedas imaginar. Era un virus que iba aumentando exponencialmente a medida que nos alejábamos de bangkok y que se desarrollaba así:
+ 	 en bangkok había cruces elevados, había demasiados taxis y mucha polución pero se sabía dónde cruzar una calle. 
+ 	 En cambodia muchas motos, bastante peligrosas, muchos bocinazos y achoclonamiento pero si esperabas un minuto, se generaba un vacío donde poder cruzar. Vimos allí una persona en plena carretera conduciendo una moto pequeña, que llevaba un chancho, un chancho vivo, wn, atado en la parte trasera y puesto boca arriba. Un chancho grande, de esos que los chilotes se les hace agua la boca pa un reitimiento. 
+ 	 En vietnam, veinte motos por cada auto, un inexistente sentido de dirección, unos semáforos que nadie hace caso, reglas de tráfico que no se aplican. Y motos en las que van hasta 5 personas. Y puedes esperar fácilmente veinte minutos y nunca encontrarás un espacio vacío para cruzar con seguridad. 
+ 	La técnica fue copiar a los nativos. Lanzarse a cruzar la calle a un ritmo lento pero constante. Sin cambios bruscos, sin frenar. Las motos pasarán a milímetros pero uno sobrevive. Hasta tengo un video grabado de altura en el que cruzo la calle más loca de hanoi. Con el culo a dos manos. Parece el jueguito de la ranita de atari.
+ 	Recorrido urbano por saigón. La raja. Muchas cosas bonitas y exóticas. Bueno, un poco la tónica de lo que ha sido este viaje al sudeste de asia. Entonces al final del día se me ocurre preguntar por ticket de bus para hué, la ciudad en la mitad de vietnam a la que quería ir, y no hay asiento. Otra agencia, tampoco hay asiento. Ticket de tren? Tampoco. Weon, cinco agencias y en las cinco no tenían pasajes, ni siquiera en avión. Era 27 de abril y la única chance era el 2 de mayo, en bus, llegando el 4 en la mañana a Hue. Y el 8 volvíamos. Cero posibilidad. Barajé la opción de que saigón se convirtiera en la última ciudad del viaje. Al final era que ese fin de semana se celebraban 36 años del fin de la guerra de vietnam, y luego el día del trabajo. Así que feriado nacional y todos viajando por todo el país.
+ 	Cuando ya me estaba motivando a vivir en saigón, paso por una última agencia, y hay dos asientos disponibles en un vuelo clase business hacia Hue. A la mierda. Los compré. Dos días más, mucho city walking, o tour independiente caminando, muchas pagodas demasiado freak para explicarlas (va una foto), mucho barrio chino y mercados exóticos, mucho sentirme andrew symmer por la cantidad de weas raras que se pueden comer en vietnam. Vale la pena ho chi minh city. Hasta en un bar pequeño en que un negro chapurreaba canciones gringas a las 1 de la mañana puedes conocer a un gringo que vive de las apuestas on line de poker, que vivió un año en buenos aires (pero que nunca vio un bandoneón) méxico, tailandia y llevaba 1 mes en saigón. Raro. Y el barman te pregunta en voz alta “de donde vienes”, uno dice “chile” y te quedan mirando como raro. Y obviamente el barman te dice que es el primer chileno que ve en la vida. Creo que se puede creer, en ése bar, con ése barman. Obviamente muchos chilenos han ido a saigón, pero en los 30 días que estuve allá, sólo me encontré a una chilena en bangkok y una pareja de chilenos en halong bay. Y todos vivían en australia. Conocimos dos minas brasileñas que tampoco vivían en brasil sino en madrid. Argentinos, peruanos, panameños, brillaban por su ausencia.
+ 	El viaje business pa qué te digo. Supera todas las expectativas. Aunque sólo duró una hora y media. Fácilmente me quedaba a vivir allí. Bus privado para recoger los bolsos, que salen con “prioridad”. En hue visitamos las tumbas imperiales, magníficas, y la ciudadela imperial, que es patrimonio de la unesco aunqeu debo reconocer que el tour se me hizo un poco pesado. Y de aguinaldo una visita a un templo de karate o kung fu o no se que, y la típica, el wn que con la cabeza rompe ladrillos, el que se clava una daga y no le duele, la verdad impresiona verlo en vivo. Y los soniditos son como en las películas.
+ 	Cerca de hue, está la antigua Zona Desmilitarizada, o DMZ pa los amigos. Una franja de tierra en el paralelo 17° N, que indicaba la frontera entre vietnam del norte y del sur. El norte con los comunistas y el sur con los gringos csm que durante 25 años intentaron cagar a los del vietcong, y que el 75 se volvieron con el culo vencido y la moral por el piso por que los vietnamitas del norte se lo habían mandado a guardar y se tomaron saigón, la bautizaron como “ciudad ho chi minh” y luego unificaron todo como uno solo, vietnam. Pero quedan residuos de esa guerra, en específico una serie de túneles que los del norte crearon para atacar por sorpresa a los gringos que se meten donde no les interesa. A mí me interesaba cachar los túneles, pero sólo eso. Y los tours en hue hacia la dmz eran 12 horas completas, donde preguntando a diferentes weones me enteré que con suerte pasabas 1 hora en los túneles de vinh moc, el resto era ver un puente, unos cráteres de bombas, otro puente “importante” durante la guerra y nada más. No me tincaba perder todo un día en ver weas que cero aporte, así que contraté un taxi particular para que me llevara esos 90 km que me separaban de vinh moc. Y lo valió demasiado. Por que los túneles son de las pocas cosas asfixiantes y desesperantes que he vivido. De partida por que siempre anduve como agachado, para no chocar con el techo, sufrí el peor calor de mi vida, literalmente me caían las gotas de la cara y tenía toda la ropa demasiado mojada, y ver las minúsculas “habitaciones” donde durante muchos años vivió gente te deja pal pico. Más encima uno de los viejitos que pululaban por ahí me contó por señas que el había nacido en esos túneles. Me prestó una linterna e hicimos el recorrido junto con otro cabro que hablaba algo de inglés. Al final del recorrido estábamos fumando un pucho y le pregunté qué onda con ese pasaje que me indicó con la mano pero que no bajamos “es que ahí casi nadie se atreve a bajar por que allí sí que es demasiado chico y es muy difícil bajar aparte no se ve mucho”. Y lo decía un wn que medía con cuea 1,50. Puta me dio el indiana jones que todos llevamos dentro y tiré mi cigarro, le dije como un “puta, no vine 20,000 kilómetros pa nada, así que pa qué estoy po” en inglés, hizo un “bah, allá tú” y me acompañó de vuelta a las entrañas de la tierra, me indicó un hoyo que bajaba sin cacharse final y me dijo onda “afirmate por los bordes, yo te espero acá”.
+ 	Al comienzo todo perfecto, los dos primeros metros iba bien. Pero volvía a traspirar como condenado, y como no he hecho todavía “la doble vé” soy amateur en eso de sobrevivir en condiciones extremas, así que obviamente me resbalé y caí de culo en el túnel y descendí los últimos metros como decadentemente se puede. Luego volví humillado y completamente embarrado a donde mi guía. Se cagó de la risa un buen rato, pero mientras compartíamos un último cigarro me dijo algo así como “la raja, buena onda que lo hayas hecho”. Sólo en vietnam te embarras, se ríen de tí y lo pasas muy la raja.Fue bueno ir en privado, por que llegué antes que los buses de turismo, así que cuando iba saliendo se venían las multitudes, y son hordas, de turistas. Yo volvía embarrado como saliendo de la guerra, cagándome de la risa con el cabro este y fumándonos un pucho cada uno. Me miraban raro y como asustados, como si perteneciéramos a diferentes razas. Casi un nativo, viejo, casi.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
