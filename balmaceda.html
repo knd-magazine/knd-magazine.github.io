@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <span id="title">LA REFORMA CONSTITUCIONAL Y FINANCIERA DE BALMACEDA DURANTE LA CRISIS POLÍTICA CHILENA, 1890-1891</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            El artículo de de Diego Barría Traverso analiza la agenda de reforma institucional y financiera propuesta por el Presidente José Manuel Balmaceda entre 1890 y 1891. A partir del estudio de prensa y discusiones parlamentarias, el artículo muestra que el balmacedismo impulsó, desde 1890, una reforma constitucional y de gestión financiera que liberaba al Ejecutivo del control que el Congreso ejercía a través de las prácticas parlamentarias.
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`
+
+ESTUDIOS HISTORIA DEL DERECHO
+
+LA REFORMA CONSTITUCIONAL Y FINANCIERA DE BALMACEDA DURANTE LA CRISIS POLÍTICA CHILENA, 1890-1891
+
+Dirección electrónica: diego.barria@usach.cl
+
+RESUMEN:
+
+El artículo analiza la agenda de reforma institucional y financiera propuesta por el Presidente José Manuel Balmaceda entre 1890 y 1891. A partir del estudio de prensa y discusiones parlamentarias, el artículo muestra que el balmacedismo impulsó, desde 1890, una reforma constitucional y de gestión financiera que liberaba al Ejecutivo del control que el Congreso ejercía a través de las prácticas parlamentarias.
+
+Palabras clave: Guerra civil; reforma constitucional; Chile; siglo XIX.
+
+ABSTRACT:
+
+The article analyzes the institutional and financial reform agenda proposed by President José Manuel Balmaceda between 1890 and 1891. Based on a review of press media and congressional records, the article shows that since 1890 the balmacedismo promoted a constitutional and financial reform aiming to extricate the Executive branch from the Congress and its control through parliamentarian practices.
+
+Keywords: Civil war; constitution reform; Chile; 19th century.
+
+I. INTRODUCCIÓN
+
+A finales de 1889, en medio de la discusión parlamentaria, el entonces Ministro de Hacienda, presentó un presupuesto total por $ 65.316.476, 97, el que fue aumentado por la comisión mixta encargada de la materia hasta $ 74.723.184,5. Paradójicamente, en lugar de celebrar el aumento de recursos, Montt buscó que la cifra se redujera en $ 8.000.0001. Los parlamentarios balmacedistas intentaron impedir un recorte que, finalmente, alcanzó el 25%. Ello ocurrió en un período de bonanza económica, en el cual los ejercicios presupuestarios dejaban sobrantes2. De acuerdo con Bañados Espinosa3, quienes buscaban la reducción del erario eran comerciantes, interesados en la pronta vuelta a la circulación metálica, y sectores políticos que buscaban reducir la acción del Estado.
+
+De acuerdo con El Independiente, en Chile “existía un socialismo de Estado, y en el Congreso había dos opiniones, (…) la que desearía que el Estado fuera en nuestro país el gran señor de vidas y haciendas, y la que querría reducir sus facultades y sus medios de acción a los estrechos límites que la naturaleza de su misión en la sociedad le impone”4.
+
+La tramitación del presupuesto dejó en evidencia que el debate sobre la acción del Ejecutivo y su potencial antagonismo con intereses privados era una cuestión significativa para los actores de la época. No obstante, el tema continúa en las sombras del debate académico. Como se muestra más adelante, ni las interpretaciones políticas ni las económicas sobre la guerra civil de 1891 han analizado en profundidad el rol del Estado como un foco de conflicto. Incluso más, las miradas políticas han logrado hegemonizar el relato de la vida política del Chile de 1890, señalando que las luchas centrales giraron en torno a la defensa de la libertad electoral y el régimen parlamentario, que de facto habría existido en Chile en esa época.
+
+La discusión presupuestaria, recién analizada, no fue un hecho aislado, sino que forma parte de una lucha entre el balmacedismo y la oposición en torno a las características de un Estado que durante la década de 1880 fue ampliamente reformado5. Entre 1886 y 1889, las reformas impulsadas por el gobierno enfrentaron la oposición de algunos sectores, pero esto no fue impedimento para su aprobación. No obstante, a partir de 1889, la situación cambió y la oposición comenzó a unirse en torno a una agenda alternativa de reformas, que en 1890 buscó revertir el crecimiento del Estado central6. En ese contexto, Balmaceda inició una nueva etapa de reforma estatal, la cual dejó de buscar ajustar ciertas instituciones a un nuevo contexto social. Al contrario, como se muestra a continuación, el balmacedismo impulsó, desde 1890, una agenda de reforma institucional para responder a los intentos de la oposición de desmantelar al Ejecutivo a través de una reforma municipal. Desde la segunda mitad de 1889, en el Congreso se propició un proyecto antiestatal, cuyo estandarte fue el proyecto de reforma de las municipalidades, el cual buscaba anular la existencia de un Estado fuerte en su nivel central. Como respuesta a este intento de alteración de la institucionalidad, Balmaceda diseñó un proyecto de reforma constitucional que liberaba al Ejecutivo de las trabas que el Congreso le colocaba. Incluso más, ciertas situaciones coyunturales, que se muestran en este artículo, tuvieron como efecto que el Presidente intentara colocar al Estado en el centro de la actividad bancaria, entregándole el monopolio de la emisión de papel moneda.
+
+II. LA GUERRA CIVIL DE 1891. EL ESTADO DEL DEBATE
+
+La historiografía sobre la guerra civil de 1891 ha identificado, por lo menos, cuatro causas7. Se han destacado factores psicológicos (la personalidad de Balmaceda) y conflictos de castas, pero las corrientes principales son las vertientes políticas y económicas. Como indica Blakemore8, en un inicio, la vertiente política -por ejemplo Pedro Montt y Julio Bañados Espinosa- centró su atención en torno a qué sector actuó dentro de los márgenes de la constitución. Con posterioridad, se analizó el rol de las prácticas políticas en el conflicto. Para Salas Edwards9, la guerra se explica por dos interpretaciones distintas de la constitución de 1833, la balmacedista que se enfocaba en lo escrito (presidencialista) y la congresista, que se basaba en las prácticas políticas propias del siglo XIX (parlamentarista). Alberto Edwards Vives10 señala que durante el siglo XIX la aristocracia fue hostil a la autoridad. En su opinión, tanto liberales como conservadores veían al poder como su enemigo. La guerra civil de 1891 fue, en su opinión, la segunda fronda existente en el Chile decimonónico (la primera fue en 1857, con la creación de la Fusión Liberal-Conservadora). En ella, la aristocracia logró imponerse frente al poder presidencial. Esta tesis fue aceptada, con posterioridad, por Yrarrázaval11, quien centró su atención en la cuestión de la lucha por la libertad electoral, por Francisco Encina12 y por Mario Góngora13, quien afirma que en 1891 se terminó, tras décadas de debilitamiento, con el ideal ‘portaliano’ de un gobierno autoritario, aceptado en la década de 1830 por la aristocracia para mantener el orden social. Julio Heise14 plantea que desde 1861 se luchó contra el autoritarismo presidencial, a través de la instalación del parlamentarismo, en 1861. La guerra civil de 1891, de acuerdo a su mirada, respondió al rechazo que Balmaceda mostró frente a esas prácticas.
+
+Para la perspectiva económica, la guerra se debió a la reacción de ciertos actores frente a las políticas económicas de Balmaceda. Una primera vertiente identificó como factor central la intervención de intereses extranjeros en la guerra. La influencia del imperialismo inglés fue insinuada en la época del conflicto por Julio Bañados Espinosa15 y por Maurice Hervey. Esta idea fue retomada en el debate académico por Osgood Hardy en 1948, y, con posterioridad, Julio César Jobet y Hernán Ramírez Necochea ahondaron en esa tesis16. Jobet17 plantea que Balmaceda llevó adelante un plan de industrialización y diversificación de la producción nacional. Terratenientes, plutócratas e intereses extranjeros, al verse afectados por este plan, se aliaron para combatir al mandatario. Ramírez Necochea18 afirma que Balmaceda se enfrentó a un grupo de grandes terratenientes, banqueros, grandes comerciantes y empresarios salitreros del norte grande de Chile, quienes en alianza con capitalistas ingleses, buscaron paralizar el plan de industrialización y de nacionalización salitrera que, en su opinión, Balmaceda impulsó.
+
+La literatura económica no se agota en estos argumentos. Barros y Vergara19 concuerdan con la visión de Jobet y Ramírez Necochea en lo relativo al rol del imperialismo inglés, pero señalan que no existió un sector industrialista en el Chile de Balmaceda. Vitale afirma que Balmaceda intentó dar un giro en las relaciones internacionales económicas, lo que afectó a sectores nacionales dependientes del extranjero, como los banqueros. Así, la burguesía se levantó contra Balmaceda para preservar sus intereses inmediatos, pero también para preservar “…sus intereses generales como clase dependiente de la metrópoli”20. O’Brien21 y Zeitlin22 se suman a la idea generalizada respecto a que las políticas de Balmaceda afectaron a ciertos sectores, aunque descartan una intervención del imperialismo inglés. Ambos sugieren que la guerra ocurrió porque las políticas de Balmaceda afectaron de forma desigual a diversas fracciones de la clase dominante chilena. Los esfuerzos del Presidente por intervenir en el mercado del salitre afectaban a los banqueros, dependientes de esa industria. De igual forma, consideran que los grandes agricultores se vieron afectados. Por lo mismo, ambas fracciones avanzaron hacia el derrocamiento del mandatario.
+
+A raíz del centenario de la guerra civil surgieron nuevos trabajos, los que analizaron temas escasamente tratados con anterioridad. Entre ellos se cuentan los trabajos sobre la modernización durante el período23, la personalidad de Balmaceda24, la relación entre Balmaceda y el movimiento popular25, el desarrollo de ciertas políticas durante el período26, la dimensión internacional del conflicto27 y el lugar de la figura de Balmaceda en el mundo popular28. Desde la década del 2000 nuevos trabajos han analizado los viajes presidenciales de Balmaceda29, los debates en torno al régimen político30, las reformas militares en la época31, el rol de los militares en el conflicto32, las reformas administrativas durante el período33, y las políticas de reconciliación tras la guerra34. Desde la perspectiva del derecho público, han surgido trabajos sobre problemas regulatorios y contienda de competencia entre el Judicial y el Ejecutivo35, los actos de Balmaceda y la Junta de Iquique36 y la jurisprudencia en torno a la responsabilidad del Estado, en el contexto de la guerra de 189137.
+
+Algunos trabajos han planteado que la guerra civil de 1891 fue fruto de un conflicto en torno al rol del Estado en la sociedad. Por ejemplo, Jocelyn-Holt sugiere que la guerra civil de 1891 fue un rechazo de una elite, que no creía en el Estado (aunque lo utilizó constantemente para controlar la modernidad), a un proyecto de modernización impuesto desde arriba38. Por su parte, María Angélica Illanes39 ha planteado que los conservadores, comenzaron a ver con desconfianza al Estado, por lo que levantaron “…un discurso maximalista, es decir, anti-Estado, que fuese capaz, con su sola fuerza, de provocar un cambio radical: cuestionar la figura del Ejecutivo, romper con la lealtad antigua hacia el Padre, rebelar a las huestes filiales y destituirlo del trono…”40. No es extraño que esto haya ocurrido en un momento como la década de 1880, en la que el Estado chileno vivió diversos cambios. Se reformó gran parte de la estructura administrativa del Estado, incluyendo ministerios, el gobierno interior y los municipios. Igualmente, se crearon servicios nuevos en ámbitos en los que antes el Estado no había intervenido. Surgió así un aparato administrativo con rasgos propios de la burocracia weberiana. Esto se observó a nivel de gasto, número de decretos y empleados públicos. Como resultado, sectores contrarios a la acción estatal comenzaron a denostar a los funcionarios públicos, junto con plantear una serie de propuestas para disminuir, o al menos controlar, el crecimiento estatal41. Esto también fue advertido por contemporáneos. En 1889, Valentín Letelier42 planteó que lo que dividía a los conservadores y liberales, principales tendencias de la escena política de la época, era su actitud hacia el Estado. Los primeros querían que este no tuviera capacidad para intervenir en la sociedad, mientras los segundos buscaban utilizarlo para asegurar el desarrollo social.
+
+Desde inicios del gobierno de Balmaceda, grupos opositores, principalmente liberales sueltos y conservadores, enfrentaron su agenda de reformas. Por ejemplo, en 1887, y a raíz del aumento de las regulaciones sobre los bancos, se acusó que en Chile aparecía un socialismo de Estado que “…tiende a la absorción del individuo por la sociedad”43. Los conservadores, en tanto, planteaban lo siguiente: “Según las teorías aceptadas por el liberalismo, al Estado, armado de la ley, aunque esta sea usurpadora, le es lícito todo... Al paso que se camina, el Estado, armado de la ley, llegará pronto a ser en Chile el dispensador único de toda luz y de todo bien”44.
+
+III. EL AVANCE DEL BALMACEDISMO HACIA UN EJECUTIVO AUTÓNOMO
+
+Al asumir el gobierno, el 18 de septiembre de 1886, aprovechando la bonanza fiscal derivada del triunfo de Chile en la Guerra del Pacífico, Balmaceda inició un ambicioso plan de obras públicas, junto con reformar la administración pública en su conjunto, e invertir fuertemente en áreas como la educación45. Al mismo tiempo, intentó gobernar con el apoyo de la “gran familia liberal” y hasta 1888 logró hacer convivir a los distintos grupos sin problemas. Y en general, la opinión pública tenía una positiva impresión de su labor46.
+
+Se ha planteado que la situación política cambió en marzo de 1889. El Presidente de la República visitó las provincias del norte del país, y en ese viaje tuvo un rol protagónico el Ministro de Industrias y Obras Públicas, Enrique Salvador Sanfuentes. Se especuló que Balmaceda, haciendo uso de las prerrogativas de facto en manos de gran parte de los presidentes del siglo XIX, había seleccionado a su sucesor47. Esto generó una crisis política, que derivó en un cambio parcial de gabinete en marzo, y tres modificaciones completas en junio, octubre y noviembre. Se instaló una discusión dentro de los grupos liberales sobre cómo se nominaría al candidato presidencial para 1891. Los gabinetes formados durante 1889 se caracterizaron por un frágil equilibrio entre Balmaceda y los grupos políticos liberales48. La situación del Ejecutivo en el Congreso era tan endeble que en enero de 1890, cuando se debía renovar la directiva de la Cámara de Diputados, los opositores decidieron sacar al segundo Vicepresidente, único balmacedista en la mesa. El ministro Valdés Vergara renunció a causa de este incidente. Balmaceda decidió cambiar al ministerio en pleno, además de clausurar las sesiones extraordinarias49. Al mismo tiempo, y como muestra de la desconfianza mutua entre Balmaceda y los partidos, la oposición publicó un manifiesto denunciando la existencia de la candidatura de Sanfuentes50. Este evento marcó un cambio de actitud de Balmaceda. El 21 de enero de 1890 conformó un gabinete liderado por Adolfo Ibáñez, el cual estuvo formado exclusivamente por “amigos”51. Igualmente, el Presidente de la República decidió avanzar hacia una reforma institucional que permitiera al Ejecutivo ejercer su función de gobierno.
+
+1.1890: Los tibios avances hacia una autonomía
+
+Durante el verano de 1890 el balmacedismo se volcó hacia la preparación de una reforma constitucional capaz de salvar los problemas que el Ejecutivo había sufrido durante la segunda mitad del año anterior. Este proyecto surgió en un momento en el que El Ferrocarril planteaba que durante 1890 se debía avanzar hacia una nueva ley electoral, una legislación municipal distinta y una reforma radical de la constitución52. Estas reformas eran apoyadas por distintos grupos liberales, salvo el de gobierno, que actuaban en unión con el conservadurismo53. Esta nueva alianza controló la Comisión Conservadora, y en los primeros meses del año preparó dos proyectos. El primero, sobre comuna autónoma, propuso el traspaso de una serie de servicios desde el nivel central a los municipios. Entre ellos destacaban funciones como las de la policía de salubridad, el cuidado de la higiene pública, la policía de caminos, las obras públicas, la seguridad y el orden público, la educación, la preocupación por la agricultura, la industria, el comercio, las escuelas primarias, los hospitales, las cárceles, la beneficencia pública, y el Registro Civil. La migración de tal cantidad de servicios desde el nivel central, tenía como fin debilitar al Presidente de la República. A su vez, los municipios quedarían bajo la tutela de una nueva instancia: la Asamblea de Electores, que reuniría a los vecinos inscritos en los registros electorales. La asamblea tendría atribuciones para tratar temas centrales de la gestión municipal, por ejemplo, votar los presupuestos54. En materia electoral, una nueva ley era necesaria porque la reforma constitucional de 1888 había creado un registro de carácter permanente y a cargo de las juntas de mayores contribuyentes55. El proyecto establecía una serie de controles para la conformación de las listas de los mayores contribuyentes y adoptaba el voto acumulativo para las elecciones de municipales, parlamentarios y electores de Presidente de la República56.
+
+Una vez redactados esos proyectos, la Comisión Conservadora presionó, sin éxito, a Balmaceda para que convocara a sesiones extraordinarias en el Congreso57. Cuando se inició el período parlamentario, Balmaceda, quien tenía reparos a esta ley, decidió aceptar el proyecto aprobado por el Congreso, para dar garantías respecto a que no intervendría en las elecciones de 1891. En materia municipal, el Consejo de Ministros decidió vetar la iniciativa en los siguientes puntos: la división del territorio, la municipalización de las cárceles, escuelas, el Registro Civil y la justicia de menor cuantía, la Asamblea de Electores, la entrega de la policía de seguridad para las comunas, las medidas relativas al sistema tributario y la supresión de sueldos para los intendentes y gobernadores58.
+
+Ante la renuncia de Adolfo Ibáñez, Balmaceda nombró como Ministro del Interior a Enrique Salvador Sanfuentes el 30 de mayo59. Así, buscaba dejar en claro que el recién nombrado ministro no sería candidato presidencial. El mismo Sanfuentes envió un telegrama, con fecha 1° de junio de 1890, a los agentes estatales en las provincias, afirmando que no sería candidato en las próximas elecciones60.
+
+Ese mismo día, en un Congreso sin la presencia de la oposición61, Balmaceda inauguró el período legislativo y dio a conocer el contenido de su proyecto de reforma constitucional. En su opinión, ella se hacía necesaria por la manifiesta imposibilidad de llevar adelante la acción de gobierno, incluso en circunstancias en las cuales el Presidente intentó gobernar con todos los grupos políticos. Balmaceda creía que la solución a esa situación requería una modificación constitucional completa, que alejara al país de un ideal de gobierno parlamentario, pues este llevaba al surgimiento de facciones. Incluso más, señaló en su discurso que el Senado, tal como existía en 1890, era una oligarquía. Por ello, proponía armonizar la relación entre los poderes del Estado, para evitar la dictadura del Congreso o la del Ejecutivo. El proyecto entregaba al Ejecutivo las cuestiones que eran propias del interés general del país. El Presidente de la República pasaba a ser elegido en votación directa, al igual que el Vicepresidente, figura creada en este proyecto, quien a la vez era Presidente del Senado. A la par, las materias de carácter local debían descentralizarse en la provincia o la comuna62. El Legislativo debería legislar, acusar y juzgar al Presidente de la República y al Ministro de Estado, de acuerdo con las formas establecidas por la constitución. Se limitaban sus capacidades de hecho, por ejemplo, estableciéndose que las leyes de contribuciones serían permanentes y que el Congreso podría modificar los proyectos de presupuestos anuales, pero sin ser capaz de retrasar su discusión y menos rechazarlos63. En términos simples, se buscaba eliminar las prácticas parlamentarias desarrolladas a lo largo del siglo XIX en Chile. Al definir al Legislativo como un ente, valga la redundancia, legislativo y al eliminar la posibilidad de trabar la marcha del Estado a través del retraso de las leyes periódicas, se buscaba evitar que el Congreso se transformara en una institución caracterizada por generar desequilibrios con otros poderes y su capacidad de llevar al país hacia el despotismo. Para mantener ese mismo equilibrio, el veto presidencial, que hasta ese entonces era absoluto, pasaría a ser únicamente suspensivo y podría ser rechazado por dos tercios de ambas cámaras. De igual forma, se eliminaba el Consejo de Estado y se permitía que el Congreso se autoconvocara, dando así fin a la Comisión Conservadora64.
+
+La iniciativa era una respuesta del balmacedismo al proyecto de municipalización, levantado por los conservadores y aceptado por la gran mayoría de partidos políticos. Si los conservadores hablaban de las bondades de gobiernos en territorios pequeños, el balmacedismo creía que la descentralización debía ser en provincias, caracterizadas por la presencia de una población considerable, relaciones sociales y una opinión pública formada, además de contar con condiciones políticas y morales capaces de dar fisonomía propia a estos territorios. Por ello, propuso dividir el país en ocho provincias: Tarapacá, Coquimbo, Valparaíso, Santiago, Talca, Chillán, Concepción y Valdivia65.
+
+Al día siguiente de la presentación de Balmaceda, en el Senado se discutió la censura del gabinete66. Los diputados hicieron lo mismo, y la censura fue aprobada67. Ante dicha actitud, el gabinete presentó su renuncia, la cual no fue aceptada por Balmaceda. Sanfuentes, entonces, defendió su permanencia en el gabinete, manifestando que este era presidencial68. El 4 de junio, el conjunto de ministros envió un oficio al Congreso, señalando que, en virtud del ambiente hostil existente en ambas cámaras, no asistirían más al Congreso69. El 12 del mismo mes, Julio Zegers, antiguo miembro del liberalismo de gobierno y amigo personal de Balmaceda, propuso acusar constitucionalmente al gabinete, e insinuó evaluar si el Presidente tenía las capacidades morales y fisiológicas para seguir cumpliendo sus funciones70. El 20 del mismo mes, la oposición pasó a ocuparse de un proyecto de acusación constitucional contra el ministerio71.
+
+Igualmente, Zegers presentó un proyecto de acuerdo en el Senado para suspender la votación de las leyes periódicas hasta que el gabinete renunciara. De esta forma, el Ejecutivo quedaba sin la capacidad de cobrar tributos y financiar su operación. Ello no preocupó en demasía a Balmaceda, quien tenía recursos provenientes del superávit del ejercicio presupuestario correspondiente al año anterior, los que le aseguraban fondos por cuatro meses, aproximadamente72. El Ejecutivo comunicó que procedería a retirar los depósitos que tenía en los diferentes bancos, una vez que estos vencieran, es decir en un plazo máximo de 30 días. Esta medida iba a trasmano del consenso existente, que se hizo evidente a final de 1889, respecto a que los retiros estatales debían ser paulatinos, para así evitar trastornos en la economía73. Se buscaba, al mismo tiempo, asegurar la disponibilidad de los fondos públicos frente a la coyuntura política, junto con liberar al Estado de los amarres existentes en la gestión de los mismos.
+
+Los parlamentarios temían que un retiro en una única ocasión, disminuiría la cantidad de papel moneda existente en el mercado, dificultando las transacciones económicas74. Por ello, se estudiaron tres proyectos. Uno, que buscó paralizar por un año la incineración de papel moneda dispuesta por la ley bancaria de 1887 y aumentar en $ 225.000 mensuales la compra de pastas metálicas. El segundo proyecto permitía a los bancos emitir billetes entre $ 1 y $ 50075. Ambos proyectos fueron aceptados por el Ejecutivo, aunque se hizo una modificación, para exigir la garantía de la emisión, con pastas o títulos de deuda de distintos organismos estatales76.
+
+Respecto a una tercera iniciativa, que establecía que el retiro de depósitos estatales en los bancos solamente podría hacerse a una tasa de un 10% mensual, el Ejecutivo adoptó otra actitud. El balmacedismo advirtió que Balmaceda vetaría ese proyecto, que limitaba la capacidad de retiro y el uso de los fondos fiscales77, algo que finalmente se hizo efectivo78.
+
+En un contexto cada vez más conflictivo, el Congreso desechó el proyecto presentado por Balmaceda el 1° de junio y pasó a analizar tres propuestas alternativas: la primera, establecía que la insistencia de dos tercios del Congreso era capaz de terminar con los vetos presidenciales; la segunda permitía a la Comisión Conservadora convocar a sesiones extraordinarias, y además proponía que los diplomáticos fueran nombrados con acuerdo del Senado o la Comisión Conservadora, en caso de receso parlamentario. Ambas reformas fueron aprobadas el 22 de septiembre, y quedaron a la espera de la ratificación del próximo Congreso, tal como establecía la constitución. Un tercer proyecto buscó permitir al Congreso destituir ministros, con la aprobación de dos tercios de cada cámara, pero fue rechazado79.
+
+Aparentemente, durante julio algunos miembros del balmacedismo propusieron cerrar el Congreso, en caso que la acusación prosperara80. No obstante, al no haber consenso, Balmaceda aceptó la mediación ofrecida por el Arzobispo Casanova81 y negoció directamente con Álvaro Covarrubias. Aunque hubo un principio de acuerdo, este no se materializó porque Covarrubias no aceptó que las contribuciones se cobraran retroactivamente82. Balmaceda pasó a negociar con Belisario Prats, destacado miembro del Poder Judicial, con quien acordó la retroactividad de la legislación. El 2 de agosto, Prats pasó a comandar un gabinete conformado por personas que no eran parte del Congreso y que se encontraban alejados de la vida política. La principal novedad de la combinación fue el ingreso como canciller de José Tocornal, el primer ministro conservador en veintisiete años83. En octubre, el gabinete renunció por la negativa del Intendente de Santiago, Guillermo Mackenna, de despedir un empleado, tal como se lo exigía el ministro Prats84.
+
+Balmaceda intentó, nuevamente, un acuerdo con la oposición. Propuso lo que llamó un “gabinete universal”, con representación de todos los partidos y, además, buscó acordar las bases de una convención para elegir al candidato presidencial85. La oposición rechazó la propuesta, y Balmaceda decidió formar un ministerio exclusivamente liberal de gobierno, comandado por Claudio Vicuña. Igualmente, Balmaceda cerró el Congreso, argumentando que la medida era necesaria por consideraciones de orden público86.
+
+La oposición, ya sin la posibilidad de combatir a Balmaceda en el Congreso, pasó a utilizar dos vías. La primera de ellas, las protestas públicas contra Balmaceda; la segunda, la acción en la Comisión Conservadora, en la que el balmacedismo era minoría87. Desde esa instancia, se intentó sin éxito que el Presidente llamara a sesiones extraordinarias88. Tras el fracaso de esa estrategia, durante diciembre un grupo de diez opositores comenzó a sondear apoyos entre militares, para levantarse contra el Ejecutivo89. Mientras, Balmaceda perdió el apoyo de los ministros Casanova y Allendes, que salieron del gabinete, en rechazo a la negativa de convocar al Congreso90. Esta misma cuestión, terminó por alejarlo de Sanfuentes91.
+
+Al finalizar 1890 el Congreso no había aprobado la ley de presupuestos, por lo que a partir del 1° de enero de 1891 los gastos no estaban autorizados. De acuerdo con la oposición, se entraría a una situación de inconstitucionalidad y, por lo mismo, se instituiría una dictadura. La Libertad Electoral afirmaba: “Cuando la fuerza del derecho ha dicho su última palabra, tócale hacerse oír al derecho de la fuerza”92.
+
+2.Primeros movimientos durante la guerra civil
+
+El 1° de enero de 1891, Balmaceda decidió asegurar el apoyo del Ejército y aprobar el 5 de enero las leyes periódicas vía decreto93. Este curso de acción no fue fruto de la improvisación. En la Memoria del Ministerio del Interior de 1889, el entonces Ministro del Interior, Ramón Barros Luco, propuso que, ante la no aprobación de presupuestos en diversos municipios “… podría establecerse que rijan los presupuestos del año anterior, los cuales no pueden ser sospechosos para nadie, desde que han obtenido la aprobación de la misma Corporación”94.
+
+El 7 de enero, un grupo amplio de congresistas publicó un acta en la que se establecía que el Congreso deponía al Presidente de la República por los hechos ocurridos durante comienzos del mes. La noche anterior, se embarcó hacia Iquique en el Blanco Encalada, el almirante Jorge Montt, junto a un grupo de opositores, encabezado por el Vicepresidente del Senado, Waldo Silva y el Presidente de la Cámara de Diputados, Ramón Barros Luco95, el mismo que en 1889 proponía dictar presupuestos municipales de la misma forma en que Balmaceda lo hizo durante el último año de su período.
+
+Tal como destaca Zeitlin, durante la guerra, el Ejecutivo buscó una reestructuración completa del Estado, basada en la autonomía en su acción96. Entre otras cosas, ello implicaba la dictación de normas presupuestarias controladas por el Ejecutivo. Así se buscaba dar un marco legal para contar con un aparato burocrático centralizado, con tintes represivos por la coyuntura bélica, independiente desde un punto de vista fiscal y capaz de imponer políticas de desarrollo. De hecho, durante una conversación desarrollada en marzo de 1891, el entonces Ministro del Interior, Domingo Godoy, manifestó al embajador inglés que el Ejecutivo buscaba construir un mejor aparato estatal para los próximos cincuenta años97.
+
+El trayecto hacia una reforma completa del Estado se inició con un decreto, fechado el 7 de enero de 1891, en el cual Balmaceda, junto con acusar a la oposición de haber destrozado la constitución, el orden interno y la paz pública, estableció lo siguiente:
+
+“Desde esta fecha asumo el ejercicio de todo el poder público necesario para la administración y gobierno del Estado y el mantenimiento del orden interior; y en consecuencia quedan suspendidas por ahora las leyes que embaracen el uso de las facultades que fuesen menester para asegurar el orden y la tranquilidad interna del Estado”98.
+
+Durante enero, el Ejecutivo hizo frente a los opositores que comenzaron a preparar su propio ejército. El balmacedismo sufrió la sublevación de algunas guarniciones en el norte, pero tuvo algunos éxitos en el campo de batalla, que parecían presagiar un triunfo que, finalmente, no llegó, pues hacia marzo la oposición controlaba las provincias de Tarapacá y Antofagasta99.
+
+En Santiago, además, el gobierno tuvo una serie de problemas con varias instituciones públicas. Por una parte, los decretos que implicaban gastos fueron rechazados por el Tribunal de Cuentas y la Dirección de Contabilidad100. De igual forma, el Judicial chocó con el Ejecutivo. Ante la detención del senador Jovino Novoa, se presentó un recurso de amparo en nombre del parlamentario en la Corte Suprema, la cual ordenó su liberación, algo que no fue acatado por el Ejecutivo. La Corte exigió que la Policía presentara a Novoa frente a ella, con los antecedentes de la detención. El Ejecutivo hizo una presentación al Consejo de Estado para que resolviera sobre la contienda de competencias. La Corte Suprema rechazó la movida y emitió un dictamen señalando la inexistencia de las fuerzas armadas. Este desencuentro llevó a Balmaceda a suspender, el 27 de febrero, el funcionamiento de la Corte Suprema y las de Apelaciones101.
+
+El 11 febrero, Balmaceda dictó un decreto en el cual llamó a elecciones parlamentarias, para el último domingo de marzo102. La votación se realizaría de acuerdo con la ley electoral promovida por la oposición en 1890103. Se determinó que el nuevo Congreso sería constituyente. Tal como lo planteó Bañados Espinosa, el objetivo era desarrollar una revolución legal. La sucesión presidencial también preocupaba. Claudio Vicuña abandonó el gabinete el 6 de febrero, siendo reemplazado por Domingo Godoy. Vicuña obtuvo la candidatura presidencial el 8 de marzo, en una convención organizada por el balmacedismo104.
+
+En tanto, durante abril, los opositores institucionalizaron una estructura de gobierno. Pocos días después de formar esta junta, se inició la marcha hacia el sur, tomando control del puerto de Caldera, además de Copiapó105. Mientras, en Santiago el gabinete comandado por Godoy destacó por tomar medidas represivas. Se confiscaron propiedades, se apresó a destacados miembros de la sociedad santiaguina y, de acuerdo a los relatos de los propios encarcelados, sufrieron torturas en las cárceles106. De acuerdo con Letelier, el espionaje se había convertido en “…una rama principal de la administración pública”107.
+
+El rechazo hacia la figura de Godoy fue tal que este fue víctima de un atentado con dinamita en pleno centro de Santiago108. Dentro del balmacedismo, el Ministro también encontró enemigos. Un grupo de adherentes pidió al Presidente de la República negociar con la oposición y remover a Godoy109. Balmaceda accedió a negociar. Los opositores pusieron como condición volver al estado del país anterior al 1° de enero, dejando al Presidente terminar su mandato. Estos acercamientos terminaron tras el ataque a Godoy, situación que llevó a los opositores a acusar que dicho evento había sido preparado por el Ministro del Interior para salir de la mesa de negociación110.
+
+El 20 de mayo, Balmaceda llevó a cabo un cambio de gabinete. Julio Bañados Espinosa quedó a cargo del Ministerio del Interior, Manuel María Aldunate en Relaciones Exteriores, Francisco Javier Concha en Justicia e Instrucción Pública, Manuel Arístides Zañartu en Hacienda, el general Velásquez en Guerra y Marina y Nicanor Ugalde en Industrias y Obras Públicas111. Este gabinete tuvo a su cargo la implementación de dos objetivos centrales para Balmaceda: llevar adelante la elección de Claudio Vicuña como Presidente de la República, lo que ocurrió el 25 de julio, y materializar la reforma a la constitución.
+
+El llamado Congreso constituyente tuvo algunas características particulares. Durante las elecciones se dejó temporalmente sin vigencia la ley de incompatibilidades parlamentarias aprobada en 1888. Entre sus miembros destacaban personeros sin gran experiencia en política, que en algunos casos venían de grupos sociales distintos a los que tradicionalmente habían monopolizado la actividad política112. De acuerdo con Heise113, Balmaceda gobernó en 1891 con algunos sectores provenientes de una rancia aristocracia, agricultores y miembros de lo que él llamó la baja burguesía. En este sector destacaban Domingo Godoy y Julio Bañados Espinosa.
+
+El Congreso tuvo una sesión preparatoria el 15 de abril y fue inaugurado el 20 del mismo mes, con el tradicional discurso del Presidente de la República frente al Congreso Pleno. En la ocasión, Balmaceda analizó la situación de un país en guerra y las características del levantamiento opositor. Dejando en claro lo que él creía debía hacer el nuevo Congreso, el Presidente afirmó lo siguiente: “Si en la presente contienda nos limitáramos a vencer a los adversarios del Poder constituido, nuestra obra sería pequeña e indigna de hombres de Estado. Nuestro deber es reconquistar el orden público perturbado, y dar, por disposiciones constitucionales permanentes, solución racional y legal a los conflictos pasados y prevenir los futuros”114.
+
+El primer objetivo del Congreso constituyente fue dictar normas para enmarcar dentro del derecho la acción del Ejecutivo, además de permitirle enfrentar la guerra115. Uno de los primeros proyectos fue una ley, aprobada el 9 de mayo, que legalizó todos los actos ejecutados por el Ejecutivo desde el 1° de enero, además de entregarle una serie de facultades extraordinarias, hasta el 30 de octubre. Ellas permitían arrestar y trasladar personas, fijándoles una residencia; aumentar la dotación de las fuerzas armadas; invertir caudales públicos sin seguir el presupuesto y obtener fondos con cargo al crédito público; declarar estado de sitio o de asamblea en el territorio nacional; nombrar y destituir a todo tipo de empleado público; suspender o restringir los derechos de reunión y libertad de prensa116. El senador Ibáñez justificó que Balmaceda gobernara a través de decretos, pues debía cumplir con el mandato del artículo 72 de la constitución, el cual le encargaba el gobierno y la administración del Estado y, además, le exigía cuidar el orden público117. Igualmente, el Congreso declaró que todos los actos emanados de la junta opositora eran ilegales118.
+
+El Congreso constituyente también se preocupó de reformar el Poder Judicial. El Ejecutivo, en palabras del ministro Concha, consideraba que la actuación de la Corte Suprema no se ajustaba al derecho público119. Por leyes del 15 de junio y 14 de julio, se creó la Corte de Valparaíso, con jurisdicción sobre las provincias de Valparaíso, Antofagasta, Tacna, y Magallanes. De igual forma, se instauró una corte en Valdivia, con jurisdicción sobre esa provincia, además de las de Cautín, Llanquihue y Chiloé120.
+
+La iniciativa más radical en el ámbito judicial fue la ley del 30 de junio, que estableció que los jueces deberían abandonar sus cargos, a más tardar, el 15 del mes siguiente121. La cuestión generó un fuerte debate entre quienes, como el diputado Cotapos, creían que Balmaceda tenía derecho a remover a los miembros del Judicial debido a la actitud que estos tomaron en enero, y quienes consideraban la medida excesiva. En la Cámara de Diputados, Mackenna señaló que la decisión no se ajustaba a lo establecido por la constitución y por el hecho que los nuevos nombramientos, decididos únicamente por Balmaceda, se alejaban del equilibrio de poderes proclamado por el Presidente de la República en ocasiones anteriores122. En el Senado, el ministro Concha defendió dicho procedimiento, afirmando que Balmaceda quería hacer los nombramientos siguiendo la ley, a pesar que podría haberlo hecho sin el concurso del Congreso, gracias a las facultades extraordinarias con que contaba en ese momento123. Los senadores Eastman y Mackenna no concordaron con dicha visión, e incluso amenazaron con renunciar a causa de tal medida124.
+
+Una vez logrados los objetivos de legalizar el actuar de Balmaceda durante la primera parte de 1891 y de reformar el Judicial, el Congreso constituyente se centró en la reforma constitucional y en una reforma financiera.
+
+3.La autonomización del Ejecutivo: proyectos centrales de la “revolución constituyente”
+
+En momentos en que se discutía un proyecto que reformaba los Ferrocarriles del Estado, el senador Pérez Montt planteó una opinión que graficó de forma certera el ánimo del Congreso constituyente: “La primera obligación de un legislador es amparar los intereses del Fisco. Dondequiera que puedan correr peligro, es menester dictar disposiciones que lo eviten. Por todos los medios legales se debe propender a este fin primordial”125.
+
+Un tema preferente de los congresistas fue analizar las causas de la guerra. La interpretación más común planteaba que en Chile existía una clase social que creía que el Estado era un instrumento que debía responder a sus intereses. El diputado Valdivieso Araos fue explícito en esa línea de análisis, al plantear lo siguiente: “Esta clase de aristocracia, en sus diversos matices, da más importancia al dinero que a los hombres, pues hace depender todas las cosas de la vida del poder del Estado, a fin de que sus dueños, los hombres de capital sonante puedan dominarlo todo…”126.
+
+El diputado Cotapos, por su parte, destacó que “…es al salitre, es a los 70 millones del presupuesto nacional y sobre el cual no han podido poner mano, a quien se hace la revolución”127. Además, señaló que la guerra era llevada adelante por “… la aristocracia, por aquellos hombres que han creído tener un derecho hereditario de gobernar el país”128.
+
+Las propuestas presentadas por el Ejecutivo al Congreso constituyente buscaban liberar al Estado de esos intereses. Muestra de ello es que en el artículo primero del proyecto de reforma constitucional se establecía que “El Gobierno de Chile es republicano, representativo, democrático y unitario”. La introducción del término democrático buscó hacer una distinción con el carácter aristocrático que los balmacedistas daban al bando opositor129.
+
+La propuesta de reforma de 1890 buscaba armonizar la relación entre los poderes del Estado, mientras la de 1891 apuntaba a autonomizar al Ejecutivo y cerrar cualquier posibilidad que se materializaran reformas como la de comuna autónoma. Incluso más, explícitamente para evitar la creación de las asambleas electorales propuestas por la iniciativa municipal, se establecía que la delegación del poder se hacía en tres poderes: “Los poderes son tres: el Ejecutivo, que reside en el Presidente de la República; el Legislativo, en el Congreso, y el Judicial en los Tribunales de Justicia”130.
+
+La autonomía del Ejecutivo pasaba por instaurar lo que el balmacedismo llamaba sistema representativo. En “Gobierno Parlamentario y Sistema Representativo” (1888), Bañados Espinosa planteó que el “…sistema representativo o Gobierno del Presidente, estriba en la dirección de los negocios públicos por medio de poderes autónomos, con facultades propias, con independencia entre sí, responsables y con funciones claras y netamente demarcadas”131. Casi unívocamente, los diputados concordaron con Bañados Espinosa en el sentido que el parlamentarismo era un sistema que generaba una serie de problemas y que lo preferible era la estabilidad entregada por ejemplos como el presidencialismo norteamericano132. Por lo mismo, se buscó limitar al máximo la influencia del Congreso en la marcha administrativa del Estado. Fundamental para el propósito de permitir la acción autónoma del Ejecutivo era que la ley de contribuciones fuese permanente y que la de presupuestos identificara gastos fijos, imputables a leyes especiales y variables. La propuesta del balmacedismo establecía que los dos primeros tipos de gastos podrían ser modificados a través de leyes especiales, siendo los variables los únicos sujetos a discusión y votación anual. Se establecía que la aprobación debía ocurrir en el período de sesiones ordinarias, de lo contrario el 1° de enero siguiente entraría a regir la ley vigente el año anterior. Por otro lado, en la propuesta de reforma, los ministros no podían ser parlamentarios y se prohibía la asistencia de los ministros a las sesiones parlamentarias, por lo que la comunicación se haría de forma escrita133.
+
+El Presidente de la República recibía ciertas facultades extraordinarias, que se aprobarían por ley y por un tiempo máximo de un año. En caso de receso parlamentario, ellas podrían hacerse efectivas sin ley, hasta por un mes. Las facultades permitían suspender la libertad de imprenta y el derecho a reunión, establecer el estado de sitio, remover empleados, aumentar las fuerzas armadas, invertir fondos públicos fuera del presupuesto, así como conseguir recursos con cargo al crédito del Estado134. Igualmente, el Ejecutivo tendría el control de la Policía de Seguridad, atribución que en el proyecto de 1890 solamente aplicaba en caso que se encontrara vigente el estado de sitio135.
+
+De acuerdo con Bañados Espinosa, el sistema representativo se fundaba en un equilibrio entre los poderes del Estado. En esa línea, el Congreso podría autoconvocarse, terminando así con la Comisión Conservadora. Además, dos tercios de ambas cámaras podrían rechazar los vetos del Presidente de la República y obligar a la publicación de las leyes vetadas136.
+
+Igualmente, se propuso la eliminación del Consejo de Estado, por ser considerado, en palabras de Julio Bañados Espinosa, una reminiscencia de despotismo137. En el proyecto original, se entregaba la función de resolver contiendas de competencias al Judicial. Sin embargo, en la comisión mixta se acordó crear un tribunal especial, formado por siete miembros. Cada poder nombraría dos y el séptimo sería elegido por acuerdo de los tres poderes138. El fin del Consejo de Estado implicaba, a la vez, modificaciones en la forma de nombrar a los miembros del Judicial. El Ejecutivo propuso que los nombramientos fueran realizados por el Presidente de la República a partir de listas formadas por el Senado, la Cámara de Diputados o la Corte de Apelaciones, dependiendo del cargo a proveer. En el caso de la lista del Senado, ella provendría de una lista entregada a su vez por la Corte Suprema139.
+
+Aprobada por ambas cámaras en agosto de 1891140, la reforma no estuvo exenta de desencuentros. El diputado Gálvez criticó el momento elegido para impulsar la iniciativa141. El diputado Silva Cruz rechazó el contenido de la iniciativa, por considerar que el único poder que se independizaba era el Ejecutivo142. El senador Valdés Carrera criticó que se propusiera una reforma distinta a la de 1890. En su opinión, el primer proyecto era liberal, mientras que el del Congreso constituyente era “tremendamente reaccionario”143.
+
+Otra discusión se dio a raíz de la forma en que la nueva ley debía ser aprobada. La constitución de 1833 establecía que las reformas debían ser ratificadas por el Congreso en el período siguiente a su aprobación. Algunos parlamentarios pidieron seguir ese criterio, pero el Ejecutivo consideró que la situación extraordinaria del país y el mandato de la convocatoria al Congreso facultaban la rápida aprobación. Bañados Espinosa planteó que se debía avanzar con prontitud para que, una vez que finalizara la guerra, los opositores se encontraran con un nuevo orden constitucional ya instalado144.
+
+El objetivo principal de la reforma fue crear condiciones para que el Ejecutivo pudiera actuar de forma autónoma y desarrollar sin problemas políticas públicas, como la relativa a la educación pública, materia declarada tarea preferente del Estado en la propuesta constitucional145. Julio Bañados Espinosa resumió muy claramente este afán en la Cámara de Diputados, al señalar que, por más que el Ejecutivo perdiera atribuciones, terminaba fortalecido con la reforma, pues obtenía las atribuciones que le correspondían por la naturaleza de sus funciones, pudiendo así “…cumplir mejor sus fines sociales de orden público y de seguridad interior y exterior”146.
+
+Con una modificación radical de la constitución, se solucionaba el problema de parálisis administrativa al que se enfrentó Balmaceda desde mediados de 1889. Sin embargo, el balmacedismo también buscó lograr la autonomía financiera del Ejecutivo. Si en 1890 Balmaceda había cambiado su relación los bancos, para asegurarse fondos mientras no hubiera ley de contribuciones vigente, durante el transcurso de la guerra civil sus acciones buscaron terminar, de forma definitiva, con la relación de mutua dependencia entre estas instituciones y el Estado.
+
+Durante las primeras semanas de enero de 1891, el público realizó retiros masivos de los fondos depositados en los bancos. Una primera medida tomada por el gobierno para afrontar este escenario fue un decreto que permitió que los bancos cambiaran los depósitos fiscales por bonos147. Balmaceda sospechaba de los dueños de estas instituciones, quienes mayoritariamente apoyaban a la oposición148. Por lo mismo, intervino los bancos de A. Edwards y las demás instituciones de Santiago y Valparaíso y apresó a algunos de sus directores149. Los bancos pasaron a ser inspeccionados en lo relativo a sus carteras, libros y operaciones. Además, fueron obligados a informar diariamente sobre su funcionamiento. El gobierno, además, hizo que estas instituciones elevaran una solicitud al Ejecutivo, en la cual aceptaban la intervención “como garantía del orden público”, y pedían que el Estado emitiera $ 12.000.000. De esa cifra, $ 1.500.000 fueron prestados a la banca, para evitar su quiebra. Otra medida tomada por el Ejecutivo fue la suspensión de la acumulación de pastas y la incineración de papel, de acuerdo a la ley de 1887 y la acuñación de monedas con las pastas de plata existentes150. Se buscaba asegurar la circulación, para aminorar lo más posible los efectos de la situación que vivía el país151.
+
+El 5 de mayo, Balmaceda dio un paso más en el control estatal de la actividad financiera, al establecer por ley que la emisión de papel moneda sería únicamente estatal y que los bancos debían retirar su emisión a un ritmo de un 10% mensual. Las cantidades no retiradas, deberían pagar un interés equivalente a un 10% anual. Esta normativa fue discutida en el Congreso constituyente en sesión secreta. Según Fanor Velasco, Valdés Carrera, en ese entonces Ministro de Hacienda, se mostró contrario al proyecto, cuya autoría correspondía al Ministro del Interior, Domingo Godoy. Para el jefe del gabinete la iniciativa era indispensable y además era un castigo a los bancos, por haber apoyado a la oposición que se había levantado en armas en Iquique152. Solamente unos días después de aprobada la ley, el diputado Manuel Zañartu planteó que el retiro de papel moneda generaría problemas para las operaciones económicas, por lo que propuso que se creara un banco estatal y recordó que él ya había presentado un proyecto de dichas características en 1887153.
+
+La ley del 5 de mayo provocó, inmediatamente, el rechazo de los bancos. Tal como lo relató Valdés Carrera, todavía Ministro de Hacienda, a la Cámara, los directores de estas instituciones habían acordado no retirar la emisión y pagar las multas estipuladas por la legislación, subir las tasas de interés a un 15 o 18% y cerrar los créditos. Por lo mismo, proponía tomar medidas que salvaran las dificultades154. Se abrió, en ese contexto, un debate en torno a la relación del Estado con los bancos. Por una parte, el diputado Cortínez planteó que no era posible legislar bajo presión de los bancos, por lo que era necesario crear un organismo estatal. De igual forma, sugirió que el Estado tomara la emisión registrada por la banca fuera de circulación y que la timbrara como emisión fiscal. El gobierno recogió ambas iniciativas. Por una parte, creó una comisión para preparar un proyecto de banco estatal155 y, por otro lado, se aprobó una nueva ley, basada en el espíritu de las indicaciones de Cortínez que obligó a los bancos a pagar su emisión y permitió al Estado enajenar la garantía depositada por los bancos, por no hacer el retiro de la emisión correspondiente. De igual forma, el Estado podría pagar a estas instituciones el valor de la emisión que no hubieran hecho efectiva y marcar dicho papel como emisión fiscal156.
+
+El balmacedismo, a esta altura, ya estaba abiertamente decidido a desarrollar una política sustentada en la emisión fiscal del papel moneda157. Ejemplificadoras resultan las palabras del diputado Darío Sánchez respecto a la materia: “¿Qué razón podía ahora haber para que el Estado protegiera a unos pocos ciudadanos tenedores de las acciones de las instituciones bancarias, cuando ahora él necesitaba de todos sus recursos?”158.
+
+El mismo Balmaceda declaró que la época de la emisión particular debía concluir159. El Congreso apoyó esta postura, salvo los senadores Valdés Carrera y Lauro Barros. El primero planteó que el proyecto del 5 de mayo, antes mencionado, establecía intereses muy altos a los bancos, por lo que pidió no colocar a estas instituciones en una situación complicada160. Barros señaló que se estaba terminando con la legislación bancaria de 1860. El Senador creía que los bancos habían significado un aporte para el crecimiento del país, por lo que no era conveniente tomar medidas en su contra161. A la vez, acusó que el nuevo giro en materia bancaria significaba una expropiación contra estas instituciones162.
+
+El senador Ibáñez, en medio de este debate, reprodujo lo que pareció ser el pensar mayoritario en la cámara y en el Ejecutivo. En su opinión, los bancos alteraban el curso natural del capital, alejándolo del fomento a la industria hacia “…el sendero de la usura y de las especulaciones de poco o de ningún trabajo”. Creía, además, que la emisión de papel moneda era una atribución exclusivamente estatal, por lo que no veía atentatorio contra los intereses bancarios que ese derecho volviera al Estado. Frente a los resquemores que se mostraba frente a las políticas sobre la materia, Ibáñez afirmó que ya eran tantas las atribuciones entregadas al Presidente de la República en el transcurso de 1891, que no era prudente aparecer en esos momentos con “escrúpulos de monja”163. Esta opinión fue la mayoritaria, y en los meses siguientes se dictaron nuevas leyes de emisión, por $ 6.000.000, el 16 de junio, $ 2.000.000 en moneda de plata divisionaria, el 22 de julio, y $ 15.000.000, el 17 de agosto164. Así, en agosto, el 45% del total de la emisión era estatal165.
+
+El cambio de rumbo coincidió con la llegada de Manuel Arístides Zañartu al Ministerio de Hacienda, partidario del régimen de papel moneda. En el gabinete, Zañartu retomó su proyecto de banco estatal, el que era el corolario del proceso de retiro de los privados a favor del control del Estado en lo relativo a la emisión. La iniciativa, en todo caso, no estaba animada por un estatismo contrario a la iniciativa privada. Al contrario, en la presentación del proyecto se planteaba que “La acumulación y conveniente distribución de las riquezas es materia del mayor interés para la vida y el bienestar de la sociedad y del Estado”. Igualmente, se indicaba que la industria y la agricultura se veían afectadas por tasas altas para los créditos y por una actitud especulativa de los bancos. Por lo mismo, el banco estatal, cuyo nombre sería Banco de Chile, se constituía en una “necesidad pública y privada cuya satisfacción no admite dilación”. El mensaje que acompañaba al proyecto, firmado por Balmaceda y Zañartu, además, planteaba que “No habrá con esta institución clase bancarias, oligárquicas y directores del crédito, en provecho exclusivo de sus personas o para desarrollar influencias perniciosas en la política”166.
+
+El banco tendría un capital total de $ 60.000.000, de los cuales dos tercios serían del Fisco y el resto estaría suscrito por el público. Para formar la parte pública, se permitía que el banco hipotecara los ferrocarriles estatales y la mitad del valor de los terrenos salitreros en manos del Estado. Contribuirían también a la formación del capital el 10% del impuesto salitrero y otro 10% proveniente de la garantía en manos del Estado por las emisiones privadas167. Respecto al capital suscrito por el público, se estableció que la participación de cada particular tendría un tope de cien acciones, equivalentes a $ 10.000. A la vez, se daban facilidades de pagos a los empleados públicos interesados en invertir en el banco. La iniciativa, además, establecía el privilegio exclusivo del banco en relación a la emisión de papel moneda y fijaba como interés máximo cobrable una tasa de un 6%. La dirección del banco quedaría a cargo de un Consejo General, el Director, y el Subdirector. Los dos últimos serían nombrados por el Presidente de la República a través de una terna propuesta por la Cámara de Diputados, la que, a su vez, provendría de un listado de nueve nombres, definido por el Senado. El Consejo estaría conformado por el Director, el Subdirector, cuatro consejeros nombrados por la Cámara de Diputados y tres por el Senado, cuya duración sería de cuatro años; tres designados por los accionistas; tres designados entre un listado de las cien personas con más depósitos en el bienio anterior (dichos nombramientos se realizarían por los accionistas); tres nombrados por los cien mayores deudores del banco168.
+
+El 6 de junio, la junta de Iquique acordó la expedición al sur, para enfrentar al Ejército leal a Balmaceda. Ello se materializó durante el mes de agosto169. El proyecto de banco estatal continuaba en discusión en la Cámara de Diputados, razón por la cual no pasó al Senado. Las derrotas del Ejército en los combates de Concón (21 de agosto) y Placilla (28 de agosto), no solo significaron el fracaso de Balmaceda en el campo de batallas170 sino también en el terreno institucional.
+
+Tras la derrota del Ejército en Placilla, Balmaceda entregó el mando al general Manuel Baquedano. El Presidente se refugió en la legación de la República Argentina, hasta quitarse la vida el 19 de septiembre, tras cumplirse su mandato constitucional un día antes171.
+
+Los vencedores llegaron a Santiago el 31 de agosto y tomaron el mando del Estado. Se exoneró a 4.000 funcionarios172 y se reinstaló el orden institucional existente con anterioridad a 1891. Igualmente, se aprobó la reforma constitucional que permitía que el Congreso pudiera solicitar al Presidente de la República, por escrito y con el apoyo de la mayoría, el llamado a sesiones extraordinarias173. Existía un consenso entre los vencedores respecto a que la reforma constitucional no era suficiente y que, por lo tanto, se hacía necesario avanzar también en la aprobación del proyecto de comuna autónoma174. En esa materia, el Congreso necesitó un mes de sesiones para finalizar el proceso legislativo y publicar la ley en el Diario Oficial, el 24 de diciembre de 1891. Igualmente, en 1892 se inició una discusión sobre el tamaño de la administración pública y su posible reducción175. Las opiniones no apuntaron solamente al tamaño del Estado, sino que también a los efectos políticos del desarrollo burocrático del país. Para El Ferrocarril, “Esa falange de sinecuras y de rentas fue la base en que se engendró la Dictadura”176.
+
+Como resultado de dichas opiniones, en junio de 1892 el Ministro de Hacienda, Enrique Mac-Iver, presentó un proyecto de ley que buscaba crear una comisión especial, formada por tres senadores, tres diputados y tres funcionarios y/o ex funcionarios, a la cual se le encargaría estudiar la forma de reorganizar las plantas y sueldos de empleados que formaban parte los servicios de la administración pública177. Este proyecto fue aprobado, y se creó tal comisión, que nunca ejerció sus funciones178.
+
+IV. CONCLUSIONES
+
+A partir de la tesis respecto a que la guerra civil fue una contienda por visiones contrapuestas sobre el rol que debía cumplir el Estado en la sociedad, este trabajo ha analizado los intentos de reforma constitucional y financiera impulsados por el gobierno de José Manuel Balmaceda. Este trabajo ha mostrado que, a la par de los conflictos propios del uso de prácticas parlamentarias en 1890 y el enfrentamiento armado en 1891, durante este período hubo una confrontación de dos agendas de reforma institucional.
+
+La oposición a Balmaceda, que se unió desde comienzos de 1890 en torno a un proyecto, impulsado por el conservadurismo, para desmantelar el Estado central a través de la municipalización de una serie de servicios. El balmacedismo, que había reformado y creado una serie de instituciones y ampliado el rango de acción estatal, no aceptó el proyecto de municipalización y lo vetó en una serie de puntos que buscaban neutralizar su esfuerzo desmantelador. De igual forma, el Ejecutivo se opuso a una serie de prácticas, tanto políticas como financieras, que lo amarraban en su capacidad de gestión. Respecto a lo mismo, a consecuencia de un escenario adverso, Balmaceda y su grupo más cercano parecían convencidos respecto a que el Ejecutivo requería un mínimo de autonomía para funcionar. Pudieron contar con ella durante los primeros años del mandato, pero cuando comenzaron a utilizarla, entre 1888 y 1889, para impulsar diversas intervenciones, ella pasó a ser puesta en jaque. Por lo mismo, durante 1890 ensayaron medidas estructurales, como el proyecto de reforma constitucional, con otras de tipo coyuntural, principalmente el intento por rescatar los recursos fiscales depositados en los diferentes bancos.
+
+En 1891, en tanto, los esfuerzos por autonomizar al Estado fueron más intensos y se buscó, en palabra de los protagonistas de la época, reformar el Estado pensando en el largo plazo. Y aunque las iniciativas adoptadas fueron calificadas como autoritarias, incluso por balmacedistas, ellas apuntaban a autonomizar al Ejecutivo pero de forma relativa. Claro en cuanto a los límites de la acción estatal fue Julio Bañados Espinosa, quien manifestó: “No acepto a los socialistas o estatólatras que radican en el Estado todas las fuerzas sociales; tampoco acepto a los individualistas que reducen al Estado a simple policial. Soy ecléctico en esta materia y estimo que en la Constitución debe armarse a cada organismo social de las facultades, derechos y fuerzas suficientes para que la sociedad en general obtenga sus grandes fines de orden, derecho y progreso (cursiva en el original)”179.
+
+Como se mostró más arriba, hay interpretaciones que han planteado que el conflicto de 1891 se debió al problema de la libertad electoral o a que Balmaceda no aceptó las prácticas parlamentarias. No obstante, como se ha visto, el Presidente aceptó, e incluso usó en 1891, la ley electoral promovida por la oposición el año anterior. Igualmente, una vez que los vencedores de la guerra tomaron el poder, no se limitaron a realizar una reforma constitucional para dotar al Congreso de mayores facultades. De hecho, avanzaron más allá, aprobando la ley de la comuna autónoma, y buscando opciones para minimizar el tamaño y capacidades del Estado. De esta forma, se buscaba evitar que el Ejecutivo continuara actuando como un ente capaz de hacer uso de una autonomía relativa.
+
+La guerra civil de 1891 fue un fenómeno que ocurrió en un momento en el cual el Estado aumentó considerablemente sus ingresos y amplió el número de instituciones y su rango de acción. Por ello, su rol pasó a ser problemático180. Y como se ha visto en este trabajo, existían visiones contradictorias sobre qué características debía tener la institucionalidad. En consecuencia, el estudio futuro de este período requiere profundizar sobre los conflictos surgidos en torno a la estructura y acción estatal. Este trabajo ha buscado aportar en esa dirección.
+
+BIBLIOGRAFÍA CITADA
+
+Fuentes oficiales
+
+Prensa
+
+Artículos y libros
+
+Cámara de Diputados (1890-1891): Sesiones de la Cámara de Diputados (Santiago, Imprenta Nacional). [ Links ]
+
+Cámara de Senadores (1890-1891): Sesiones de la Cámara de Senadores (Santiago, Imprenta Nacional ). [ Links ]
+
+Chile (1891): Boletín de Leyes y Decretos del Gobierno (Santiago, Imprenta Nacional ). [ Links ]
+
+Ministerio del Interior (1889): Memoria que el Ministro del Interior Presenta al Congreso Nacional (Santiago, Imprenta Nacional ). [ Links ]
+
+El Ferrocarril, 1880-1892. [ Links ]
+
+El Heraldo, 1892. [ Links ]
+
+El Independiente, 1880-1890. [ Links ]
+
+El Mercurio, 1886-1892. [ Links ]
+
+La Libertad Electoral, 1886-1892. [ Links ]
+
+Bañados Espinosa, Julio (2005): Balmaceda, su Gobierno y la Revolución de 1891 (2 tomos) (Santiago, Centro de Estudios Bicentenario). [ Links ]
+
+Barros, Luis (1993): “La Profesionalización del Ejército y su Conversión en un Sector Innovador hacia Comienzos del Siglo XX”, en Ortega, Luis (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile) pp. 50-63. [ Links ]
+
+Barros, L. y Vergara, X. (1972): “La Guerra Civil del 91 y la Instauración del Parlamentarismo”, Revista Latinoamericana de Ciencias Sociales, n° 3: pp. 71-94. [ Links ]
+
+Barría, Diego (2008): “Continuista o Rupturista, Radical o Sencillísima: La Reorganización de Ministerios de 1887 y su Discusión Político-Administrativa”, Historia, vol. 41 n° 1: pp. 5-42. [ Links ]
+
+Barría, Diego (2015a): “Rasgos Burocráticos en las Reformas Administrativas en el Chile de la Década de 1880”, Historia Crítica , N° 56: pp. 61-84. [ Links ]
+
+Barría, Diego (2015b): “Empleados Públicos y Clase Media, Chile 1880-1920: Un Análisis Exploratorio a Partir de Cifras Oficiales”, Revista de Historia y Geografía , N° 32: pp. 77-100. [ Links ]
+
+BARRÍA, Diego (2016): “Representaciones en Torno a los Empleados Públicos en Chile, 1880-1920”, Revista de Historia y Geografía , N° 35: pp. 63-83. [ Links ]
+
+Barría, Diego (2018a): “Municipalization as Debureaucratization. Municipal reform movement in Nineteenth Century Chie”, Lex Localis - Journal of Self-Government, vol. 16, N° 1: pp. 129-146. [ Links ]
+
+BARRÍA, Diego (2018b): “Bureaucratization in a Changing Society: Administrative Reforms in Late Nineteenth Century Chile”, International Journal of Public Administration, vol. 41, N° 7: pp. 562-572. [ Links ]
+
+Blakemore, Harold (1965): “The Chilean Revolution of 1891 and its Historiography”, The Hispanic American Historical Review, vol. XLV, N° 2: pp. 393-421. [ Links ]
+
+Blakemore, Harold (1974): British Nitrates and Chilean Politics. 1886-1896: Balmaceda and North (Londres, The Athlone Press). [ Links ]
+
+Bowman, John y Wallerstein, Michael (1983): “La Caída de Balmaceda y las Finanzas Públicas en Chile. Nuevos Datos para un Antiguo Debate”. Revista de Ciencia Política, vol. V, N° 1: pp. 99-133. [ Links ]
+
+Bravo, Fernando, Bulnes, Francisco y Vial, Gonzalo (1991): Balmaceda y la Guerra Civil (Santiago, Fundación). [ Links ]
+
+Couyoumdjian, Ricardo (1992): “La Dimensión Internacional de la Revolución de 1891”, en Villalobos, Sergio (edit.), La Época de Balmaceda (Santiago, Centro de Investigaciones Diego Barros Arana) pp. 103-121. [ Links ]
+
+Devés, Eduardo (1992): “La cara de Balmaceda: fotografía, psicología y mentalidad”, en Villalobos, Sergio (edit.), La Época de Balmaceda (Santiago, Centro de Investigaciones Diego Barros Arana) pp. 23-40. [ Links ]
+
+Edwards Vives, Alberto (1972): La Organización Política de Chile, 1810-1833 (Santiago, Editorial del Pacífico). [ Links ]
+
+Encina, Francisco (1952): Historia de Chile. Desde la Prehistoria hasta 1891. Tomo XX (Santiago, Editorial Nascimento). [ Links ]
+
+Estrada, Baldomero (1993): “La Política Migratoria del Gobierno de Balmaceda”, en Ortega, Luis (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile ) pp. 73-83. [ Links ]
+
+Fetter, Frank (1937): La Inflación Monetaria en Chile (Santiago, Universidad de Chile). [ Links ]
+
+Góngora, Mario (1981): Ensayo Histórico sobre la Noción de Estado en Chile en los Siglos XIX y XX (Santiago, Ediciones La Ciudad). [ Links ]
+
+Grez, Sergio (1992): “Balmaceda y el Movimiento Popular”, en Villalobos, Sergio (edit.), La Época de Balmaceda (Santiago, Centro de Investigaciones Diego Barros Arana) pp. 71-101. [ Links ]
+
+Heise, Julio (1974): Historia de Chile. El Período Parlamentario, 1861-1925. Tomo I (Santiago, Editorial Andrés Bello). [ Links ]
+
+Ibarrola, Bernardo (2004): El Ejército de Balmaceda: Modernización y Crisis. Las Fuerzas Chilenas de Mar y Tierra, 1884-1890. Tesis (Doctorado en Estudios Latinoamericanos), Instituto Universitario Ortega y Gasset, España. [ Links ]
+
+Illanes, María Angélica (2003): Chile Des-Centrado. Formación Socio-Cultural Republicana y Transición Capitalista (1810-1910) (Santiago, LOM). [ Links ]
+
+Jobet, Julio César (1951): Ensayo Crítico del Desarrollo Económico-Social de Chile (Santiago, Editorial Universitaria). [ Links ]
+
+Jocelyn-Holt, Alfredo (1993): “La Crisis de 1891: Civilización Moderna versus Modernidad Desenfrenada”, en Ortega, Luis (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile ) pp. 23-35. [ Links ]
+
+Letelier, Valentín (1891): La Tiranía y la Revolución. Ó sea, Relaciones de la Administración con las Políticas Estudiadas a la Luz de los Últimos Acontecimientos. Lección Inaugural del Curso de Derecho Administrativo en el Corriente Año (Santiago, Imprenta Cervantes). [ Links ]
+
+Letelier, Valentín (1980): “Ellos y Nosotros, o sea los Liberales y los Autoritarios”, en Zea, L. (edit.), Pensamiento Positivo Latinoamericano (Caracas, Biblioteca Ayacucho) pp. 357-377. [ Links ]
+
+Loveman, Brian y Lira, Elizabeth (1999): Las Suaves Cenizas del Olvido. Vía Chilena de Reconciliación Política, 1814-1932 (Santiago, LOM ). [ Links ]
+
+Martínez, Gerardo (1992): “Desarrollo Económico y Modernización en la Época de Balmaceda”, en Villalobos, Sergio (edit.), La Época de Balmaceda (Santiago, Centro de Investigaciones Diego Barros Arana) pp. 55-69. [ Links ]
+
+Millar, Rodrigo (1994): Políticas y Teorías Monetarias en Chile, 1810-1925 (Santiago, Ediciones de la Universidad Gabriela Mistral). [ Links ]
+
+MONTT, Santiago (2004): “Balmaceda y la Nitrate Railways Company: La Primera Gran Controversia Regulatoria en Chile y su Impacto en la Guerra Civil de 1891”, Revista de Derecho Administrativo Económico, N° 13: pp. 65-122. [ Links ]
+
+Nabuco, Joaquim (2000): Balmaceda (Santiago, Editorial Universitaria ). [ Links ]
+
+Navarrete, Micaela (1993): Balmaceda en la Poesía Popular, 1886-1896 (Santiago, Centro de Investigaciones Diego Barros Arana ). [ Links ]
+
+Núñez, Jorge (1993): “La Política Militar del Presidente Balmaceda”, en Ortega, L. (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile ) pp. 65-71. [ Links ]
+
+Núñez, Jorge (2003): 1891 Crónica de la Guerra Civil (Santiago, LOM ). [ Links ]
+
+O’Brien, Thomas (1982): The Nitrate Industry and Chile’s Crucial Transition, 1870-1891 (Nueva York, New York University Press). [ Links ]
+
+Pinto Lagarrigue, Fernando (1991): Balmaceda y los Gobiernos Seudo-Parlamentarios (Santiago, Editorial Andrés Bello ). [ Links ]
+
+Pinto, Jorge (1993): “Morir en la Frontera. La Araucanía en Tiempos de Balmaceda”, en Ortega, Luis (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile ) pp. 127-155. [ Links ]
+
+Ramírez Necochea, Hernán (1969): Balmaceda y la Contrarrevolución de 1891 (Santiago, Editorial Universitaria ). [ Links ]
+
+Reyes, Enrique (1993): “Los Trabajadores del Área Salitrera, La Huelga General de 1890 y Balmaceda”, en Ortega, Luis (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile ) pp. 85-107. [ Links ]
+
+Rivas Vicuña, Manuel (1964): Historia Política y Parlamentaria de Chile (Santiago, Ediciones de la Biblioteca Nacional). [ Links ]
+
+Rodríguez, Joaquín (1921): Balmaceda y el Conflicto entre el Congreso y el Ejecutivo (2 tomos) (Santiago, Imprenta Gutenberg). [ Links ]
+
+Sagredo, Rafael (2001a): La Gira del Presidente Balmaceda al Norte. El Inicio del “Crudo y Riguroso Invierno de su Quinquenio” (Santiago, LOM-Universidad Arturo Prat-Centro de Investigaciones Diego Barros Arana ). [ Links ]
+
+Sagredo, Rafael (2001b): Vapor al Norte, Tren al Sur. El Viaje Presidencial Como Práctica Política en Chile, Siglo XIX (Santiago, Centro de Investigaciones Diego Barros Arana ). [ Links ]
+
+Sagredo, Rafael y Devés, Eduardo (1991): Discursos de José Manuel Balmaceda. Iconogragía (3 tomos) (Santiago, Centro de Investigaciones Diego Barros Arana ). [ Links ]
+
+Salas Edwards, Ricardo (1925); Balmaceda y el Parlamentarismo. Un Estudio de Psicología Política Chilena (2 tomos) (Santiago, Sociedad Imprenta y Litografía Universo). [ Links ]
+
+Salazar, Gabriel (1993): “ Crisis en la Altura, Transición en la Profundidad: La Época de Balmaceda y el Movimiento Popular”, en Ortega, Luis (edit.), La Guerra Civil de 1891. 100 Años Hoy (Santiago, Universidad de Santiago de Chile ) pp. 171-195. [ Links ]
+
+San Francisco, Alejandro (2004): “Julio Bañados Espinosa (1858-1899): El constituyente del Presidente José Manuel Balmaceda”, Boletín de la Academia Chilena de la Historia , vol. LXX n° 113: pp. 333-385. [ Links ]
+
+San Francisco, Alejandro (2007a): “Apogeo y Decadencia del Presidente de la República. El caso de José Manuel Balmaceda, 1886-1891”, Boletín de la Academia Chilena de la Historia , vol. LXXIII n° 116: pp. 439- 467. [ Links ]
+
+San Francisco, Alejandro (2007b): La Guerra Civil de 1891. La Irrupción Política de los Militares en Chile. Tomo I (Santiago, Centro de Estudios Bicentenario ). [ Links ]
+
+San Francisco, Alejandro (2008): La Guerra Civil de 1891. Chile, un País, Dos Ejércitos. Tomo II (Santiago, Centro de Estudios Bicentenario ). [ Links ]
+
+Soto Kloss, Eduardo (2011a): “1891. Chile Bajo Dos Gobiernos y Dos Administraciones”, Ius Publicum, n° 26: pp. 79-99. [ Links ]
+
+Soto Kloss, Eduardo (2011b): “1891. Chile Bajo Dos Gobiernos y Dos Administraciones (Segunda Parte)”, Ius Publicum , n° 27: pp. 71-84. [ Links ]
+
+Subercaseaux, Bernardo (1997): Historia de las Ideas y de la Cultura en Chile. Tomo II. Fin de siglo: La Época de Balmaceda (Santiago, Editorial Universitaria ). [ Links ]
+
+Valenzuela, J. Samuel (1985): Democratización Vía Reforma. La Expansión del Sufragio en Chile (Buenos Aires, IDES). [ Links ]
+
+Vitale, Luis (1993): Interpretación Marxista de la Historia de Chile. Tomo IV: Ascenso y Declinación de la Burguesía Minera. De Pérez a Balmaceda (1861-1891) (Santiago, LOM ). [ Links ]
+
+Yrarrázaval, José Miguel (1940): El Presidente Balmaceda (2 tomos) (Santiago, Editorial Nascimento ). [ Links ]
+
+Yrarrázaval, José Miguel (1963): La Política Económica del Presidente Balmaceda (Santiago, Academia Chilena de la Historia ). [ Links ]
+
+Zeitlin, Maurice (1984): The Civil War in Chile (or The Bourgeois Revolutions that never were) (Princeton, Princeton University Press). [ Links ]
+
+Creative Commons License Este es un artículo publicado en acceso abierto bajo una licencia Creative Commons`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

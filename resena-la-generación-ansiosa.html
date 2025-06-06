@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Generación Ansiosa</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <span id="title">La Generación ansiosa</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            En esta reseña se analiza el libro "La Generación Ansiosa; Por qué las redes sociales están causando una epidemia de enfermedades mentales en nuestros jóvenes" de Jonathan Haidt.
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`Este libro cuya edición en español es de mayo de 2024, es posiblemente el libro más actualizado en cuanto a investigaciones del fenómeno de las redes sociales y cómo estas afectan al desarrollo psicosocial de niños y adolescentes (y a nosotros, que llegamos a los smartphones de adultos y a ratos nos vemos tan atrapados en el “scroll infinito” como cualquiera).
+
+El libro está escrito para ser accesible, su gran cantidad de datos no resulta para nada tediosa, se nota que el autor ya ha publicado libros de divulgación para el público masivo y que ha recibido un buen apoyo editorial para hacer que su mensaje académico sea accesible (como bien lo reconoce en sus agradecimientos)
+
+Es un libro que todo padre de los tiempos actuales debería leer, en especial porque Haidt no se queda en el análisis de los datos, el qué y cómo ha pasado, sino que ofrece alternativas y posibles soluciones, pero que se sepa desde ya, que esto no es un libro de autoayuda parental, pues la solución que el autor propone para combatir la adicción a las pantallas en la infancia es una a la que hay que llegar como sociedad, como padres, como educadores, como gobiernos, en conjunto, después de todo, las redes sociales funcionan porque existe suficiente cantidad de gente (el autor habla de presión social) para que los niños hayan dejado progresivamente el mundo de las interacciones basadas en el juego directo, tangible y multisensorial, que equilibraba su química cerebral y favorecía su correcto desarrollo psicosocial, por una infancia inmóvil basada en el teléfono, que ofrece posibilidades que se presentan como ilimitadas, pero que termina siendo perniciosa para aprender el manejo de la frustración, que genera de adicción y a la larga, genera niños infelices.
+
+Un libro muy necesario, a veces perturbador por la radiografía que hace de la sociedad y los casos que comenta de cómo han resultado afectados los niños y niñas. Pero también es un libro que abre la esperanza, que nos recuerda que el cambio debe comenzar en alguna parte, y que podemos comenzar nosotros, en un nuevo pacto de la sociedad adulta por retomar la crianza conjunta, con tener la tranquilidad que el vecino protegerá a mis hijos, como yo los de él, para que puedan volver a las calles y plazas. Que los apoderados de los otros niños no cederán y tendremos el curso completo sin teléfonos hasta al menos los 14 o 16 años, para que puedan crecer libres, sin temor a que se conviertan en “analfabetos digitales” pues a nosotros los teléfonos inteligentes y la banda ancha móvil nos llegó en la adolescencia o la adultez, y nos adaptamos rápido, ya que la tecnología es intuitiva y está hecha para una adopción sin manual de instrucciones.
+
+Si lo gramos generar este nuevo pacto, que implica por un lado, la confianza social, tan escasa en el paradigma de inseguridad e individualismo en que se mueve el mundo en las ultimas dos décadas. y por otro lado, confiar en los niños, recordar lo que nosotros hacíamos, recordar que nos caímos y puede que más de alguno nos quebramos un hueso, o esguinzamos una articulación, y que sobrevivimos, que volvimos a andar en bicicleta, a trepar árboles, que los niños son resistentes y que superar adversidades es necesario para su desarrollo sicológico, así como aprender a reconocer peligros y tomar decisiones que eviten el daño, pues no hay vidas extra.
+
+El autor aboga por retomar una infancia basada en el juego, que debe ser sincrónico, físico y con riesgos moderados, con riezgos físicos y sociales reales, donde debe aprender que puede lastimarse y lastimar a otros, que los comentarios crueles reciben miradas reprobadoras y dañan a las personas, que la bondad se retribuye, y donde hay que esforzarse por comprender al otro, a diferencia de las redes sociales, que se centran el el sujeto, que le brindan un menú personalizado y donde es el centro de su universo social.
+
+En fin, a recordar que los niños, como nosotros, son criaturas biológicas, que requieren una vida corpórea, y no ese sucedáneo de socialización que son las redes sociales. “La generación ansiosa” de Hidt, es un libro que hay que leer.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

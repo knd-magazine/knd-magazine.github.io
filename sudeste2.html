@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <span id="title">II Phuket y de vuelta a Bangkok.</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            [continúa el viaje en esta segunda parte]
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`Así que continuando con el anterior post, subimos a un tuk tuk con destino al palacio real y el wat phra kaeo (no pregunten cómo se pronuncia, pero el wn me entendió). Lamentablemente el chofer hablaba cero inglés, nos llevó primero donde otro wn que era como el cabrón de los tuk tukeros, estaba en una esquina y como que manejaba el negocio, y en su rasca ingles nos dijo que el palacio real estaba cerrado y abría a las 14:00, que nuestro conductor nos llevaba gratis a una tienda de joyas por mientras. Pico, ya me sabía esa triquiñuela que te dicen que algo estaba cerrado y entre tanto te llevan a tiendas donde casi es obligatorio comprar algo para salir vivo, así que le dije en mi mejor inglés que sólo iba al palacio real para caminar alrededor y sacar fotos. El wn no me insistió mucho, y partimos con el tuk tuk pero, y en mi segundo dia ya sabía un poco para que lado sale el sol, el viejo nos llevaba en dirección completamente opuesta. Así que aprovechando un semáforo en rojo que raramente el wn respetó, le pregunté qué onda, y me dijo que iba a pasar a un kiosko y que si yo compraba algún suvenir a él le daban un ticket para gasolina... puta el wn duro. “ya wn, en vez de 30 te pago 40 pero das la vuelta al toque y nos llevai directo al wat phra kaeo”. Pa qué fue, sonó el forty baht de mi boca y el wn cara de raja, da una vuelta en U, y hecho un bólido al palacio. Desde entonces aprendí a regatear viajes en tuk tuk incluyendo la frase “no gasoline ticket, no souvenirs, just direct trip”.
+ 	Caminamos bastante en Bangkok. Entre esas dos semanas que estuve al comienzo, nos pegamos un pique a una de esas idílicas playas que ves en las postales, y como los viajes en bus a cualquiera de éstas significaba 15-20 horas sentado tomamos un vuelo económico a Phuket. Y salió económico.
+ 	De Phuket puedo decir que es demasiado agringado, creo que pa otra vez iré a una de esas playitas en islas más chicas onda "the beach" de dicaprio. Phuket está todo hecho para que un gringo se sienta bien, los desayunos son con tocino y huevo (ese mierdal tóxico que comen), y en la calle popera de Phuket, la mayor distorsión sexual que te puedas imaginar. Te ofrecen shows de ver sexo en vivo, cualquier combinación posible de sexos, en los bares minas bailando y tocándose, prostitutas, prostitutos, travestis, etc. todo lo que la imaginación aguante. En los pubs música rock setentera cantada en inglés tailandés que sólo entiendes el tema con los acordes de guitarra. Pero de que saben cómo crear buena onda, lo hacen. Las playas tailandesas? Un paraíso, un mar de azul y avanzas 200 metros sin ahogarte, ves pasar los mega hiper cruceros, un vendedor callejero, un weon en paracaídas, arriendas dos sillas playeras con sombrilla por 100 baht todo el día, la comida es rebarata y la cerveza para qué te digo. Si se busca relax, una playa en tailandia es lo indicado.
+ 
+ 	De vuelta a bangkok, nos alejamos de khao san, para ver otra onda, y llegamos a la sukhumvit road. En el centro neuráligo de los mega edificios y a pasos de la estación de metro. Llegamos a un hotel de esos que aparece un botones con carrito y dejas tus bolsos en el “lobby”, y el wn lleva todo hasta la habitación. El hotel tenía como 30 pisos y estaba lleno, pero lleno, de hindues. Weon, de los 30 personajes que vi al desayuno, eran 28 hindús y nosotros dos. Bueno, bien cerca estaba la embajada de india y de perú, así que algo debe haber. Pero el hotel tuvo su época de esplendor hace veinte años. Manchas de “sangre de asesinato antiguo” en la alfombra, el baño se cachaba arcaico, en todo intentaban mostrar un lujo que ya no tenía, un brillo que ya no lograban sacar, ventanas sucias que no se molestaban en limpiar. Y la piscina era el barrial de bichos y agua oleosa.
+ 
+ 	Y a la siguiente noche, otro hotel, más decente y más barato, pero sin piscina. Y su recorrido por el más caótico mercado que he visto, el chatuchak weekend market, en la estación de mo chit. Donde puedes comprar los mismos ray ban pero a 2 por 100 baht, hay comida barata, ropa de todo estilo, souvenirs como para llenar una mochila, animales, artesanías, figurillas de colección, dvd pirata, esos frutos secos chinos que hediondizaban cualquier ambiente, todo mezclado al azar en un espacio de 6 campos de futbol. Te dan un mapa que intenta explicar el lugar. Bótenlo a la basura. No entran 11,000 puestos de venta en una hoja de papel. Y como dice por ahí un consejo que leí, “si ves algo que te gustó, cómpralo de inmediato, quizás nunca vuelvas a encontrar la tienda”. Doy fe.
+ 
+ 	Así se nos fue bangkok, y phuket, que fue lo que vimos de tailandia. Chiang mai quedaba demasiado lejos y no encontré tantas razones para ir. bueno, si lo miras bien, oficialmente, “maduramente”, nunca hubo tantas razones de peso para venir al sudeste asiático, pero lo hice, sobreviví, y quedé con ganas de volver. Con eso ya considero pagado el viaje.
+ 
+ 	Algo que sí confirmé, es que los hindú son cara de raja en todo el mundo, no sólo en ese bioclima aislado del newark de zona franca. Por que caminando entre tiendas de todo estilo en phuket, quería tener mis ray ban pirata, no se viaja como corresponde por tailandia sin tus ray ban pirata. y el precio oscilaba entre 100 y 200 baht en todas las tiendas. Como mucho 200. Pasando por una que regentaba un hindú, por webiar le pregunté en mi mejor inglés el típico “how much?”. El wn se tomó unos tres o cuatro segundos para mirarme de arriba abajo, cara de raja, y no se de donde pensó que yo sería un fácil gringo aweonao, por que luego de su chequeo, me dice sin arrugas “600 baht”. Andate a la mierda hindú ctm. Me alejé como de la peste, y no me impresionó tanto que no largara la sarta de “atenciones especiales” con que siempre debe salir un buen vendedor de parafernalia de mercado, “special discount for you, friend”, “how much you want to pay”, “ok, 500 baht”, etc.
+ 
+ 	Despues puede que finalice la saga con un resumen general de weaitas freak y cosas que no pasan en chile. Por ahora, contar que contra todo pronóstico, compré un ticket de bus en una agencia de viajes (prefiero siempre ir a la estación de buses, pero era como "complicado" llegar), y a las 7:30 am nos pasaría a buscar una van a todo cachete, a la puerta del hotel, para llevarnos cómodamente hasta la ciudad de Siem Reap en cambodia. Aunque el wn de la tienda nos juró de patas que no cambiaríamos de van ni había cuchufleta. Yo llegaría a las 15:30, máximo 16:00 a siem reap. Webonamente le hicimos caso. Y es que a esas alturas del viaje, no sabía, no podía saber, que en cambodia y vietnam el volante está al lado izquierdo, como dios manda, y obviamente, el bus o la van o la wea que fuera que nos llevara hasta la frontera con cambodia no podría pasar de allí. Cómo llegamos es otra historia. Pal próximo posteo.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

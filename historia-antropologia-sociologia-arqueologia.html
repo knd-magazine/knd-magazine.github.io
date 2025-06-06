@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historia, Antropología, Sociología y Arqueología – Página 1/1</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 30px;       /* Arial 30 px */
+      line-height: 1;        /* Espaciado sencillo */
+      background-color: white;
+      color: black;
+    }
+    /* Barra superior fija */
+    .barra-superior {
+      width: 100%;
+      height: 70px;          /* Un poco más alta para que cuadre bien con 30 px */
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      padding: 0 10px;
+    }
+    .barra-superior .icono-casa {
+      width: 45px;
+      height: 45px;
+      background-image: url('icono-casa.svg'); /* Icono minimalista */
+      background-size: contain;
+      background-repeat: no-repeat;
+      cursor: pointer;
+    }
+    .barra-superior .titulo-seccion {
+      flex-grow: 1;
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .barra-superior .pagina {
+      width: 100px;
+      text-align: right;
+    }
+    /* Segunda barra con dos columnas (Autor / Artículo) */
+    .barra-secundaria {
+      width: 100%;
+      display: flex;
+      box-sizing: border-box;
+      padding: 0 10px;
+      margin-top: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    .columna-autor {
+      width: 45%;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .columna-titulo {
+      width: 55%;
+      font-weight: bold;
+      text-decoration: underline;
+      text-align: right;
+    }
+    /* Lista de autores y artículos */
+    .lista {
+      margin-top: 10px;
+      padding: 0 10px;
+      /* Aquí caben 32 líneas de texto aproximadamente */
+    }
+    .fila {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+    }
+    .fila .autor {
+      width: 45%;
+    }
+    .fila .articulo {
+      width: 55%;
+      text-align: right;
+      text-decoration: none;
+      color: black;
+    }
+    .fila .articulo:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra superior de la sección -->
+  <div class="barra-superior">
+    <a href="index.html">
+      <div class="icono-casa" title="Inicio"></div>
+    </a>
+    <div class="titulo-seccion">Historia, Antropología, Sociología y Arqueología</div>
+    <div class="pagina">1/1</div>
+  </div>
+
+  <!-- Segunda barra: encabezados de columnas -->
+  <div class="barra-secundaria">
+    <div class="columna-autor">Autor:</div>
+    <div class="columna-titulo">Artículo:</div>
+  </div>
+
+  <!-- Lista de autores y artículos -->
+  <div class="lista">
+    <div class="fila">
+      <div class="autor">Daniel M.</div>
+      <a href="el-antiguo-regimen.html" class="articulo">El antiguo régimen</a>
+    </div>
+    <div class="fila">
+      <div class="autor">Silvestre P.</div>
+      <a href="sociedad-sin-estado.html" class="articulo">La sociedad sin Estado</a>
+    </div>
+    <div class="fila">
+      <div class="autor">Juana G.</div>
+      <a href="el-mal-vivir.html" class="articulo">El mal vivir</a>
+    </div>
+    <div class="fila">
+      <div class="autor">Marta A.</div>
+      <a href="orden-y-patria.html" class="articulo">Orden y patria</a>
+    </div>
+    <!-- Si necesitas más filas, repite el bloque .fila hasta completar 32 líneas. 
+         Cuando superes las 32 líneas:
+         1. Copia todo este archivo en historia-antropologia-sociologia-arqueologia2.html
+         2. En el primer archivo cambia <div class="pagina">1/1</div> por <div class="pagina">1/2</div>
+         3. En el segundo archivo cambia a <div class="pagina">2/2</div>
+         4. En cada archivo puedes omitir flechas de paginación por ahora o añadirlas después si lo deseas. -->
+  </div>
+</body>
+</html>
+

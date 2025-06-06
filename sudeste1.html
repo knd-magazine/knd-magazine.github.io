@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <span id="title">I Mis días en Bangkok</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            Aquí comienza el Diario de viajes de Picher, este viaje se realizó en 2011
+            <img src="img/sudeste1.JPG" alt="Khao San Road" style="display: block; margin: 10px auto; max-width: 100%; height: auto;">
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`I; Mis días en Bangkok.
+
+ 	Bangkok es una ciudad rancia, es tóxica, decadente, sobrepoblada, es terrible de noche y asfixiante de día. Bangkok es all-in, es dos 7-eleven en una misma calle, es avanzar dos kilometros en una hora peak, es tierra de tuk tuks y taxis de colores estrambóticos que te llevan sólo si les conviene. Bangkok es ese eterno olor a putrefacción de puesto de comida callejero, ese golpe de aire acondicionado polar en el Sky-Train o el MRT, es una cloaca cruzando por tus pies, Ray Ban y Rolex a 100 baht, es Khao San Road y el Wat Pho, el Chao Phraya, Bangkok es la ciudad donde cada 300 metros encuentras un Wat que merece más fotos que el anterior, donde cada 100 metros te ofrecen 5 viajes en tuk tuk, 7 masajes tailandeses y 2 shows de vaginas y ping pong. Bangkok se merece mil apelativos más, y los 8 días que pasé en esa magnífica y terrible ciudad no son justicia como para que esta crónica resulte nada más que una decadente aproximación rápida.
+ 	Lo que sí les adelanto, cualquier imagen caótica que vean de BKK en alguna película, sirve como aperitivo, pero le queda corta. En la previa del viaje puse mayor atención a diferentes películas relacionadas con esta ciudad y reconozco que es una buena aproximación. Pero las pelis no transmiten olor, ni sonido ambiental ni ráfagas de calor asfixiante. Tampoco los turistas en sus buses todo incluido con comidas todo incluido y hoteles todo incluido saben de esto, asi que les traigo la exclusiva, la callejeada, la after hours, la alejada de las hordas de turistas. La Bangkok decadente que vale mucho más que la que muestran las postales, la que se hace más difícil decidirse a buscar (los lujos son lo más fácil), pero más fácil de encontrar.
+ 	No había sueño de pendejo de ir para allá, no necesitaba cumplir ninguna manda a ningún santo. Simplemente un día te levantas con hachazo y empiezas a planificar un mes de vacaciones y como que te dan ganas de irte a la China. Echar a rodar un globo terráqueo imaginario, posar el dedo y decidir la ruta en una (y lo adelanto) imbécil previsión de kilómetros en bus. Entonces planificas mentalmente: “Tailandia; Bangkok como que suena a ciudad que la lleva, Chiang mai y alguna playita en una isla idílica de las miles a elegir; Cambodia para ver los templos de Angkor, y Phnom Penh que ya por el nombre suena exótico y místico, tanto que prefiero aprender a pronunciarlo “en vivo”, y Vietnam por que algo de interesante debe tener, la idea es descubrirlo allá”. Y lo confieso, llegué con el culo a dos manos por el viaje "independiente", y al final casi esperaba perder mi pasaporte y no volver nunca.
+ 	Les ahorro el tedio de 26 horas de avión, una espera en un mall de buenos aires, 3 horas varados en Kuala Lumpur, súmale 10 horas de diferencia y llegamos a las 13:00 a Suvarnabhumi Airport, el mega aeropuerto de Tailandia. Impecable la atención en aduanas, rápida la entrega de equipajes (10 kilos c/u). Airport Rail Link, un impecable servicio de metro para llegar a la estación de Phaya Thai, pedir un taxi con taxímetro para los 2 kilómetros que faltaban (weon manejaban por el otro lado, y el conductor va sentado al lado derecho y pasa cambios con la izquierda, algo que nunca había visto), y que demoró una hora en llegar, y, lo siento por la imagen de intrépido viajero inagotable, lo primero que hicimos en ese hotel de callejón venenoso, fue una siesta de dos horas por que con el viajecito de avión y el famoso jet-lag, estábamos lo que se dice hechos pebre.
+ 	Al rato salimos a caminar y directo a la famosa calle de los backpackers o mochileros, la mítica Khao San Road. Un callejón de 400 metros repleto de tiendas de tatuajes, ropa, relojes pirata, agencias de turismo, hoteles, libros pirata, masajes tailandeses, tiendas de comida y mil cosas más que ni siquiera una foto logra hacer justicia. Adoptamos como centro de operaciones un hotel en mitad de la calle Khao San. Fue una acertada decisión. La primera comida una mezcla de arroz y pollo (quiero creer que todo lo que decía pollo era realmente pollo) con bebida. Pasable como para empezar.
+ 	Y de a poco te empiezas a inmiscuir en la vida en una ciudad como Bangkok, donde hay de todo y para todos los gustos. Un recorrido en tuk tuk, que pagué el noviciado por 200 baht una hora, visitas al palacio real y al wat phra kaeo, el mítico buda reclinado de 46 metros de oro puro en el wat pho, el sacarse los zapatos para venerar el buda esmeralda, un tour por Ayhuthaya y sus miles de estatuas de budas y budas y budas, el magnífico caos del mercado de fin de semana en Chatuchak, la premeditación de llegar en la fecha del Songkran, el año nuevo tailandes, que se celebra con la peculiar fiesta del agua, en la que todos, niños, viejos y viajeros, compran pistolitas de agua y juegan a mojarse. Quien disfrute de esas peleas de poleras mojadas en el barro, onda wild on, ya tiene el dato. Si me hubieran dicho que a los 28 años estaría comprando una pistola de agua en el extranjero, no me la creería. Y en esos días era imposible salir del hotel sin quedar completamente empapado. Pistolas, bombitas, hasta baldes de agua por la cabeza onda chavo del ocho. En las avenidas, niños tirando agua a los autos. En las calles, era una guerra en la que reemplazas sangre por agua. Busqué forzosamente llegar a bangkok en esas fechas, y fue lo mejor que pude haber hecho.
+ 	Tailandia es un reino, y por tal, obviamente, tiene un rey. Mejor no digo mucho de este cristiano (bueno, no es cristiano, pero la frase se entiende), pero te queda demasiado claro quién es, lo ves en cada billete y moneda de baht, en cada calle que se diga tailandesa creo que debe haber una o más imágenes del rey. Hasta en los antros más decadentes, esos que miras desde la calle sin pensar en entrar, hay un altarcito. Es raro. Es una de las cosas que te hace sentir que nunca estas en tu casa. Acá lo que más se ve es una foto del presidente y es como la típica foto oficial. Pero allá ves al rey en todas las etapas de su vida y en diferentes posturas. El wn la lleva. Por nada es Vishnu en vida wn.
+ 	Bangkok es demasiado grande para caminarlo. Así que te ves obligado a movilizarte, y para eso existen múltilples vías, está el sky train que es como un metro en altura, está el metro común y corriente, y en ambos se paga por el tramo que vayas a realizar, más lejos, más plata. Así que el ticket tiene algún sistema electrónico por que lo utilizas para entrar y también para salir. Aunque alguna vez nos pasó que pagamos para bajarnos en una estación x y luego decidimos bajar antes y de todas formas pudimos salir. Raro. Quizas de haber ido más lejos no habría funcionado.
+ 	Tambien están los tuk tuk, una moto metida en un carrito con asientos en la parte trasera, bueno, fotos hay hartas. Es más “en vivo” por que vas escuchando el ruido y oliendo la pestilencia urbana, que es un poco el sentido de viajar cero estrellas. Estos viejos son re tranfugas y es conveniente, de hecho diria obligatorio, negociar el precio con antelación. Y obviamente siempre terminar pagando menos que lo que saldría un taxi. Lo peluo es cuando no sabes cuánto sale un taxi. Y ahi aplico mejor la otra filosofía, paga lo que encuentres que sea justo por lo que estás recibiendo, sin importar si luego un australiano culiao te dice que el pagó mucho menos por el pique. Eso no significa ser más avispao ni ser mejor viajero. Para nada. Esa filosofía de “paga lo que consideres justo” te deja bastante conforme.
+ 	Cuando quisimos ir al palacio real, listo, desde khao san al palacio real bajamos desde 100 (1500 pesos) baht a unos módicos 30 baht (450 pesos). El lector que quiera comentar haciendose el cruo “pero a mí me cobraron 10 baht, refiérase al párrafo anterior”.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

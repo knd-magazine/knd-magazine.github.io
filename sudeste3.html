@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <span id="title">Inserta el título de la entrada</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`Si tuviera que contar con los dedos de una mano cuántas razones míticas tenía para llegar a parar a cambodia en mi vida, sería una; los templos de Angkor. Olvidense del vaticano o de la meca. Oficialmente, angkor wat es el templo religioso más grande de la historia de la humanidad. Con eso ya gana mil puntos. Y agregando que no es un antro de obispos californianos pedófilos, tenía que ir.
+ 	El bus desde bangkok nos hizo parar tipo 12 del día en un restorancito rasqueli en aranya prathet, el pueblo en una de las fronteras con cambodia. Pagas el visado, dos fotos tamaño pasaporte más un pequeño delta de comisión para el junior y sin mucho trámite el wn volvió a la media hora con la visa que habilitaba nuestra entrada al reino de cambodia. Firmado por el cónsul. La van nos deja en la frontera y el wn nos acompaña todo el trámite para salir de tailandia y entrar a cambodia. Despues de eso nos mete a otra van, con matrícula camboyana, y llegamos a una estación de buses en poipet. 13:30 hrs. Amablemente nos dice que debemos esperar hasta las 15:30 para el bus que nos llevaría a Siem Reap. Chucha son dos horas perdidas. Y desde poipet hasta siem reap son 150 kilómetros. Le pregunto al “guía” a qué hora llegaríamos a Siem Reap. Por lo general, me dice, si no sube mucha gente en el camino, llegas tipo 21:00. WTF? 150 kilómetros en casi 6 horas? Ni en los chiken bus de belice era tan lento el viaje, wn. Rememoro la conversación con el agente de viajes tailandés que nos vendió el ticket “vip directo” a siem reap y siento como una mugrecita que se convierte en un tremendo pico en el ojo. Y a quién le vas a reclamar. Pero al mal tiempo buena cara. Habiamos conversado unas frases intracendentes con un francés que andaba en el grupo, cachamos que arrendar un taxi para siem reap costaba 15 dólares, partía de inmediato, y aseguraba llegar tipo 15:00 y dejarnos a cada uno en la puerta del hotel. No me molestó pagar los 10 dólares para evitarnos 2 horas de solarium obligado en poipet.
+ 	Pero cuchufleta tras cuchufleta, el taxi no nos llevó al hotel, que en todo caso no teníamos reserva para ninguno. Nos dejó en un antro de tuk tuks y un poco obligados subimos a uno y el wn nos llevó al hotel que le daba comisión. Como no estabamos apurados (eran 15;30 y por último, habíamos ahorrado hartas horas), subí a ver la pieza pero rápidamente rajamos hacia otro hotel. El tuktukero se cachaba buena onda así que lo contratamos para el día siguiente. A las 7 de la mañana nos llevaría a los templos de angkor y estaría con nosotros todo el día, nos llevaría donde se nos ocurriera. Y todo por 14 dólares. La verdad no quise regatear nunca en cambodia, por motivos que luego comentaré. En la tarde la típica vuelta de reconocimiento a siem reap y la verdad más que ciudad de paso para angkor no tiene mucho más. (verifiqué el mito bobmarleyano de la famosa happy pizza de cambodia, googlear no más jajaja).
+ 	Como para entrar a vietnam tienes que pedir un visado con antelación, hice el trámite con una agencia de turismo y contraté un guía para angkor por todo el día. Un dato, sacar el visado para entrar a vietnam desde “la comodidad” de una agencia de turismo puntaarenense: 65 lucas. Demora como 2 semanas. Lo mismo en cambodia, 18 lucas. Demora dos días. Después dicen que en chile esta todo dado para viajar y que somos un país desarrollado.
+ 	El guía costó 20 dolares. Todo el día. En exclusiva para nosotros dos.
+ 	Así que a las 7:30 estábamos entrando al primer templo, al imprescindible, Angkor Wat. Las palabras se escapan, más que nada es impavidez y un grito interno de “conchesumare”. Un ambiente majestuoso, vas entrando y cada paso es un descubrimiento más. Las apsaras bailando en los dinteles de cada puerta, los tallados en cada maldita piedra, las escaleras, los grabados en las murallas, las serpientes de siete cabezas, la maravilla arcaica que significan, es una experiencia imprescindible. Unas mediocres fotos al final del posteo puede ser que reflejen un 10% de lo que significa estar allí.
+ 	Luego a Angkor thom, con las cientos de caras sonrientes en Bayon, con la terraza de los elefantes, en fin. Y para finalizar el día, el plato fuerte, Ta Prohm. Esa maravilla invadida por árboles caóticos, por raíces de forma sicodélica, definitivamente mucho para un sólo día. Si vieron tomb raider algunas escenas se grabaron allí.
+ 	Lo mejor fue que el guía cachaba todos los horarios peak, y como partimos re temprano, fuimos siempre adelantados de las hordas de turistas ávidos de fotografiar cada centímetro de los templos, por lo que nuestra visita fue casi en solitario, sin ruidos, sin perturbar la magia de angkor y sin muchos extras que se colaran en las fotos. Saliendo de cada templo justo venían unos choclones indescriptibles de coreanos, gringos, popurrí de naciones. Cuando el guía nos llevó a almorzar a las 11:00, tenía justo motivo.
+ 	Al siguiente día visité los templos más lejanos. Desde las 9 hasta las 6:30. Buena la tincada que me hizo ir a Bentley Srei, el templo más lejano del recinto, hecho con piedra roja, y mucho mejor conservado que elresto. Y vale la pena. inviertes media hora para ir y media para volver, pero el paisaje y los pueblitos entre medio no tienen pérdida.
+ 	El tercer día ya nos degeneramos y salimos del hotel a las 5 am. Como si de un ritual pagano se tratase, nos vimos a las 5:30 parados ante la lagunita que da frente al templo de angkor wat, entre una multitud de extranjeros, todos observando impávidos cómo el amanecer se debatía con la oscuridad y ascendía el sol por detrás de las torres hasta que ya era día. Magnífico. Y el cafecito barato que le compré a un camboyano que me dijo que se llamaba “rambo”, mientras me fumaba un cigarro observando el amanecer, el mejor momento. Si hubiese tenido que volver después de eso a punta arenas, el viaje ya estaba listo.
+ 	En definitiva, y creo que las fotos justifican mucho más que estas pobres palabras lo que significa realmente estar en Angkor, un punto imprescindible del viaje. Qué servicio militar obligatorio. Debería ser obligatorio una vez en la vida fumarse un cigarro y tomarse un café barato mirando el amanecer en angkor Wat. Te limpia el alma y te hace sonreir por dentro y pensar “listo, llegué. Me puedo morir tranquilo”. Un punto necesario en la “bucket list” de mi vida cumplido.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

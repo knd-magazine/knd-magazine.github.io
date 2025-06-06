@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Diarios de viaje</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 30px;
+      line-height: 1;
+      background-color: white;
+      color: black;
+    }
+    .barra-superior {
+      width: 100%;
+      height: 70px;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      padding: 0 10px;
+    }
+    .barra-superior .icono-casa {
+      width: 45px;
+      height: 45px;
+      background-image: url('icono-casa.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      cursor: pointer;
+    }
+    .barra-superior .titulo-seccion {
+      flex-grow: 1;
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .barra-superior .pagina {
+      width: 100px;
+      text-align: right;
+    }
+    .barra-secundaria {
+      width: 100%;
+      display: flex;
+      box-sizing: border-box;
+      padding: 0 10px;
+      margin-top: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    .columna-autor {
+      width: 45%;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .columna-titulo {
+      width: 55%;
+      font-weight: bold;
+      text-decoration: underline;
+      text-align: right;
+    }
+    .lista {
+      margin-top: 10px;
+      padding: 0 10px;
+    }
+    .fila {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+    }
+    .fila .autor {
+      width: 45%;
+    }
+    .fila .articulo {
+      width: 55%;
+      text-align: right;
+      text-decoration: none;
+      color: black;
+    }
+    .fila .articulo:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="barra-superior">
+    <a href="index.html">
+      <div class="icono-casa" title="Inicio"></div>
+    </a>
+    <div class="titulo-seccion">Diarios de viaje</div>
+    <div class="pagina">1/1</div>
+  </div>
+
+  <div class="barra-secundaria">
+    <div class="columna-autor">Autor:</div>
+    <div class="columna-titulo">Artículo:</div>
+  </div>
+
+  <div class="lista">
+    <!-- Ejemplo de filas. Copia hasta 32; si sobra, crea resenas2.html y ajusta indicadores -->
+    <div class="fila">
+      <div class="autor">Picher</div>
+      <a href="sudestecompleto.html" class="articulo">Viajes por el sudeste asiático</a>
+    </div>
+    <div class="fila">
+      <div class="autor">Silvestre P..</div>
+      <a href="resena-la-generación-ansiosa.html" class="articulo">Reseña: La Generación Ansiosa</a>
+    </div>
+    <!-- Continúa agregando filas hasta 32 líneas -->
+  </div>
+</body>
+</html>
+

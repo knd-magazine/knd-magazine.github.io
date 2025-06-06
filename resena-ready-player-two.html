@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reseña de Ready Player Two</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 1.4rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <span id="back-btn">&#x25C0;</span>
+      <span id="title">Reseña de Ready Player Two</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+            Reseña de Ready Player Two
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            En esta reseña se analisa la continuación del exitoso libro "Ready Player One" de Ernest Cline.
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`Después de ver mucha reseña negativa, decidí darle una oportunidad a la parte 2, porque al fin y al cabo, puede haber verdaderas joyas con mala prensa… no es este el caso, pero tampoco es tan terrible, como en todo orden de cosas, hay que darse el tiempo de leer todo el libro para poder formarse una opinión con fundamento, y no ir haciendo caso ciego a todo lo que nos dicen. Vamos por partes:
+
+1 – ¿Sabías que yo sé esto?
+Lo que se le ha criticado a Ernest Cline es que lo que ha escrito después de Ready Player One es una mera repetición de fórmula, pero sin sustento, que en Armada los personajes se ponían a debatir largamente sobre su conocimiento de la cultura pop cuando deberían estar concentrados en una misión por salvar la tierra y que aquí lo hace de nuevo, por alguna razón, los escritores de Estados Unidos consideran que esta es la forma en que se deja ver que sus personajes son “geeks”, hablar sin parar de temas hiperespecíficos, con comentarios mordaces y sarcásticos (Que no revelan más que una autoestima frágil). Y claro que hay mucho de eso aquí, pero ¿están fuera de lugar? Depende del contexto, cuando se está compitiendo por quien sabe más, como en el libro 1, no, pero aquí, si bien hay competición, el premio sólo pueden reclamarlo 2 personajes elegidos por Halliday, y la mayor parte de la competencia se desarrolla en cooperación de los personajes conocidos y un puñado de personajes nuevos. Por lo anterior, sí, el alarde de conocimiento de cultura pop es odioso, pero no mucho más que en el primer libro, por lo que simplemente diríamos que iguala a su predecesor.
+
+2 – ¿Repetitivo?
+Aquí es donde discrepo con la mayoría de las reseñas que he leído por ahí: el libro no es repetitivo (en cuanto a argumento del libro anterior). Aunque entiendo que podría parecer así para quien lo abandonó al poco de empezarlo, y es que si bien, el libro contiene una competición, esta no es ni de lejos tan importante para la trama ni tan divertida de leer como en el libro 1. Pero hay algo que sí es repetitivo: la propia narración. En el penúltimo capítulo el autor explica lo mismo en cada página; no quiero arruinar la lectura, así que sólo diré que es “el artefacto-premio” el cual explica una y otra vez: se lee qué hace, se explica qué hace, se pregunta qué hace y se responde qué hace, un bucle que sólo puede indicar una cosa: Cline no confía en la inteligencia de su interlocutor para tener un mínimo de retención, o es del mismo tipo de geek odioso que necesita decirte las cosas al detalle unas cien veces.
+
+3 – ¿Lento?
+¡Oh, por Dios, sí! Baste con decir que lo que es competencia propiamente tal abarca desde el capítulo 14 hasta el 26, pero el ritmo es tan lento que bien puedes ir pasando página con una lectura muy superficial para ver si ya dejaron de hacer referencias a la cultura pop estadounidense y ya avanzan de una buena vez. Y es que es en el ritmo, marcado por las constantes y extremadamente detalladas referencias, en donde el libro se cae y uno se ve tentado a abandonar la lectura. También es allí donde se ve que hemos tomado este libro de forma errónea: no es un libro de ciencia ficción ambientado en las posibilidades de una tecnología de realidad virtual, es un fanfic tipo crossover, pero masivo, llevado a la hipérbole. Y como buen fanfic, uno queda de lo más perdido cuando no ha visto/leído/escuchado aquello que referencia en el último tiempo, como pasa con las películas de John Hughes: una tortura de lectura aun cuando te guste “The Breakfast Club” porque para entender bien la lectura prácticamente deberías tener reproduciendo la filmografía del director mientras lees, o ser tan fanático que recordaras cada fotograma. Por esto último, la calificación de fanfic le viene como anillo al dedo, pues solo si estás empapado hasta la médula de aquello que referencia el autor, podrás tener una lectura fluida.
+
+4 – ¿Qué hay de la trama?
+Sin que el autor se moleste en ocultarlo, claramente esto es un plagio de películas como Nivel 13, eXistenZ y The Matrix, son ideas de simulación cognitiva puestas en una licuadora con la cultura pop de fines del siglo XX, ya no con las gafas de realidad virtual/aumentada, sino con inmersión completa mediante sueño REM inducido, una idea que por supuesto atrae, y que representa lo más interesante del libro, abarcando la primera parte y el último capítulo del libro, que parecen un todo entre sí, dejando todo lo de la competencia soporífera, como un relleno puesto para justificar lo que en el fondo no es más que las cavilaciones de un ensayo posthumanista sobre el impacto de la tecnología presente y futura como vías de escapismo en un mundo que colapsa. También hay una fuerte autocrítica del autor, focalizando las decisiones y personalidades de sus personajes en el libro 1: esa personalidad que aquí he llamado “geek odioso” pero referido a sus relaciones interpersonales. También se aprecia cierto intento por abrazar la diversidad, en cuanto a la posibilidad de comprender la gran variedad de experiencias y cuerpos de las otras personas gracias a la tecnología que permite grabar y compartir experiencias, lo que no se siente forzado, pues va de la mano con explorar las posibilidades de la tecnología, que debería ser la base de un libro de ciencia ficción, pero como esto es un fanfic, pues, nada.
+
+Conclusión:
+El libro podría ser bueno, si dejara de lado la necesidad compulsiva de echarnos encima un montón de datos y referencias innecesarios, si confiara más en la inteligencia de sus lectores y no sobreexplicara lo que acabó de narrarse, y sobre todo, si se enfocara en contarnos una historia, como las implicaciones de algo tan trascendental como los sueños interconectados. Pero el autor en efecto, ha intentado reproducir la receta que le dio el éxito, sacando una competencia de la manga que no pega con la historia y que no engancha al lector, en resumen: no lo volvería a leer, y no lo recomendaría a nadie que le haya gustado el primer libro, mucho menos a quien no leyó dicho libro pero le gustó la película. Puntuación: Digamos que un 3/10, pues tuvo momentos divertidos y/o interesantes durante el primer tercio.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 32;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
