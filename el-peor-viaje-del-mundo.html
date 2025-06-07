@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <a href="resenas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">El Peor Viaje Del Mundo</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            “La exploración polar es la forma más radical y más solitaria de pasarlo mal que se ha concebido”<br>
+Esta reseña se publicó originalmente en el blog shunegg.blogspot.com el 22 de junio de 2007
+            <img src="img/scott.jpg" style="display: block; margin: 10px auto; max-width: 100%; height: auto;">
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`El PEOR viaje del mundo (y no es chiste...)
+
+ 	Sin consultar el Google, ¿Quién fue el primer weon en poner su pie en el polo sur?
+ 	Siempre me intrigó la geografía de la antártica, si se fijan en cualquier mapa verán nombres de accidentes geográficos muy tenebrosos; Monte Terror, cabo desolación, , etc. Y siempre me pregunté por qué los exploradores le ponían nombres tan extraños y poco alegres. Al leer este libro me dí cuenta que allá abajo lo menos que hay es pensamientos positivos. Como cuenta el autor: “La exploración polar es la forma más radical y más solitaria de pasarlo mal que se ha concebido”
+ 	PARTE I; TODO POR UN HUEVO
+ 	Exploradores ha hab  ido muchos; en todas las épocas, en todos los lugares. Y todos creo que lo hacían con un objetivo fijo, el dinero, el poder. Si no pregúntenle a los aztecas, a los incas, a los egipcios y su Valle de los Muertos (weno, lo que quede de eso). Pero de quienes escribirè a continuación no buscaron oro, ni riquezas, ni su puto nombre en una calle ni en una ccidente geográfico, No Señor, estos exploradores del frío buscaban simplemente... un huevo de pingüino y el polo sur. Nada de riquezas.
+ Era el año 1910, el 15 de julio, partía de Inglaterra el barco Terra Nova, a mando del capitán Roblert Falcon Scott. Su objetivo, realizar mediciones precisas del campo magnético en los alrededores del círculo polar, cartografiar en lo posible el accidentado terreno antártico e investigar la vida y reproducción del pingüino emperador en el Cabo Crozier. De ser posible obtener huevos de pingüino para su posterior estudio. Y de ser posible también, durante los tres años que duraría la travesía, estudiar la factibilidad de realizar un viaje al polo Sur, y en caso positivo llegar hasta el polo Sur y plantar la bandera inglesa en el paralelo 90.
+ En realidad todo el resto eran simples excusas, el único objetivo en la mente de Scott era el polo Sur. Era su tercera expedición con tal objetivo, y esta vez no iba a fallar.
+ En aquellos tiempos, albores del siglo XX, sólo quedaban muy pocos lugares por descubrir. Y los polos estaban ahí, desafiando a quien quisiera inmiscuirse en sus dominios de frío y ventiscas. Hago notar también que por la posición de nuestro planeta (el famoso ángulo de inclinación) el polo SUr resulta ser mucho, mucho más frío que el polo Norte. Y que en el 1912 no había parkas de polar reflectantes y zapatillas Nike Insulation Special Air Max o no se que más. Una simle chaqueta de cuero con chiporro, dos o tres pantalones y unas botas "impermeables" en la medida de lo posible y listo, te lanzai a descubrir el polo comiendo solo carne ahumada, galletas, algunas conservas y juguito de limón para prevenir el escorbuto.
+ ASí partieron 46 cristianos en busca del polo. Zarparon entre fotógrafos, periodistas, escritores, todo un revuelo nacional. Bueno, de los 46 sólo 25 quedarían en el campamento del Cabo Evans, el resto viajaría de vuelta a Nueva Zelanda a buscar más provisiones,ir y volver en busca de provisiones.
+ 	Pero no era Scott el único que soñaba con llegar al polo Sur, y primero que todos. Tambien había un viejo noruego llamado Roalf Amudsen, que había fracasado varias veces en alcanzar el polo Norte, u buen día se rindió del Norte y dirigio sus miradas al Sur, se hizo bien el weon y como estaba poco cagao de plata se compró 97 perros esquimales, contrató a 19 marinos y salió con su barco llamado Fram rumbo “A Australia, para comerciar”. (eso dijo él). Y lo hizo piolita. Sin tambores ni recepciones ni fotos. Ni un huevón se enteró.
+ 	Luego Scott iba pasando por Nueva Zelanda, antes de hundirse en las profundidades del sur para siempre, iba buena onda, todos “habían dejado comido”, ya le habían puesto sobrenombres a la mayoria de los cristianos de a bordo y habían comprado las ultimas provisiones necesarias para instalar la cabaña en el Cabo Evans, la que sería su refugio inicial. Iban todos cagados de la risa por el puerto cuando se encuentran con un aduanero que le comenta a Scott que Amundsen le había dejado un mensaje especialmente a él. Decía; escuetamente
+ 	“Le informo que el Fram procede a la Antártica”- Fechado 1910.
+ 	Y como si le hubieran puesto un ají en la raja Scott parte rajao hacia el barco, levan anclas y rajan hacia el estrecho de Mc Murdo, al cabo Evans, a instalar la cabaña y empezar la serie de investigaciones que justificarían el viaje al fin del mundo
+ 	Se llama EL PEOR VIAJE DEL MUNDO, pero en realidad son dos peores viajes. Pues como expuse hace poco, una de las finalidades era investigar al pingüino emperador residente en el Cabo Crozier, una punta helada que… mejor les mando un mapa y van a cachar la travesía que les esperaba….
+  	Así que la primera parte fue a cargo de tres cristianos: Apsley Cherry-Garrard (rico el apellido), el sufrido Bill Wilson y el teniente Bowers. Y fue terrible. Un viaje de 50 millas app, para sufrir temperaturas de -30ºC, con mínimas de -60ºC, ¡¡¡menos sesenta grados Celsius weon!!!, durante horas, sumado a un viento huracanado de 180 km/hr, que arrastraba tanta nieve que solo podian verse los zapatos, que de hecho tenían que ir viendo los pasos que daban pues en la antártica se abren grietas aleatoriamente, y conté más de diez ocasioes en las que un expedicionario tuvo que salvar a otro de caer e un infinito abismo, agarrandolo por la mochila…
+ 	Voy a resumir las cosas mas horripilantes que me quedaron grabadas luego de leer el lbro, hace ya casi un año. Una noche estos tres compañer
+ 	os levantaron la carpa en la que pernoctarían, demoraron como siempre una hora en encender el horno a kerosene, pues sacar de la caja y encender un fósforo, con guantes de cuatro centímetros de espesor no es cosa fácil. Después de la cena, apenas tres galletas, sopa de hueso hervido y carne congelada remojada en agua hirviendo, la temperatura dentro de la carpa era de agradables 10 grados bajo cero, un viento del sur de 100 km/hr, pan de cada día. El teniente Bowers ya ha perdido dos dedos, congelados por las bajas temperaturas, han debido cortárselos y los entierra bajo la nieve. La oreja de Wilson hizo otro tanto tres millas atrás, hace dos días. El único que mantiene todos sus órganos intactos es Cherry-Garrard, un profesor de historia de 25 años. En medio de la noche se levanta un huracán de 200km/hr, no pueden hacer otra cosa qe hundirse en la nieve y esperar a que pase el huracán. Y en eso se eleva el techo de la carpa y quedan a descubierto. Armar un iglú es iposible, tanto por el viento como por que andar dos semanas caminando en la nieve y arrastrado un trineo con todas las provisiones (150 kilos aprox.) t3e deja con pocas fuerzas. Piensa positivo, aún les queda la carne de los ponis que murieron a mitad de camino, y según los cálculos de Wilson les faltan sólo 10 kilómetros para llegar al cbo Crozier y si tienen suerte rescatar embriones de pingüino emperador. Ese es el único objetivo, esa es la tarea. El resto, el medir la humedad relativa del aire, el sensar la temperatura (entre -60 y -40 ºC) de promedio es solo un detalle, el objetivo es un simple huevo de pingüino. Pero hay una diferencia extrema entre sentir -40ºC en, digamos por poner un ejemplo, rusia, y acá la antártica. Por que cuando en Rusia hay -40ºC la dueña de casa dice “No fue tanto, igual pude salir a comprar las cosas para el almuerzo y volví a mi casa”. Pero considere, caserita, que Ud. Estuvo expuesta sólo quince minutos al aire libre, con ropas de seguro secas y puestas hoy mismo, y estos exploradores llevan dos semanas con la misma ropa, bueno no con la misma por que hay jirones que no podrán nunca remendar, que han estado expuestos a esos -40ºC durante días, días completos y sin refugio, que al caminar el sudor que generan por enfundarse esas casacas de esquimales se les seca en la piel y no pueden moverse con tanta facilidad pues pareciera que fueran cristianos de hielo, cada articulación desquebraja la humedad de la piel y èsta se enrojece y arde. Los pasamontañas sirven solo hasta que se condensa la respiración y ya no puedes seguir respirando con normalidad, y los pies ya no se sienten de tanto frío, y cuando en la noche (en realidad es de noche todo el día, pues este viaje es en invierno) logras sacarte las botas reconoces un montón azul y sin uñas como tus pies.
+ 	EN fin, mil penalidades más. La cosa es que luego de dos meses de travesía, volvieron Wilson, Bowers y Cherry-Garrard a la Cabaña del Cabo Evans, extenuados y mutilados, se tiraron en las camas que quedaban más cerca de la chimenea (que por lo demas quemaba mal y cada dos horas tenian que abrir todas las ventanas y ventilar, lo que creaba oscilaciones de temperatura que a todos les provocaba resfriados) y cuando se despertaron a los cuatro días, les preguntaron por el resultado de la expedición (a recordar, investigar la vida del pingüino emperador del Cabo Crozier y de ser posible obtener un embrión de pingüino). EL resultado fue que avistaron una colonia generosa, los estudiaron durante unos cuantos dias y lograron recoger embriones de pingüino. ^Pero en el viaje de vuelta se hundió en una grieta el trineo que llevaba las muestras y aunque querían volver a buscar mas muestras, estaba a 30 km del famoso cabo y a solo 23 km de la cabaña, y prefirieron volver a la base.
+ 	Volvieron con un cuaderno lleno de datos y anotaciones inesperadas con relación al pingüino emperador. Cosas que de seguro cambiarían el rumbo de los estudios de la flora y fauna de la antártica. Claro, dejaron en el camino un par de dedos y una oreja, pero comparado con el aporte científico que se logró recopilar, ¿qué valen una oreja y dos dedos? No lograron analizar el embrión que tanto querían, pero creo que nadie dirá que este viaje, el Peor viaje del mundo parte I, fue un viaje por nada.
+ 	Queda la segunda parte, el viaje al Polo. Y recuerden que Amundsen está por ahí cerca. Y con 97 perros de carga. ¿Cuántos perros de carga llevaba Scott? Lo sabremos en la segunda parte y final de esta serie. El Peor Viaje Del Mundo.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

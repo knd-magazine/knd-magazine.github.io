@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+      <a href="resenas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">El Peor Viaje del Mundo parte II</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            Segunda parte y final de la reseña de Picher sobre este libro de exploración antártica.<br>
+la reseña fue subida originalmente al blog shunegg.blogspot.com el 26 de junio de 2007
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+` EL PEOR VIAJE DEL MUNDO Parte II y Final
+
+ 	Ya cabros como lo prometido es deuda me propongo a mandarle la segunda parte y final de este Peor viaje del mundo
+ 	SEGUNDA PARTE, ESO SI ES EL CULO DEL MUNDO  
+ 	Yo no sé que trauma freudiano tenian los ingleses por poner su pie en el polo sur, o en el del norte. Al fin y al cabo es solo un punto perdido al cual convergen todos los meridianos. Si te ponís filosófico es como la punta de la naranja, como que pa donde camines es Norte, que son 6 meses de negro y 6 meses de blanco, que te cagai de frio. Etc…. Bueno a fin de cuentas parece que tiene su gracia.
+ 	Y la cosa es que, como veníamos diciendo, R. Scott había preparado su viaje en el Terra Nova, dando mil y un excusas científicas (que cumplió a cabalidad) con un solo objetivo, alcanzar el polo Sur,el paralelo 90ºS, meridiano indefinido. Iban de lo mas bien de acuerdo a su agenda cuando el buque que les traia provisiones les cuenta qe hace cosa de dos meses se habían encontrado con Amundsen (el noruego pajero que andaba cargao de perros y que veía el polo sur como una maratón) y que dicho cristiano tenía intenciones de tocar tierra y rajar hacia el polo, cosa de llegar a finales de 1911.
+ 	Entonces Scott cacha que se tiene que poner las pilas, le echa una revisada a sus cálculos (no fue tan wn de poner (1/2)2=2/4 )y decide que saldrán los 25 miembros de la expedición, cada uno cargado a cagar con… (dejenme verificar con el libro) 225 kilos de comida. Y parten en el mes de noviembre, en pleno “verano” a -30 grados promedio y vientos de hasta 150 km/hr.
+ 	Pueden observar el recorrido en el mapa de mas abajo. La idea era ir casi en linea recta desde el cabo evans hacia el polo, cruzando el glaciar beardmore. Para esto partirian los 25 compadres y cada cierto trecho formarían un depósito de provisiones, los subrayados con rojo en el mapa. Todos llegaron al depósito de una tonelada, donde se guardarían las mayores reservas para el regreso. Posterior a eso llegan al depósito Central de la Barrera, se quedan 3 ahí mientras el resto continúa, arman un campamento y se regresan al cabo evans.el resto sigue hasta el deposito sur de la barrera, lo mismo, se qedan 3 viejos a armar un campamento provisional mientras los otros siguen hacia el polo y cuando terminan de armar las tiendas y dejar en ellas kerosene y comida, se vuelven al campamento base del cabo evans. Esto repetido y repetido, hasta que cruzan los glaciares y se les presenta una planicie directa hacia el polo. Quedaban 12 cristianos. Debían montar 3 depósitos más, los ponis que llevaban unos se habian caido por unas grietas de los glaciares, otros habian muerto de fri o se los habian comido los perros de carga, y aleonaos los perros se habian intoxicado con no se que toxina que se habia generado en la sangre de los ponis por causa del frío. Total, que si habia 3 perros en buen estado era suerte, de los ponis nada que sirviera, y les dieron cristiana sepultura (no como amundsen que cada perro que caía era engullido por sus hambrientos estómagos, yo nicagando como perro por muy cagao que esté). Ya habían recorrido como 800 millas y les quedaban 750 más. Y 800 millas en poco mas de dos meses es un manso pique, considerando las bajas temperaturas (seré cargante pero no puedo dejar pasar la ocasión de decir que cuando leía el libro me impresionaba que estos weones pudieran aguantar tanto frío, que se les congelaran los dedos de los pies y siguieran caminando, que tuvieran que cortarse la oreja para no seguir sufriendo… puta Rambo será cruo y todo pero es una películ y estos weones lo hicieron en vivo wn) Y la comida era decepcionante; diariamente tenían permitido ingerir:
+ 	480 gramos de galletas
+ 	360 gramos de carne desecada
+ 	60 grs de mantequilla
+ 	15 gramos de cacao
+ 	90 grs de azucar
+ 	25 gramos de té.
+ 	Total; 1,03 kilos diarios por persona.
+ 	Creo que mi desayuno debe ser un poco mas de la mitad de eso…
+ 	(NO se ve ni wea asi que hagan clic en la imagen para agrandarla)
+
+ 	  
+ 	Haciendo el cuento corto, llegan al último depósito, a solo 50 millas del polo. A esas instancias llegan 9 weones; y estaba planificado que regresarían 5 y 4 llegarían a tomarse la fotito en el polo. Pero he aquí un error en el plan de Scott, mas bien por paleteao le pasó. Por que igual es penca pajearse 1500 millas,haberse cagado de frio 2 años para, en el momento de los quiubo te digan “Ya cabro media vuelta y nosotros seguimos”. O sea llegaron 9 weones a estar a menos de 170 millas del polo, cual de todos con mas ganas de seguir, y como scott no era maricón,el viaje de ida habia estado impecable y de hecho se habían adelantado como 1 semana (eso es una semana mas de comida) se paleteó y en vez de 4 weones al polo llevó 5-Los otros cuatro (entre ellos el autor del libro) dieron media vuelta y regresaron.
+ 	Considerese tambien que nadie sabñia nada de Amundsen, si el weon había llegado, si se lo habían comido los perros ,si se habia caido por una grieta, etc… Asi que les quedaban170 millas, cosa de 8 dias, pero pa mala cuea cuando ya se habian ido ls del ultimo grupo, empezo a nevar a cagar y quedaron encerrados una semana en la carpa, sin poder salir. Una semana, la semana justa que habian ahorrado en el viaje de ida. Ahora las cosas se ponian un poco negras por que había comida para 4 weones los 170 millas de ida y de vuelta al campamento, pero no para 5. asi que hicieron de tripas corazón y siguieron no mas, en vez de comer el kilo cada uno se repartían equitativamente. Pero estaban echos mierda.
+ 	Y bueno, en resumen el viaje de ida les resultó bastante fácil. Justamente en la mañana del 17 de enero habían medido y estaban a 3 millas del polo sur. Impacientes por saber si Amundsen había llegado o no. Y cuando por fin el polo está bajo sus pies, la alegría no es completa. Pues la bandera noruega bailaba con aires de supremacía en el punto mas alejado del planeta tierra. Amundsen había ganado. Tanto caminar, tanto aguantar frío, tanta hambre por ser los segundos. De seguro la historia los olvidaría por siempre (o acaso algun weon recuerda o sabe como se llamo el weon del apolo 12 que fue el tercer cristiano en pisar la luna?).
+ 	He aquí los famosos cinco segundos hombres en pisar el polo sur; Scott, Wilson, Bowers, Evans y Oates.  
+ 	Pero la historia les tenía reservado un final impactante.
+ 	WEno, llegaron al polo, hicieron lo que pudieron por llegar primero, pero ya desde el 14 de diciembre de 1911 estaban cagados. Amundsen había llegado antes.
+ 	Y viene la vuelta, 1500 millas con poco mas de cien kilos cada uno en sus trineos. Maditos perros que no sirvieron, ponis que cagaron pronto, malditas grietas que se abren a cada paso, maldito frío, hambre, sed, sudor congelado en los brazos. Es un arrastrar y arrastrar todo el día. Avanzando con suerte 10 millas diarias, por que el tiempo, que tan bien se había comportado hasta ese instante, les mostró su peor cara.
+ 	Y empezaron a llegar con retraso a los campamentos de provisiones. Al primer campamento se atrasaron 4 días, al segundo 5 días más, y así. Esto significa que no dejaban comido lo suficiente. Continúan pero ya la cosa no es igual. El primero en mostrar flaqueza es Evans. Atacado por el frío, congelado casi por completo, con los pies ya un desperdicio, es arrastrado en trineo por sus compañeros. Cruzan el glaciar beardmore ( app 2000 metros de ascenso) arrastrándolo. Y finalmente, un día se levantan y ya no existe más Evans. Lo entierran con tristeza y siguen el camino. Es el primer caído.
+ 	Logran llegar al depósito sur de la barrera y recuperan los días perdidos. Es una vergüenza decirlo, pero la muerte de evans les alivianó el camino y proporcionó un poco mas de comida. Pero al poco de salir hacia el campamento central de la barrera les ataca otra tempestad y de vuelta a encerrarse en la carpa. A perder dias y comida. A atrasarse. En eso Oates ya presenta congelamiento en las extremidades, cojea de la pierna derecha y ha perdido prácticamente la vision y el oido. EL resto no esta mejor, pero lo atan al trineo y siguen camino. Cierta noche les quedaban 40 millas para llegar al deposito de una tonelada, que como dice su nombre, era la salvacion en lo que se refiere a comida y calefacción. Oates se despierta en medio de la noche y echa un vistazo a las provisiones. 2 días de comida. 8 dias de viaje. El cálculo es preciso, ci hubiese una boca menos que alimentar quizás los otros 3 puedan llegar al deposito de una tonelada. Quizás, pero vale la pena intentarlo. Se levanta como puede, sale de la carpa y camina (recordemos que estaba casi ciego) hasta caer en una grieta y morir. El diario de scott comenta:
+ 	Entonces dijo “voy a salir un momento. Puede que tarde un poco”. Cuando oates se fue sabíamos que iba a morir, pero aunque tratamos de disuadirle sabñiamos que se trataba de u acto de valentía propio de un cabalero inglés. Todos esperamos afrontar a muerte con e mismo temple, pues es obvio que ya no nos queda mucho tiempo.. Solo puedo escribir a la hora de comer. Hace un frío intenso, a mediodía el termómetro marcaba -40ºC.”
+ 	Los tres sobrevivientes llegan a 11 millas del deposito de una tonelada. Se levanta una ventisca que los obliga a quedarse en las carpas. Comida para dos días. Los tarros de kerosene se han roto y no tienen calefacción. Pasan los días y las anotaciones en el diario de Scott se hace cada vez mas terribles:
+ 	22 de marzo: Solo hay comida para un día. El fin ya debe estar próximo. Hemos decidido morir de forma natural.
+ 	29 de marzo: No ha habido dia en que no hayamos itentado salr con direccion al depósito, a 11 millas, pero afuera solo se ve un remolino de nieve.Creo que ya no podemos esperar que mejore la situación de ninguna manera.Me parece una lástima, pero creo que ya no puedo seguir escribiendo.
+ 	Ultima anotación; dios mio, por lo que más quieras, cuida de nuestra gente.
+ 	Cuando habían pasado tres meses desde la muerte de Scott, el grupo de expedicionarios que esperaban en la cabaña del cabo evans, que ya sabían que no volverían a ver a scott, decidió ir al depósito de una tonelada (que se mire el mapa y se dará cuenta qe no es un viaje sencillo), en busqueda de lo que quedara de comida y kerosene. Al llegar al deposito se divisaba a lo lejos una bandera inglesa y un montón que sobresalía en la planicie. Eran Wilson, Bowers y Scott. Los tres habian muerto de hambre, de frío y de cansancio. De los cinco que habían logrado tocar el polo sur, ninguno regresó. Entre las pertenencias se encontraron los diarios de viaje, que dan cuenta de todas las penurias del viaje de vuelta. EL estado de los cuerpos era cadavérico. Y los expedicionarios se estremecieron al pensar que a aquellos tres valientes no les faltó nada más que 11 millas para salvarse. Llegar al polo sur, recorrer 1500 millas de ida y 1500 millas de vuelta, y perecer a 11 millas de la salvación, parece imposible. Pero así es, y si bien fue un triste final para Scott, Bowers, Oates, Wilson y Evans, los libros de historia no los olvidaron, y su esfuerzo por conseguir un puto huevo de pingüino y llegar al polo sur no creo que haya sido en vano. En caso contrario, no habría llegado a mis manos el libro.
+ 	Entre las cosas de Scott se encontró una carta que le había dejado Amundsen en el polo sur, una irónica burla hacia el vencido:
+ 	"Querido Comandante Scott : Como Vd. será probablemente el primero en llegar aquí después de nosotros, ¿puedo pedirle que envíe la carta adjunta al Rey Haakon VII?. Si los equipos que hemos dejado en la tienda pueden serle de alguna utilidad, no dude en tomarlos. con mis mejores votos, le deseo un feliz regreso. Sinceramente suyo. Roald Amundsen".
+ 	El último capítulo se llama “NUNCA MÁS” y le encuentro toda la razón.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

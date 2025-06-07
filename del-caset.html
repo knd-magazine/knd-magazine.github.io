@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Mis días en Bangkok</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="artes.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">Del casete al playlist: atrapando el éxito</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.0;">
+            Retrospectiva sobre las formas de consumir música en las últimas décadas<br>
+esta columna de Marcelo Contreras fue publicada en el diario "La Tercera" el 16 de Enero de 2021
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`Hace 40 años armar un rudimentario playlist era una especie de duelo entre auditor y radio. Se jalaba el gatillo soltando la pausa que liberaba los botones de play y rec, para capturar en una cinta esa huidiza canción favorita. Los primeros listados personalizados dependían del dictamen de la industria radial asociada a los sellos discográficos. Varias generaciones animaron sus fiestas mediante la programación bailable del dial. La frase “Carolina discotheque”, con efecto eco incluido, se registró en la memoria de miles.<br>La videomúsica fue la primera grieta en aquel imperio entre emisoras y discográficas formando el paladar de la masa. Luego internet, con la piratería en rol protagónico, democratizó el acceso a un flujo de material mucho mayor. El libre intercambio de archivos entre usuarios puso a los sellos en cuenta regresiva. En paralelo, las radios perdían el monopolio de la novedad.<br>Desde la irrupción de YouTube en 2005, seguido de plataformas como Spotify, Apple Music, Deezer y Tidal, entre varias opciones de streaming, el público dispone de múltiples alternativas. “En el pasado, todos solían escuchar o mirar lo mismo. Ahora hay una enorme oferta de contenidos y gustos variados”, apuntan desde Spotify, con sus 320 millones de usuarios activos mensuales y más de 60 millones de canciones.<br>Es una nueva tradición compartir playlists a fin de año con resúmenes suministrados por las mismas plataformas. Más que determinar nuestras selecciones como sumos sacerdotes gobernando a hurtadillas, los famosos algoritmos tienen una influencia acotada. El paper “Music recommendation algorithms and listener autonomy”, publicado por Orange en octubre de 2019, con el análisis de 4.000 usuarios durante cinco meses en Francia, sostiene que la gran mayoría de las elecciones se basan en los gustos personales y no en las sugerencias. “Las canciones descubiertas mediante recomendaciones algorítmicas recibieron menos repeticiones que otras durante el período de observación”.<br>En sus conclusiones, el estudio afirma que “el usuario ‘basado en algoritmos’ sigue siendo minoritario en cuanto a su uso. La mayoría de las corrientes proceden de una elección explícita y consciente de los oyentes”.<br>En el caso de Spotify, las recomendaciones surgen de una curatoría entre un equipo editorial y algoritmos. Las playlists personalizadas provienen de un análisis semanal guiado, entre otros factores, por el historial de escucha. Las sugerencias editoriales son elaboradas por expertos “de todo el mundo”, según la aplicación, “buscando señales de nuestros datos sobre canciones que resuenan en nuestra plataforma e inspiración en diferentes publicaciones musicales y momentos culturales, así como en lo que los artistas destacan en sus propias páginas y listas de reproducción”. Finalmente, existen las listas hechas por los mismos usuarios.<br>
+<b>Perdiendo la señal<b<br>
+En este escenario de torta mucho más repartida en la industria musical y uso de data analizando nuestras preferencias en streaming, ¿cuánto han cedido las radios en influir los gustos de la gente?<br>“Definitivamente han perdido terreno”, responde Alfredo Lewin, el reconocido ex VJ de MTV, hoy en Sonar. “Uno se cuestiona cómo darle una vuelta a este declive evidente de la vieja escuela. La gente no escucha tanta radio porque quiere todo on demand”.<br>Rainiero Guerrero, director de radio Futuro, también observa un retroceso. “Durante muchos años tuvo un patrimonio exclusivo. Escuchabas radio y comprabas el disco”. Ignacio Olivares, director de Duna, subraya que la radio “perdió ese don de la novedad”, a manos de las plataformas musicales.<br>Desde Concierto, el director Sergio Cancino distingue matices en el papel del medio sobre las preferencias del público. “El rol mutó y depende mucho del tipo de radio, además. Imponer éxitos está más ligado a emisoras juveniles, más pendientes de las modas”.<br>Para Sandra Zeballos, una de las voces de radio ADN, hay espacio para todos y los sistemas conviven. “Los más jóvenes recurren a los playlists, pero hay una coexistencia. El playlist funciona para el gym, la fiesta. Pero en el día a día, si voy en el auto, la radio acompaña”.<br>La selección musical por equipos profesionales marca una diferencia y ahuyenta los malos augurios, según la lectura de Martina Orrego, directora y conductora de radio Los 40. “Por años se dice que las radios van a morir, que están bajando. Pero en 2020 subieron como hacía tiempo no ocurría. Eso tiene que ver con la humanidad que se necesita. La radio da con curatoría y contenidos más allá de la música”.<br>
+<b>I love 80′s<b<br>
+Las sugerencias de las aplicaciones implican encanto y trampa porque tienden a linkear artistas similares. En oídos avezados, las opciones parecen girar en sí mismas. “Detecto el algoritmo, la dinámica para recomendar”, apunta Alfredo Lewin. “A veces, más que ayudarme, me limita porque ya entiendo lo que Spotify me va a tirar. Le pongo atención, pero sigue siendo importante para mi el boca en boca”.<br>La estrella indie pop Javiera Mena se considera melómana -”crecí con los cedés, bajando música pirateada y mis propias playlists en Winamp-”, pero no se declara particularmente fan de las listas, excepto cuando está de visita en casas y no tiene a mano sus selecciones de Spotify. “Ahí sí tomo en cuenta las sugerencias porque en general he descubierto buenas cosas”.<br>Mena cree que el poder de antaño de las radios aún sobrevive fuera del radar de las grandes ciudades, como ha observado en México y la provincia chilena. “Todavía hay un sector bien popular que responde a la radio, a música más tradicional, más romántica, no muy reflejada en internet, música que queda detenida en el tiempo. Y es loco lo que pasa ahí. Vas a una región y ponen solo ochentas en una radio. Es superbonito”.<br>Los artistas, ¿piensan en algoritmos y playlists a la hora de componer? Gianluca, figura del trap chileno, lo descarta de plano. “No, porque creo que ese tipo de cosas ensucian el proceso creativo. Ver dónde entran las canciones es algo posterior, cuando estamos trabajando la salida de la música”.<br>Javiera Mena también desestima esa clase de reflexiones en la etapa compositiva - “lo pienso cuando la canción ya está terminada”-, pero ha tenido experiencias interesantes con sus remezclas enlistadas en otros géneros. “Hicimos un remix de ‘Flashback’, una versión media reggae, y cayó en una playlist de reggae. Mis números subieron un montón”.<br>
+<b>El viejo sello<b<br>
+Hace 20 años comenzaba una crisis que parecía terminal en los sellos discográficos. Los intercambios musicales en archivos comprimidos de baja calidad, detalle que a una parte importante del público no le preocupa, se multiplicaban como reacción en cadena. Las ventas físicas cayeron estrepitosamente. Las discográficas se redujeron mientras aprendían a encontrar el negocio en la digitalización y el streaming. “Los sellos se han adaptado”, dictamina Rodrigo Ostolaza, actualmente en BMG, con 30 años en el rubro. “Hoy no todas las músicas van a la radio como cuando partí en promoción en los 90. Ahora hay artistas que son netamente plataforma digital y los sellos comprendieron ese modelo. Artistas para streaming, otros en Instagram o TikTok. Todo se divide”.<br>Las compañías discográficas ganan menos “pero siguen roncando”, apunta Rainiero Guerrero, para asegurar que los singles invadan las distintas vías de exposición. “Siguen presentes con su maquinaria para que escuches esa canción toda la semana en todo lugar”.<br>“Los sellos ya no son como los conocíamos”, acota Alfredo Lewin. “Los gigantes no han desaparecido, pero antes dictaminaban la música manejando la carrera de un grupo a tres discos”. “Son irrelevantes”, sentencia Ignacio Olivares, “con una mínima injerencia en los gustos de la gente”. Si antes elegían los singles para las radios, “ahora trabajas la canción que te tinca”.<br>Javiera Mena cree que los sellos ya surfearon la ola que casi los aplastó en el cambio de milenio, como coincide en que la antigua hegemonía es un recuerdo. “Tienen la trayectoria, los conocimientos y las lucas. Se adaptan un poco a trompicones y se han metido en otras estructuras como el management. Antes el sello era todo y ahora es una pieza más del engranaje”.<br>Las cosas cambian, pero no tanto. Las más grandes estrellas del pop aún se cobijan en la maquinaria corporativa. “En este ecosistema de streaming”, reflexiona Sergio Cancino, “los sellos siguen siendo claves detrás del éxito de gigantes como Dua Lipa o Billie Eilish. Videos costosos, el featuring adecuado, aparecer en la serie-soundtrack-festival preciso, la administración quirúrgica de redes sociales y virales, la aparición privilegiada en playlists, la cobertura en prensa. Sigue siendo una coreografía industrial de las discográficas y su reconfigurado entorno”.`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

@@ -14,7 +14,7 @@
       font-family: Arial, sans-serif;
       background: #fff;
       color: #000;
-      font-size: 27px;
+      font-size: 26px;
       line-height: 1.0; /* interlineado 1.0 */
     }
     #container {
@@ -70,7 +70,7 @@
       margin-bottom: 0.5em;
     }
     .page h2 {
-      font-size: 30px;          /* igual que el resto del texto */
+      font-size: 25px;          /* igual que el resto del texto */
       font-weight: bold;
       text-decoration: underline;
       margin-bottom: 0.5em;
@@ -86,7 +86,7 @@
       height: 70px;
       background: #000;       /* fondo negro */
       color: #fff;            /* triángulo blanco */
-      font-size: 1.4rem;
+      font-size: 2.5rem;
       line-height: 70px;
       text-align: center;
       cursor: pointer;
@@ -102,26 +102,14 @@
   <div id="container">
     <!-- Barra superior -->
     <div id="header">
-    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
-      <a href="sudestecompleto.html" id="home-btn" title="Índice">&#9776;</a>
-      <span id="title">6 Hanoi, Bangkok de nuevo y final</span>
+      <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>
+      <span id="title">Acerca de KND Magazine</span>
       <span id="page-indicator">1 de 1</span>
     </div>
 
     <!-- Zona de contenido -->
     <div id="content">
-      <!-- Página 0: Portada fija -->
-      <div class="page" id="page-0">
-        <div id="cover">
-          <h1 style="font-size:0.8rem; text-align:center; margin-bottom:15px;">
-          </h1>
-          <p style="text-align:justify; line-height:1;">
-            Hanoi es preciosa. Existe idéntico caos que en saigón, pero con más olor a viejo y menos avenidas que diluyan el tráfico
-            <img src="img/sudeste6.JPG" alt="Khao San Road" style="display: block; margin: 10px auto; max-width: 100%; height: auto;">
-          </p>
-        </div>
-      </div>
-      <!-- Las demás páginas se crearán dinámicamente -->
+           <!-- Las demás páginas se crearán dinámicamente -->
     </div>
 
     <!-- Botones laterales -->
@@ -133,17 +121,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Texto completo con subtítulos incluidos
       var textoCompleto =
-`Idéntico caos para encontrar móvil hacia el último destino del viaje, la milenaria ciudad de Hanoi (el 2010 cumplió 1000 años). Así que en avión, esta vez clase perraje no má. Hay un pequeño degeneramiento en los 30 km que distan del aeropuerto a la ciudad, y los 20 dólares que nos costó el transporte. En hanoi nos alojamos en el odl quarter, en un perfecto hotel que distó mucho de los magros comentarios que leí en la guía turística que llevé de respaldo. Nunca nos cobraron comisiones extra, nunca nos obligaron a contratar los tours que ofrecían, el servicio fue impecable.
- 	Hanoi es preciosa. Existe idéntico caos que en saigón, pero con más olor a viejo y menos avenidas que diluyan el tráfico. Hay una preciosa pagoda en el lago central, con un puente bien mítico. Y recorrer el old quarter es una preciosidad. La calle de las mochilas pirata, la calle de las ropas, de los zapatos, cada calle su especialidad. Y justo un domingo era el night market. Pa qué fue. Me comí una salchicha vietnamita (nuevamente, dudo que haya sido pollo, cerdo o pescado), compramos suvenirs variados y lo pasamos muy tenso al momento de cruzar la calle para volver al hotel. Cerca del hotel comí por única vez lo más parecido a un bistec a lo pobre que encontré, bistec, cebolla frita y papas fritas, con salsa “hanoi” que estaba demasiado buena. Y finalmente, para dar el remate al viaje, contratamos un crucero por la bahía de halong. 3 días 2 noches, 1 noche en el crucero y 1 en un bungalow en la playa de una isla perdida en el océano, lo mejor. Imperdible visitar halong bay. Unas cuevas impresionantes.
- 	De vuelta intenté comer serpiente. Pero lo lamento por el mito, no es tan tan típico como se cree, por que le pregunté a la mina del hotel y me dijo algo así como “puta, yo he vivido siempre acá y nunca, nunca, he comido serpiente, así que no es tan típico que digamos, y no sé donde puedes comer serpiente”. Obviamente hay un barrio en hanoi que es clásico en restaurantes de serpientes, pero es como la trampa pa vender weas pa gringos, matan en vivo a la serpiente, le sacan el corazón y te lo dan a beber, luego fríen la serpiente y te la comes. Pero que sea auténtico? No lo creo. Me quedo con el surtido de bichos que comí en la calle en camboya.
- 	Y con eso, queridos lectores, se acababa el viaje. Vuelo air asia con destino bangkok, un hotel con piscina para relajarnos dos días y un simple sábado estábamos abordando el vuelo hacia kuala lumpur, una espera en sudáfrica, un precioso día en buenos aires, feria de san telmo incluida, que siempre es una caverna de descubrimientos inesperados (como bandoneonistas con instrumentos sin todos los botones), de noche a río gallegos en que dormí el 99% del viaje, un hotel que me sonó demasiado caro para lo que estaba acostumbrado y viaje en auto de vuelta a punta arenas. Pero vuelves distinto, eso te lo doy firmado. Se ven distintas las calles, los olores, los ruidos. Lo que no quita que mis principales preocupaciones al regreso hayan sido:
- 	 comerme un bife chorizo en argentina, y hasta limpiar con pan el juguito del plato 
- 	 imperativa una visita al dinos pizza y un barros luco italiano 
- 	 comer algo de procedencia chilota, y bien grasiento. Y quedar pasao a fritanga tres días. 
- 	 pedir un día más de vacaciones, por que estaba re cansado 
- 	 casi hacerme mierda cuando volví a escuchar mi bandoneón, y suena muy muy bonito. Lo extrañé demasiado 
- 	 escribir esta larguísima reseña para shunegg. 
- 	Y en ese último paso estoy ahora. Luego vendrá la selección para las fotos que voy a imprimir. Y ordenar los pocos recuerdos que logré traer del sudeste asiático, unas mierditas, tres o cuatro mugres que quedaran tiradas por ahí. No soy muy cachurero por que prefiero viajar liviano. Aunque sí me compré un instrumento musical bastante voluminoso, pero valió la pena.`;
+`KND Magazine aspira a ser un medio de difusión de contenido para el kindle, está diseñada para ser amigable con el usuario, no requiere usar  aplicaciones para el teléfono, programas para computador, o alterar el sistema operativo de tu kindle. Sólo necesitas una conexión a WiFi y el navegador incorporado.<br>En KND no hay desplazamiento vertical (scroll), lo que ahorra batería y hace que el texto se vea con mayor nitidez, como si estuviera almacenado en tu kindle. Para pasar página, usas los botones laterales, para volver atrás pulsas el ícono de casa (&#8962;) que lleva a la página principal o el ícono de índice (&#9776;) que lleva a la lista de entradas anterior, los encontrarás a la izquierda del título.<br>Si quieres colaborar con tus escritos originales, puedes enviarlos a: <br>kndmagazine@gmail.com`;
 
       // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
       var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
@@ -152,7 +130,7 @@
       var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
       var lineHeight        = 45;             // 30px por línea (font-size × line-height)
       // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
-      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 12); // aprox 16
       var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
 
       // Función para dividir texto sin cortar palabras
@@ -260,4 +238,3 @@
   </script>
 </body>
 </html>
-
