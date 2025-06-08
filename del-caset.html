@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>I Mis días en Bangkok</title>
+  <title>Del casete al playlist</title>
   <style>
     * {
       margin: 0;
@@ -102,7 +102,7 @@
   <div id="container">
     <!-- Barra superior -->
     <div id="header">
-    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;&nbsp;
       <a href="artes.html" id="home-btn" title="Índice">&#9776;</a>
       <span id="title">Del casete al playlist: atrapando el éxito</span>
       <span id="page-indicator">1 de 1</span>
@@ -148,7 +148,7 @@ Hace 20 años comenzaba una crisis que parecía terminal en los sellos discográ
       var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
       var lineHeight        = 45;             // 30px por línea (font-size × line-height)
       // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
-      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 8); // aprox 16
       var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
 
       // Función para dividir texto sin cortar palabras
