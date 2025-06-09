@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retrospectiva a 30 años de Labradores</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">A 30 años de "Labradores, peones y proletarios"</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            En 1985, luego de nueve años de exilio en Inglaterra, Gabriel Salazar retornó a Chile y publicó su obra “Labradores, Peones y Proletarios; Formación y crisis de la sociedad popular chilena del siglo XIX”<br>
+Esta retrospectiva de Vicente Mellado, Licenciado en Historia y Magister en Ciencias sociales, interpreta el impacto de la obra de Gabriel Salazar en las formas de comprender el desarrollo de una sociedad popular en Chile, esta retrospectiva fue publicada el año 2015.
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿` En 1985, luego de nueve años de exilio en Inglaterra, Gabriel Salazar retornó a Chile y publicó su obra “Labradores, Peones y Proletarios. Formación y crisis de la sociedad popular chilena del siglo XIX”. La editorial SUR se encargó de difundirla.<br>
+El “Labradores” constituye una lectura obligatoria para todos los cientistas sociales, en particular, los historiadores que se dedican al estudio de las clases subalternas.<br>
+Mostró por primera vez el desarrollo histórico de la formación de la sociedad popular chilena entre mediados del siglo XVIII y la primera mitad del siglo XIX, determinada en gran medida por la existencia de resquicios legales en la administración borbónica y por el despliegue del capitalismo mercantil.<br>
+Sin embargo, la novedad y originalidad de la obra de Salazar está unida a una nueva propuesta estratégica para los explotados y oprimidos, definidos por el autor como “sujeto popular”. Allí se encuentra lo más interesante y polémico de la obra salazariana: su elaboración historiográfica tuvo por objetivo ser la base —parafraseando a Gramsci— de un nuevo “intelectual orgánico”.<br>
+Bajo la máscara del gran aporte de nuevos conocimientos a la disciplina de la Historia, el “Labradores” contiene una profunda crítica radical a la historiografía precedente identificada con el marxismo como teoría de la revolución. No tenemos espacio para profundizar en el tipo de marxismo que desarrollaron Julio César Jobet, Hernán Ramírez Necochea, Marcelo Segall y Luis Vitale, por nombrar algunos de los historiadores marxistas del álgido periodo 1948-1973 de la historia de Chile.<br>
+Solamente podemos decir que Salazar formó parte de la nueva camada de sociólogos e historiadores marxistas formados a fines de la década del 60 y que no lograron fraguar una nueva escuela que superara dialécticamente a sus antecesores, debido a la fatídica mañana del 11 de septiembre de 1973.<br>
+Entre estos nuevos investigadores se encontraban Enrique Reyes, Ximena Vergara y Luis Barros, por nombrar algunos. Estos últimos tienen el denominador común con Salazar de que iniciaron una crítica desde el marxismo a los denominados marxistas clásicos chilenos, con novedosos resultados (1).<br>
+El golpe militar de 1973 marcó todo el desarrollo historiográfico posterior de Gabriel Salazar, y de la totalidad de los cientistas sociales chilenos que se formaron durante la década del 80 (Tomás Mulián, Sergio Grez, José Bengoa, Luis Ortega, Julio Pinto, Pedro Milos, entre otros).<br>
+Es indudable la utilización de categorías marxistas en la obra de Salazar, aplicadas con gran creatividad al conocimiento de la formación económico social de Chile en el periodo 1700-1850: relaciones sociales rurales de producción; desarrollo de fuerzas productivas; modo de producción capitalista en su forma comercial o mercantil; la noción de clases sociales (indígenas, encomenderos, labradores, mercaderes); análisis de las formas de propiedad rural durante la colonia y el inicio de la vida republicana; formas de explotación del trabajo; formación de los labradores y su transformación en peonaje e inquilinaje; por nombrar algunas. Sin lugar a duda, constituye una obra apasionante, que integra en una totalidad un profundo análisis teórico en lo económico y social.<br>
+Sin embargo, el marxismo del “Labradores” se desliza hacia un marxismo mínimo. La Introducción de esta obra deja con claridad que Salazar había consolidado un nuevo enfoque epistemológico y estratégico, completamente ajeno al marxismo. Según el autor, los marxistas clásicos habrían carecido de observación empírica en sus investigaciones (afirmación de por sí discutible) debido a la predominancia de un “marxismo vulgar”, enceguecido por la “ortodoxia marxista-leninista” que los llevó a volcarse única y exclusivamente en: 1) la explotación económica y la represión político-policial de que eran objeto las clases populares, y “2) a los esfuerzos de los partidos proletarios para la conquista del poder” (2). De este modo, los historiadores marxistas terminaron reduciendo el análisis histórico del mayoritario “bajo pueblo” o “sujeto popular” a la existencia del minoritario “proletariado”. Aquí reside el problema estratégico.<br>
+Una cosa es realizar un balance crítico y profundo de la historiografía marxista chilena —urgente de ser realizado— del periodo 1948-1973, analizando sus potencialidades y límites, y otra muy distinta es rechazar y desplazar el marxismo como teoría de la revolución socialista bajo el argumento de la creación de una nueva teoría de la historia y estrategia política pensada exclusivamente para la experiencia histórica de los explotados y oprimidos de Chile.<br>
+En su obra, Salazar nos invita a desarrollar una nueva concepción de la historia humana. El motor de la historia ya no la constituye la noción "reduccionista" de la “lucha de clases”, donde el proceso social histórico fundamental lo constituye la lucha por la desalienación. Para el autor, el motor de la historia humana lo constituye el despliegue permanente de un proceso social de humanización, portador de mayor historicidad y que trasciende por oposición a la mecánica alienadora de las elites explotadoras y opresoras.<br>
+Allí aparecieron los labradores, hombres y mujeres que desarrollaron un proyecto histórico de igualdad y autonomía económica, basado en la solidaridad de los alienados, conocido como “empresarialidad popular”. Proyecto histórico cercenado por la elite mercantil chilena, que se apropió de las tierras e indumentarias de los labradores, arrojándolos a la miseria en los campos y ciudades. De ahí en adelante surgieron los peones y los inquilinos, siendo los primeros el grupo social mayoritario durante todo el siglo XIX chileno. A fines de siglo, el peonaje se entroncó en el tortuoso proceso de proletarización, adquiriendo el sujeto popular una nueva expresión histórica.<br>
+Una cosa es el proceso real vivido por los labradores y peones, descrito con rigor por el autor. Otra cosa es sostener que esa experiencia era portadora de un proyecto histórico que trascendió los siglos hasta verse expresado en el proletariado del siglo XX.<br>
+Proponiendo una nueva teoría de la historia, Salazar coincidió con todo el fenómeno internacional de desarrollo de la posmodernidad (la escuela de la filosofía francesa), el autonomismo (Negri), y la recuperación de teorías liberales republicanas (Habermas y Arendt). La estrategia política salazariana tomó insumos de las dos últimas corrientes filosóficas. Si bien rechazó el posmodernismo, por individualizar al sujeto y relativizar la veracidad de los procesos históricos, Salazar tiene algo en común con este: el total rechazo a la centralidad del trabajo en la construcción de una nueva sociedad diferente a la capitalista. Lo que se tradujo en el rechazo a cualquier teoría o propuesta política que tomara a la clase trabajadora urbana (reducida por Salazar a la clase obrera industrial) como el sujeto central de la construcción de un nuevo proyecto histórico.<br>
+Considerando la centralidad de la clase obrera como reduccionista y ajeno a la realidad chilena, el autor propone en su obra no “desgarrar al ‘pueblo’ definiéndolo por facetas, dividiéndolo entre un hombre doméstico y otro político, entre uno consciente y otro inconsciente, entre un pueblo organizado y otro desorganizado, entre un proletariado industrial y una masa marginal, o entre la vanguardia y la clase” (3). Eso sería desintegración social. En cambio, el concepto de “sociedad popular” resultaría ser más integrativo e inclusivo que el de clase obrera y los marginales o pobres urbanos.<br>
+Una cosa es afirmar que los historiadores marxistas chilenos no consideraron el análisis historiográfico de otros sujetos que no fuesen la clase obrera, en particular su formación histórica, incluida la de los trabajadores asalariados. Pero otra muy diferente es sostener que el sujeto de construcción de un nuevo proyecto histórico lo constituye el “sujeto popular” o los no asalariados de la sociedad chilena. Eso ya constituye una apuesta estratégica y no un “descubrimiento historiográfico”.
+Allí reside la trampa epistemológica de Salazar, que hizo transmitir a generaciones enteras de estudiantes universitarios como un supuesto verdadero de análisis científico social. “El Labradores” contiene de este modo la original utilización de categorías marxistas para terminar desechando el marxismo como teoría de la revolución, entendido por el autor como vulgar y reduccionista.<nr>
+Sin negar el enorme aporte del “Labradores” al conocimiento de la historia de Chile, el marxismo todavía tiene su apuesta en producir descubrimientos historiográficos y aportar a las ciencias sociales. Pero dicho aporte no debe separarse del sentido histórico del marxismo: la construcción de una teoría de la revolución, donde la clase trabajadora urbana sigue siendo el sujeto central de construcción estratégica. Donde la alianza con las demás “clases subalternas” se hace imprescindible para el triunfo de un nuevo proyecto histórico que se imponga al capitalismo.<br>
+(1) Reyes Navarro, Enrique, “Desarrollo del ciclo salitrero y su influencia en el desenvolvimiento de la conciencia proletaria en Chile (Postguerra del Pacífico-crisis capitalista de 1929”, Boletín de la Universidad de Chile, Nº 114, septiembre de 1971, pp. 15-27; Barros, Luis y Vergara Ximena, “La guerra civil del 91 y la instauración del parlamentarismo”, Revista Latinoamericana de Ciencias Sociales, Nº 3, junio de 1972.
+(2) Salazar, Gabriel, Labradores, Peones y Proletarios, Lom ediciones, 2009 [1985], p. 9.
+(3) Ibídem, p. 18.`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
