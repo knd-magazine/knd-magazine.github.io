@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Individutopia</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="resenas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">Reseña: Individutopia</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            En esta reseña, Silvestre Parbut analiza el libro "<b>Individutopia</b>" de Josh Sheldon "<i>una advertencia de un mundo que está por venir</i>"
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+`La distopía es un género que vio mucho estos últimos 20 años, en especial cuando la saga de Los juegos del Hambre demostró que el cine tenía aún mucho que estrujarle a la industria editorial, más allá de los clásicos y los vampiros.<br>
+Pero si bien dicha saga puede calificarse como distopía, mientras mantengamos los requisitos en aspectos básicos, (como un futuro que es una antiutopía y en donde el gobierno no garantiza el bienestar de los ciudadanos, sino su propia continuidad mediante el terrorismo de Estado), los juegos del Hambre no cuenta con aquello que hizo de la distopía un género del cual salieron obras con una potencia tal, que nos mantienen reflexionando después de décadas, y que se han convertido parte del léxico político cotidiano, como 1984, Un Mundo Feliz, o Fahrenheit 451. Cuando nos ponemos a debatir sistemas de gobierno, alguna de estas tres obras, o las tres, como trilogía involuntaria, tienden a salir al ruedo. Y este es el componente fundamental de una distopía, no se trata sólo de un mundo brutal, pero del que sabemos que nunca seremos parte, porque pertenece al absurdo, sino de una narración que nos advierte de un mundo posible, que así de desagradable puede llegar a ser nuestra realidad en el curso de unos pocos años, si seguimos por cierto camino, si abandonamos la permanente vigilancia que todo ciudadano debe hacer sobre su sistema de gobierno, así como de sus propias formas de relacionarse con la sociedad.<br>
+Una distopía no es más que una advertencia, pero no una basada en el abstracto bien y mal, sino en elementos más cercanos a lo que vemos y vivimos, es como un espejo de feria, que nos muestra nuestras acciones políticas y personales, llevadas al extremo mediante la ficción, devolviendonos un reflejo distorsionado y monstruoso que nos advierte "esto podría pasar, ¿seguro que quieres seguir por ahí?".<br>
+La distopía es una Cassandra, que como en el mito griego, nos advierte sobre un futuro desastroso (y como en el mito, no le hemos hecho mucho caso). Nos muestra un futuro en que ya sólo queda sobrevivir, pues el sistema es absoluto, y ya está todo perdido, porque los cambios debían haberse hecho en nuestro tiempo, y no lo hicimos. La distopía, tiene urgencia y es brutal, aspira a remover nuestro interior, a pararnos en el abismo y ver la caída de la humanidad a condiciones infrahumanas. Por esto, una distopía que se centra en el valor estético del mundo distópico y que es recordada como una aventura de un protagonista solitario que logró vencer todo un sistema, es un sinsentido, y más que distopía es mera fantasía sin dragones (aunque los <i>mutos</i> de los juegos del hambre bien podrían justificar un dragón en escena.<br>
+Es por lo anterior que me he quedado con tan buen "sabor de boca" al terminar de leer "Individutopía" de Josh Sheldon.<br>
+El argumento central de esta obra, como su nombre lo indica, es una distopía neoliberal, lo novedoso, es que no comienza en el futuro, ni siquiera en nuestro presente, sino en nuestro pasado, en la década de 1970, que vio nacer una corriente de pensamiento que desconocía la evidencia que llevó a la crisis de 1929 y planteaba que el mercado debe regularse por si mismo, pero llevando las lógicas a una nueva dimensión, donde la autoexplotación es sinónimo de progreso personal. Esta nueva corriente de pensamiento ha logrado que el individualismo se convierta en el pilar fundamental de la interacción humana, en que sólo existe el sujeto, y nada más, como bien lo menciona Sheldon al citar una frase de Margater Tacher que lo resume todo "no existe tal cosa como la sociedad, lo que existe son los individuos". Con el tiempo, esa visión del individuo tomó tal peso que la mera mención de lo común parece fuera de lugar y prácticamente una expresión de bolchevismo que quiere eliminar la libertad del sujeto. Es en ese tiempo de Tacher, que comienza la historia, nuestra protagonista debería nacer en nuestra época, tal vez dentro de unos años, y fue la última persona en nacer producto de la interacción de dos seres humanos, es abandonada al nacer, pues su madre consideró que debía hacerse cargo de su propia responsabilidad individual y velar por su bienestar, como todo individuo. Como esto se había convertido en una práctica frecuente, la bebé abandonada cerca de una fábrica es puesta al cuidado de un sistema automatizado y muy pronto es insertada en un sistema de estímulos, recompensas y castigos, que la van criando lejos de cualquier contacto humano real. Como podrá inferirse, nuestra protagonista llega al mundo y ya tiene una deuda, que no dejará de aumentar, y jamás podrá saldar su deuda, pues sus gastos serán siempre mayores que sus ingresos. Así, al negarle el vinculo social original, que es el abraso materno, Sheldon nos dice "este es el nivel, estas son las reglas del juego, a este tipo de historia estás entrando al leer este libro, cuidado, que se pone peor".<br>
+Esta es una historia inhumana cruda, que golpea al leerla, nada en el mundo es "estético" o atractivo, no hay nada que sea llamativo visualmente, no hay nada que admirar, y ese es precisamente el punto. En esta soledad extirpada de todo lazo social, la bebé crecerá acompañada de un robot nana, y más adelante podrá pagar unos hologramas de "i-others" es decir, hechos a imagen de sí misma, con una semblanza de personalidad. Nuestra protagonista usa permanentemente lentes de contacto que le muestran una imagen del mundo a su gusto, y que bloquean a las otras personas de su campo visual, ya que ella como buen individuo, no considera que haya nada interesante en los otros, ella es la interesante, lo que importa son sus metas y sus deseos. toda su interacción cuasi social es con las imágenes de sí misma, sus "i-others" que le dan ánimos, que la alientan a ser la mejor, pero que también le transmiten noticias que la asustan "los terroristas quieren llevarse mis datos, debo contratar un plan de seguridad" dice una "sí, es una gran idea, dice la otra, a nadie debe habérsele ocurrido, ¡soy la mejor!.<br>
+Aun cuando no ha visto jamás a otro ser humano con sus propios ojos, pues sus lentes de contacto, que pueden cambiar la apariencia de los otros o hasta borrarlos por completo de su campo visual. La protagonista vive en una perpetua competencia por ser la mejor, cada mañana apenas se despierta revisa su posición, tiene puntajes para todo, cuando ha caminado, cuanto ha sonreído, cuando ha trabajado, cuanto ha producido, qué tipo de comida ha consumido, antes, (en nuestro tiempo) las personas debían publicar cada una de estas cosas, había quienes publicaban sus contadores de pasos o su ruta GPS en bicicleta, subían fotos de los lugares que visitaban y las comidas que comían, estaban compitiendo, aunque sólo pareciera que estaban compartiendo experiencias. en el mundo de nuestra protagonista, las métricas automatizadas han llegado al nivel que las personas ya ni siquiera necesitaban publicar esto, pues la métrica es automática, la vigilancia es constante, los metadatos se generan y venden de forma automática.<br>
+Ya que una vida en competencia perpetua, y sin ninguna interacción social real ni física llevarían a cualquier ser humano a la locura, nuestra protagonista, como todos sus contemporáneos respira una mezcla de aire purificado con un ansiolítico, esto es así porque respirar aire de forma gratuita llegó a ser considerado un robo, y para evitar que existiera el aire gratis, la ciudad de Londres (cuyos espacios públicos ya no existen, pues una reforma permitió que los terrenos fiscales pudieran comprarse y venderse por privados) eliminó todos los árboles, y como las fábricas hacen que el aire sea irrespirable, nuestra protagonista debe pagar por el aire que respira, así como por cada paso que da en la vereda (porque ya no existe tal cosa como los bienes públicos, la veredas son consecionada), por lo que trata de avanzar dando las zancadas más grandes posibles, para ahorrar lo más que puede.<br>
+Esto nos puede parecer exagerado, pero aquí en Santiago, la avenida Américo Vespucio ha sido casi completamente privatizada, a excepción de una única pista gratuita, la que antes tenía unas tres pistas por cada lado. todo en nombre del progreso y de la autopista de alta velocidad que sin embargo nos mantiene en atochamientos en cada una de sus salidas (porque sólo dejaron una pista a la cual salir)<br>
+Ahora bien ¿Cómo paga nuestra protagonista estos lujos como caminar o respirar? Con dinero por supuesto, dinero que obtiene al realizar trabajos absurdos, sin sentido alguno, pues prácticamente toda la producción se ha automatizado, así, un día puede ser contratada para romper el interior de un palacio, y al día siguiente para reparar el desastre. no existe sentido en su trabajo, no se produce nada, y no hay más satisfacción ni explicación del por qué, que el acto de recibir su paga.<br>
+Esto parece un gran <i>spoiler</i> pero lo cierto es que no he tocado el eje central del libro, que es el despertar de nuestra protagonista y el cómo poco a poco, con sus escasas herramientas, va intentanco analizar su propia situación y comprendiendo que su mundo es un asco, pues para ella, la verdad no es tan evidente, pues la ve desde la óptica de una nativa.<br>
+Siento que tengo que incluir una especie de advertencia, al terminar esta reseña para aquellos que les picó la curiosidad y quieren lanzarse a leer este libro, una advertencia a personas sensibles, que estén pasando por un proceso de sanación emocional o sicológica, pues el libro es duro y tremendamente solitario. Pero en lugar de ello simplemente diré lo siguiente:<br>
+Este libro es una buena fuente de entretenimiento, pero léelo con calma, mientras vas observando tu mundo, piénsalo, mastícalo mentalmente, especialmente cuando veas algo chocante, mientras haces el paralelo con tu diario vivir, con tus actitudes y las e quienes te rodean, puede que termines viéndote en ese reflejo distorsionado, en ese espejo de feria que es la distopía, que arroja una forma monstruosa de lo que somos hoy mismo. Y si te llegas a ver allí (Dios sabe que yo me vi) haz algo al respecto, si vives corriendo, si te descubres compitiendo, pues este libro, como su propio autor lo declara al inicio, es "una advertencia de un mundo que está por venir". Por mi parte, haré lo posible porque nunca llegue, por el bien de mis hijas`;
+
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

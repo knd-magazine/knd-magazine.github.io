@@ -149,10 +149,10 @@
       var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
       var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
       var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
-      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
-      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
       // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
-      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 9); // aprox 16
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
       var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
 
       // Función para dividir texto sin cortar palabras

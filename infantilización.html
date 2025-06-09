@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Infantilización del Conflicto</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">La infantilización del conflicto</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            Este ensayo es una transcripción del video colgado en youtube el 4 de junio de 2025 en el canal argentino "<b>Café Kyoto</b>", titulado originalmente <i><b>"una generación de cristal</b></i>" en el, su autor reflexiona sobre cómo se ha desarollado una tendencia de abordar lo desagradable en clave de <i>meme</i> o con infografías de dibujo o animación simplificada y amable aún cuando se toquen temas dolorosos o desagradables. El autor describe nuestra época como una donde la negación del dolor, lleva a la vanalización e infantilización de lo que sí debería preocupernos.
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`<b>Introducción</b><br>
+Una tarde, mientras me perdía en un <i>scroll infinito</i> (actividad que, seamos honestos, se parece más a un reflejo que a una decisión) me topé con un video que prometía explicar "la caída de occidente" en menos de un minuto. Lo llamativo del video era el tono: Un estilo de animación a lápiz y el narrador tenía una voz de dibujo animado con un acento de ningún lugar. Lo vi entero, y después vi tres más... no porque me convenciera el análisis geopolítico que su autor planteaba, sino porque había algo adictivo en ese tono reconfortante, en esa forma de hablarle a un cerebro cansado, como si fuese un nene enfermo al que hay que calmar contándole un cuento antes de ir a dormir.<br>
+Entonces, tomé consciencia de algo: <i>no era un caso aislado, era un síntoma</i>; “todo se volvió blandito” Fue la primera hipótesis que me permitió empezar a darle forma a esta reflexión. Lo blando, se filtró en la política, en el discurso público, incluso en nuestras propias formas de sentir. Todo parece estar pensado para no doler, para no incomodar, para evitar cualquier roce con la aspereza del mundo tal y como es, como si el presente se hubiera transformado en una especie de guardería emocional, donde todo, pero todo, se amortigua.<br>
+No creo haber sido el único al que le pareció simpatiquisimo ese meme de gatitos citando a Marc Fisher, (un autor cuyo mayor aporte fue señalar la imposibilidad de imaginar futuros alternativos a esta realidad insoportable, y que terminó quitandose la vida por esta misma razón). A lo que voy, es que el lenguaje político se volvió didáctico en exceso, como si el interlocutor fuera siempre alguien a quien hay que proteger, como si lo urgente necesitara disfrazarse de inocente para tener alguna chance de que lo escuchen, y no es sólo una cuestión estética, sino es también una respuesta afectiva, un modo de defenderse frente una realidad que parece hecha para rompernos. Porque seamos sinceros, crecer en este mundo es experimentar una secuencia infinita de traiciones: a la idea de futuro, al amor, a la estabilidad, incluso a la dignidad. Por eso creo que la infancia dejó de ser un recuerdo para convertirse en una estética, en un tono, en una política de la forma. El problema, me parece, es que cuando absolutamente todo se vuelve blando, también se vuelve frágil, y el lenguaje lejos de protegernos, empieza a encerrarnos. No porque no se pueda politizar el mundo mandando reels, sino porque no se puede transformar la realidad, si ni siquiera podemos nombrarla con palabras propias.<br>En ese ensayo, voy a tratar de explorar esa estética de la regresión, algo que pide hablar con voz propia, aunque ya no sepamos cómo suena una voz que no fue diseñada para ser simpática<br>
+<b>Estética de la Regresión</b><br>
+Hay algo profundamente revelador, y al mismo tiempo perfectamente lógico en que toda una generación encuentre consuelo en esta <i>estética de la regresión</i>, gente que ya pasó los treinta, que vive alquilando, que cambia salud por estabilidad (y aveces, ni siquiera eso) y que aún así, cada tanto se refugia en un universo de colores planos y reglas sencillas. No es un gesto banal, ni una moda pasajera, como tanto les gusta decir a las revistas de <i>life stile</i>, es una forma de habitar un presente que no ofrece ni sentido ni promesa. Por eso quiero arrancar descartando explicaciones que solamente se agarren de la nostalgia. Hay algo más estructural: Se trata de un desplazamiento generalizado hacia lo infantil como código afectivo, como estética dominante, como lenguaje político. Una sensibilidad que atraviesa la forma en que nos comunicamos y procesamos el malestar.<br>
+La infancia en este esquema, no aparece como etapa vital, sino como una superficie emocional, como consuelo estético. El contexto es conocido: Un mundo precarizado, incierto, donde crecer dejó de ser sinónimo de autonomía, y se convirtió en una acumulación de responsabilidades, sin recompensa. Ser adulto hoy, es básicamente una cagada, que implica enfrentar deudas, inflación, soledad, angustia climática, y descomposición institucional. Como decía Marc Fisher: "cuando el futuro se clausura, la imaginación no desaparece, sino que se pliega hacia atrás". Ahí es cuando la estética de la regresión emerge como respuesta, es una forma de gestionar emocionalmente una época que se volvió inhabitable. Vuelve el color pastel, las tipologías con cara de buena gente, o directamente, hacer apología al período en que los mismos treintañeros vivieron sus infancias. No se trata del juego como un espacio de invención libre y ruptura simbólica, sino de <i>subversión domesticada</i>, el juego como una rutina tranquilizadora, como simulacro de orden, un juego que no incomoda, que no transforma, y que no ensucia, básicamente, jugar para no sentir.<br>
+Recordemos esa reflexión del filósofo Byung-Chul Han, cuando nos advirtió que la sociedad contemporánea opera bajo la lógica de la positividad: La obligación de estar bien, de comunicar con amabilidad, y de gestionar los afectos como si fueran relaciones públicas. En este contexto, cualquier conflicto se vuelve escándalo, el disenso se medicaliza, y la tristeza es percibida como un malestar (por sobre todas las cosas, improductivo).<br>
+Y la política no es boluda, se adapta a esa sensibilidad, comunicar es agradar, y si hay algo que duele, gana el que sea capaz de narrarlo de la mejor manera, tanto si es abrazando un compa que no llega a fin de mes, como envalentonando a un nazi a través de la empatía. Pero ojo, no es que con esto esté sugiriendo que la regresión en este caso, es una recaída personal, para nada, es de hecho, una estrategia colectiva de supervivencia, pero también es una trampa, porque cuando toda expresión política necesita estar filtrada por una expresión infantilizada, lo que se pierde es la capacidad de nombrar el mundo con la crudeza que muchas veces requiere, de atravesar el conflicto sin amortiguarlo, de sostener la incomodidad sin miedo a incomodar. La regresión estética funciona como una banda de captura; en lugar de reprimirnos, o exigirnos obediencia, nos ofrece consuelo y pertenencia, nos invita a una guardería emocional donde hay un montón de cosas... excepto el lugar para la lucha.<br>
+Pero insisto en esto, para que no se malinterprete, el problema no es la ternura ni el deseo de refugio, el problema aparece cuando el deseo se vuelve la única forma de expresión, cuando el conflicto se desactiva en nombre del cuidado, cuando la potencia política se filtra por el tamiz de la autoayuda, y empezamos a hablar de desigualdad con infografías de animalitos, o discutir sobre fascismo con memes de ositos que se abrazan. Es divertido, sí, pero no sé si es el único vehículo de reflexión que tenemos. La infantilización del discurso no es sólo una cuestión de forma, es de fondo, desplaza el lenguaje del antagonismo hacia el de una armonía forzada, y en esa armonía impuesta, lo político se desvanece.<br>
+<b>Negarse a Crecer</b>
+Cuando decimos que no queremos crecer, muchas veces estamos evocando algo mucho más profundo que una simple nostalgia, no se trata, (o no unicamente) de una resistencia a asumir responsabilidades, como trabajar y tener que pagar un montón de cosas siendo un sub-asalariado, sino de la intuición de que la adultez ya no es una promesa de autonomía, sino una trampa. En un contexto de inestabilidad, perpetuo presente, y donde el trabajo garantiza el bienestar, crecer dejó de significar madurar, y pasó a significar rendirse. En "los fantasmas de mi vida", Fisher sostenía que, el presente está asediado por espectros, no del pasado, sino que de un futuro perdido. Una generación como la mía, creció entre la promesa del progreso y la cultura del consumo, pero al llegar a la adultez, descubrimos que todo eso ya había quedado atrás, o se había vuelto un simple decorado, no hay casa propia, no hay estabilidad laboral, no hay una identidad sólida, no hay tiempo, sólo ansiedad, multitasking y deudas a patadas. Ante esa desposeción, el impulso regresivo no es simplemente evasivo, sino que un intento de reconfigurar el deseo en condiciones imposibles.<br> 
+Hay un mecanismo cultural que permanentemente se alimenta de esa tendencia, ya no se trata de impulsar proyectos de vida, sino de prolongar indefinidamente esta especie de adolescencia como estrategia de marketing. La razón (y aquí puedo caer en el campo de la especulación) es que al mercado le conviene muchísimo disponer de una masa de consumidores blandos, emocionalmente disponibles, y fácilmente estimulables, en lugar de un adulto con sentido crítico. Esto se agrava muchísimo más, cuando la lógica neoliberal moldea un sujeto que se explota a sí mismo en nombre de la libertrad, del rendimiento y del éxito personal. Esta dinámica, genera una paradoja, que consiste en que por un lado, se nos exige madurez productiva: ser autónomo, emprender, ser un <i>self made man</i>, al mismo tiempo que se desalienta cualquier forma de pensamiento crítico necesario para realizar lo anterior. Esta paradoja infantiliza al individuo en lo político y lo sobreexige en lo personal, forzado a sostenerse emocional y económicamente sin red de apoyo, pero tampoco sin las habilidades que le permitan mantenerse en equilibrio, y mucho menos cuestionar las condiciones de su sometimiento que lo mantienen en la cuerda.<br>
+<b>La política de la emoción</b><br>
+La Política en este contexto, se adapta, se convierte en una estética de la empatía, del cuidado emocional y de la <i>performance de cuidado</i>. De acá brota esa compulsión por amortiguar el disenso, por envolver toda propuesta en el celofán del diálogo respetuoso, (incluso cuando se trata de conflictos estructurales o de violencia sistemática), así, la infantilización, se vuelve transversal, no es exclusiva de un sector, ni de una ideología, es una forma dominante de habitar la política y el malestar actuales. Incluso los discursos reaccionarios operan desde este registro, no es casual que los referentes del neofascismo digital se expresen con una jerga propia de las catacumbas <i>gamer</i>, hacer referencias a <i>animes</i> o a pelar a figuras como "la madre patria", "papá ausente", o "el orden que perdimos". El discurso reaccionario es regresivo no sólo en el contenido, sino en su forma; promete un retorno imaginario a un tiempo donde todo tenía sentido, donde los roles eran claros, (y esta manga de nazis no tenía que aprender a lidiar con la ambiguedad). Este discurso es, en esencia, uno que vende certidumbre a fuerza de autoritarismo emocional.<br>
+Pero la izquierda no está exenta, frecuentemente vemos como le contestamos a la regresión con más regresión: con planteos victimistas, con liderazgos que repiten fórmulas escolares, con una afectividad obligatoria que desalienta el desacuerdo. El conflicto en vez de ser pensado como motor político, es presentado como disfunción, como si hablar fuerte fuera una forma de violencia, y como si exigir fuese sinónimo de no saber esperar. Este es el sustrato para que brote una paradoja trágica, el sujeto infantilizado es al mismo tiempo, el más expuesto a la crueldad del sistema. No hay contención real, sólo formas estéticas de protección, y así es muy difícil que el sujeto precarizado encuentre herramientas simbólicas o colectivas para interrumpir la lógica de su sufrimiento.<br>
+<b>El infantilismo reaccionario</b><br>
+Cuando pensamos en la estética de la regresión, es fácil caer en una lectura que la vincule exclusivamente con sensibilidades progresistas: ilustraciones amables, discursos de cuidado, lenguaje inclusivo, pedagogías suaves, (de hecho, vincular la izquierda a esta imagen frágil es una de las grandes victorias simbólicas de la propaganda reaccionaria) Sin embargo, esa asociación, es tan limitada como engañosa; la infantilización del discurso político no es patrimonio de la "izquierda blanda", ni de los espacios identitarios, sino también de la derecha reaccionaria que se nutre de las formas, de los tonos y de las metáforas de la infancia. La regresión como forma de habitar el presente atraviesa todo el espectro político y cuando se incorpora a los discursos conservadores, no lo hace con menos potencia estética, sino con otra dirección afectiva, la derecha no reniega de la sensibilidad infantilizada, sino que la capitaliza, la explota y la convierte en una herramienta de adhesión emocional, pero no basada en la ternura, sino en el en el odio. Un ejemplo que me resulta paradigmático, es la bandera de lo "políticamente incorrecto", me hace acordar cuando eramos chicos y cambiábamos las letras de las canciones populares agregándole insultos y malas palabras ¿Cuál era la finalidad de eso? Lo sentíamos como una pequeña transgresión, un gesto de rebeldía sin consecuencia o una forma de probar los límites del mundo. Pero cuando ese mismo impulso se convierte en una bandera política bajo el rótulo de lo "políticamente incorrecto", deja de ser un juego inocente para volverse una estrategia de cinismo, ya no se trata de decir lo prohibido por diversión sino por defender el derecho a humillar, excluir o violentar, escudándose en la provocación. Lo que en la infancia era una travesura, en la adultez no releva más que inmadurez, quien ya superó la adolescencia y cree ser "políticamente incorrecto" no se ve trasgresor sino simplemente, como un pelotudo.<br>
+La regresión a una época más sencilla es una constante el el discurso reaccionario, permanentemente se alimenta de una infancia imaginada, una época en que los hombres eran hombres, las mujeres sabían cuál era su lugar, y respetábamos a la autoridad... pero esa memoria, es ficticia, y como toda ficción, opera no desde la evidencia, sino desde el deseo, y ahí, es donde la regresión se vuelve un arma política: ofrece consuelo, identidad y pertenencia, pero bajo formas autoritarias.<br>
+Este uso infantilizado de lo reaccionario, se articula especialmente bien con las culturas digitales, más que nada porque ahí habita mayoritariamente un público infantilizado o directamente infantil: plataformas como tik-tok, twich, o youtube, favorecieron muchísimo la aparición de figuras públicas que operan como hermanos mayores carismáticos para una audiencia juvenil, desorientada. Chavones que le explican el "mundo real" con metáforas pedorrísimas, reduccionismos en tonos burlones o verdades trascendentales (los "factos") Su fuerza no reside en la sofisticación de sus argumentos sino en la promesa de una explicación que te deje tranquilo. Todo aquello que no entiendes; como las mujeres, el mercado, el feminismo, la neurodivergencia, la precariedad laboral, tiene una única causa: alguien conspiró para destruir la civilización. Esta respuesta no sólo no tiene matices, sino que es rotunda, infantil y dicotómica, es decir, posee una profundidad propia de los cuentos para niños.<br>
+De esto ya habló Rebeca Lewis en 2018 en su informe "alternative influence" que aborda la radicalicalización digital, donde advertía que muchas figuras del ecosistema reaccionario lograron conectar con sus audiencias juveniles no por medio del discurso del odio explicito, sino a través de un estilo estético informal, <i>jodón</i>, y que reproduce las formas de la cultura pop. Esta estrategia, si vemos los hechos, resultó profundamente efectiva, pues desarma las resistencias críticas al envolver el mensaje en códigos familiares y afectivamente agradables, es decir, se odia como si se estuviera jugando<br>
+La nueva derecha no está constituida por figuras autoritarias tradicionales, sino literalmente por bufones digitales o por influencers de la "incorrección". Tampoco viene mal recordar esta idea de Walter Benjamin en su "tesis sobre la historia", de que “todo fascismo es, en parte, una respuesta estética a un colapso político”, y es que, cuando el mundo se vuelve incomprensible, el autoritarismo no se presenta como fuerza brutal, sino como orden emocional, y ese orden no se impone únicamente con la fuerza, sino que también se disfraza de infancia, se vuelve consigna, un meme, trend de tik-tok, etc. Se vuelve la promesa de que alguien más va a decidir por nosotros sobre aquello que es duro decidir.<br>
+Otro ejemplo paradigmático es la estética política de Javier Milei, actual presidente de la República Argentina, quien combina violencia simbólica con una performance del absurdo. Grita, insulta, hace constantemente alegorías a violar a sus opositores, y se desregula en casi todas las entrevistas que no son pregrabadas con periodistas colaboracionistas. Pero también se construye como un tipo sensible; se disfraza de super héroe, le pide a la inteligencia artificial retratarlo jugando con sus perros muertos, y promociona estafas con criptomonedas con la misma seriedad que un <i>streamer amateur</i>. En esta dualidad, su infantilismo no es un desliz sino una parte integral del dispositivo: La figura del loco simpático que dice lo que nadie más se anima a decir, funciona como mediación afectiva, permite digerir un mensaje de odio envuelto en la lógica del meme. Este tipo de estetización no es superficial, cuando todo se vuelve imagen, performance, ritmo, el contenido se vuelve indistinguible del canal. No importa lo que se dice sino como se lo dice.<br>
+Ahora bien, ¿Por qué funciona? porque hay algo profundamente seductor en la promesa de simplicidad en que todo pueda reducirse a una consigna, a una lista, a una certeza, y cuándo más infantil sea el tono, más accesible parece la solución. El problema entonces, no es sólo que el discurso reaccionario use estéticas infantiles, sino lo que hace para impedir que pensemos, para evitar que nos hagamos preguntas, para que volvamos, literal, y emocionalmente a una posición dependiente. Como si el único deseo posible fuera el de tener un padre fuerte que nos diga qué es lo que está bien. La regresión reaccionaria es eso, un retorno a la infancia como un dispositivo autoritario, un lugar donde la ternura está prohibida, y el castigo es comprensible, donde el enemigo está definido y la obediencia garantiza pertenencia, donde no hay matices, y sí recompensa. Y en ese mundo punitivista de premios y castigos, la política se vuelve un jardín con reglas claras, vigilado por trolls y regentado por estos hijos de puta.<br>
+<b>Conclusión<b><br>
+Volver a hablar en voz alta no es simplemente levantar el tono, y quiero que nos detengamos en este último apartado: Volver a hablar en voz alta no se trata de gritar más fuerte que el algoritmo, hablar en voz alta para mí, implica recuperar el derecho a decir cosas que no están diseñadas para agradar, recuperar la potencia de un lenguaje que no esté atrapado entre el miedo a incomodar, y la necesidad de ser escuchado. Porque una de las consecuencias más devastadoras de la infantilización del discurso político no es la forma en que suaviza la realidad, sino la manera en que disuelve nuestra capacidad de nombrarla. Esta idea es tan básica (o boluda) como entender que las palabras significan y le ponen nombre a las cosas del mundo. Porque suavisar las palabras o cambiarlas por eufemismos inócuos no mejora las cosas, sino las empeora al eliminar la posibilidad de diagnosticar nuestros problemas y proponer soluciones. El Neoliberalismo no sólo produce precariedad económica, sino que también precariza el deseo al limitar las formas que podemos imaginar y compartir lo que queremos. Si la única manera de expresar el malestar es en clave de meme porque la rabia debe ser "estetizada", lo que se bloquea no es la afectividad, (que abunda) sino la posibilidad de convertir estos afectos en conflicto político, y se abandona una emoción que debió movilizar acciones por una mera performance de rabia.<br>
+Habitamos una época en que la negatividad se volvió sospechosa, donde la positividad es omnipresente y cancela toda exterioridad, todo corte, todo desacuerdo, donde el diálogo se volvió obligación estética, y la contradicción una forma de error. Es en este marco que la política, como la practica del disenso, se disuelve en la contención emocional y en un estado inmutable de las cosas, en un respeto por el respeto ("es su opinión, y hay que respetarla" aunque su opinión sea matar un montón de gente).<br>
+Pero el problema no es que se hable de emociones, es cómo hablamos de ellas, porque cuando el discurso afectivo se vuelve protocolo, lo que se pierde es su capacidad de interpelar, de interrumpir, de abrir grietas, y sin grietas no hay política, sólo hay gestión, pero como no hay gestión sin política, lo que hay detrás de dicha gestión, es un discurso hegemónico que no llega a ser cuestionado, porque no se crean las condiciones que permitan abrir la discusión.<br>
+Por eso reaprender a hablar en voz alta es reivindicar el lenguaje como un lugar de tensión y no como un espacio de acuerdos (exclusivamente), es volver a decir NO, sin miedo a incomodar, es poder decir "esto me duele", "esto me enoja", o "esto me da ganas de romper todo", sin que nadie te cruce diciendo que "esas no son las formas", no para justificar la violencia (entre tener ganas de romperlo todo y usar esas ganas para discutir y crear una solución con el otro o sin él, y efectivamente romperlo todo, hay una gran diferencia)<br>
+Hablar en voz alta es rehabilitar el conflicto como forma de legítima vida colectiva, en lugar de esta performance de diálogo y tolerancia que no son más que maquillaje superficial, una pantomima de buenas formas que sólo oculta la inacción y la obediencia, porque siempre hay un discurso, especialmente cuando parece que no.<br>
+Pero no se trata simplemente de reemplazar la estética de la ternura por una estética de la violencia, sino de liberar la ternura del mandato de la inocuidad, porque la ternura, cuando no es protocolo, puede ser una forma radical de cuidado, no el cuidado que acomoda, sino el que sostiene el conflicto, el que no suaviza las heridas, que no le huye al dolor, sino lo usa como combustible de su fuego.<br>
+El Conflicto es inherente a la historia, y no somos la excepción. Pero también es necesario aclarar que hablar en voz alta no es "volver a una forma viril de la política", no es ir a buscar un papá que nos diga esas verdades que no queremos ver. Es todo lo contrario, es desarmar esa idea de que sólo se habla bien si se tiene razón, si se tiene un plan. Es permitirnos hablar desde la duda, desde la falla, desde la contradicción. Sin pedir perdón (si no hemos hecho algo que lo requiera de verdad, porque no se trata de ser unos "basados" niñatos indolentes), sin preocuparnos por el algoritmo, "la marca personal", la gramática de la amabilidad compulsiva, o el mandato de ser simpáticos, aun cuando estamos profundamente indignados. Esos frenos de la regresión infantil estan ahí para que sigamos hablando despacito, para que sigamos diciendo lo que se espera que digamos, para que nuestra voz siga sonando a lo que ya fue dicho una y mil veces por otros y que no cambió nada.<br>
+No pretendo que nos vayamos de acá con la receta de cómo se arma un lenguaje nuevo, sólo se que la forma actual no nos alcanza, y en esa falta, en ese quiebre, en esa voz que se desborda superando esa imposición de ser inócuos, quizás, empiece otra cosa, no más tierna, no más firme, simplemente una voz que sea nuestra.`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
