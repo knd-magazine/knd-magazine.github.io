@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>título de la entrada para el navegador</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">crítica Anora</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            Crítica de «Anora»: comedia banal sobre una prostituta por Yasser Medina, en Cinefilia.blog (31 de Diciembre de 2024)
+En este nuevo largometraje, Baker regresa al cine para contar un poco más sobre la podredumbre que hay detrás del trabajo sexual.<br>
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`En Anora, Sean Baker recupera su poética del outsider para aclarar, otra vez, sus preocupaciones sobre los presuntos males neoliberales del sueño americano, como ya lo había esquematizado hace unos años en las regulares Red Rocket, El proyecto Florida y Tangerine, pero trasladando las interrogantes al productivo sector de las trabajadoras sexuales de Estados Unidos. Sobre esto, afirmó en una entrevista para Variety que su intención era la de "contar historias humanas, contando historias que ojalá sean universales” para ayudar, según él, a “eliminar el estigma que siempre se ha aplicado a este medio de vida". Sus buenas intenciones lo condujeron a que ganara la Palma de Oro en la pasada edición del Festival Internacional de Cine de Cannes en la que recibió una ovación de mercadeo de diez minutos y, además, ha conseguido una aclamación casi unánime que se ha prolongado desde entonces por las modas de la corrección política que se promueve religiosamente en la industria del cine de la actualidad.<br>
+Las más de dos horas que paso consumiendo sus imágenes, me obligan razonar lo necesario como para saber que en los festivales de cine por donde ha pasado ya no premian el arte ni las cualidades estéticas de las películas, sino que, más bien, otorgan galardones solo a aquellas obras que se ajusten al discurso político que custodia sus intereses. En este intervalo de tiempo, Baker se empeña en mostrarla como una comedia romántica que a veces transita por pasajes oscuros con la atrevida actuación de Mikey Madison, pero la suma de sus partes es aburrida y, por lo regular, los personajes artificiosos suelen banalizar su discursillo rebuscado sobre la explotación de las trabajadoras sexuales en la esfera del capitalismo salvaje, donde la narrativa del cuento de hadas subversivo no es más que una excusa burda para permanecer situada en una redundancia a la que le sobra metraje.<br>
+El argumento se ambienta en la ciudad de Nueva York y sigue la existencia de Anora Mikheeva (Mikey Madison), una mujer de 23 años que ejerce el oficio de la prostitución desde los interiores de un club nocturno en el que, como stripper, baila desnuda encima de los hombres que le proporcionan el dinero que necesita para ganarse la vida. Todo transcurre con normalidad cuando ella chismosea con las demás prostitutas sobre las debilidades masculinas y pasea como noctámbula en las discotecas, antes de terminar rendida del cansancio al día siguiente en la casa de la hermana mayor que le da un espacio dentro de su vivienda, ya que son inmigrantes de etnia rusa ubicadas en el barrio de Brighton Beach en Brooklyn. Pero en un momento dado, Ani, como es llamada por sus amigas, recibe el oportunismo con los brazos abiertos cuando conoce a través de su jefe a Iván "Vania" Zakharov (Mark Eidelstein), el hijo de 21 años de un oligarca ruso que está de visita en el país para estudiar y al cual, entre otras cosas, le proporciona su paquete premium de servicios exclusivos: tener relaciones sexuales de la noche a la mañana, salir de fiesta como turistas borrachos y llevar los vicios al límite para acercarse a esa felicidad consumista que se anuncia por la televisión.<br>
+En términos generales, Baker opta por mostrar el relato de Ani sobre una base que, a modo desestructurado, mimetiza aquel cuento de hadas de la chica idealista que sueña con un futuro mejor al lado del príncipe azul que vino para rescatarla de la desdicha. En una primera mitad, tiene un arranque interesante cuando Ani tiene reiterados encuentros de sexo duro con el despreocupado Vanya que juega videojuegos y cobra miles de dólares por estar con él durante una semana en la enorme mansión; mientras su escepticismo se desequilibra cuando el chaval le pide matrimonio en un viaje de parranda por Las Vegas y le garantiza, además, los privilegios que anhela cualquier cazafortunas, renunciando a su empleo para celebrar la boda en una capilla. En la segunda, muestra la caída en desgracia de Ani desde las escenas del escándalo en la que unos secuaces, entre los que se encuentra un pastor de la iglesia ortodoxa, llegan a la residencia por órdenes de la madre de Vanya para anular el matrimonio por conveniencia que embarra moralmente el nombre respetado de la familia, donde ella es testigo además de la inmadurez del esposo que sale corriendo y pasa por un instante de vergüenza que la coloca en un altercado de violencia doméstica que denigra su dignidad femenina, antes de ser obligada por los matones a buscar por la ciudad al marido fugitivo para completar la transacción.<br>
+El problema fundamental, no obstante, es que percibo que la narración prostituye los mecanismos estructurales que vuelven previsibles las propuestas de Baker, en los que coquetea con el realismo sucio para esquematizar con cierta indulgencia las circunstancias absurdas de esas personas desamparadas y estigmatizadas por los prejuicios sociales que tratan de conseguir en vano una probada del ansiado sueño americano que luego los traiciona cerca del clímax. La fórmula situacional, que oscila entre el drama y la comedia romántica, reduce las acciones de los personajes a una serie de situaciones arregladas que le quitan gracia y peso emocional al abanico de peripecias. Siento que la gratuidad de las escenas cae en una inercia reiterativa que se reparte en medio del griterío cansino de la prostituta abusada por los ricos cuando expresa su lenguaje soez aprendido en las malas calles; las travesuras del adolescente inmaduro en los shows de strippers; la torpeza de los adeptos rusos caricaturizados que son encargados de poner en marcha la ruptura conyugal a cambio de diez mil dólares. Ninguno de estos personajes logra desarrollarse más allá de su función descriptiva en la trama, y los diálogos, carentes de espontaneidad, suenan más a sermones que a conversaciones reales.<br>
+Aparte del desarrollo accidentado, me da la sensación de que Baker nunca juzga debidamente a Anora y, junto a los demás personajes, la mantiene suspendida en una histeria permanente para puntualizar, dentro de sus obviedades discursivas liberales, un comentario sobre la cosificación sexual que se vende en la prostitución, entendida como el autoengaño de una prostituta que, por su codicia por el dinero, es explotada como mercancía por el sistema capitalista que le pone precio a su sexualización y deshumaniza su propio valor como mujer. Sin embargo, su trato bienintencionado de su crítica social deja en puntos suspensivos la realidad de las mujeres que son prostitutas por diversos factores socioeconómicas y prefiere, no obstante, tratar el texto con una condescendencia maniqueísta que solo condena las miserias morales de los inmigrantes rusos que son reducidos a los estereotipos caricaturescos comúnmente asociados a su cultura ortodoxa conservadora, mientras, por el otro lado, la prostituta es tratada de una manera higienizada bajo los estándares normativos del feminismo actual que siempre la muestran empoderada y desafiante. Baker, en su crítica social sobre marginados, nunca se ensucia las manos cuando señala a los oligarcas rusos conservadores como los corruptos importados y a las prostitutas oprimidas como víctimas de las injusticias de un sistema que las excluye para que nadie se apiade de ellas.<br>
+La incapacidad de Baker para explorar nuevas dimensiones en la precariedad socioeconómica de las trabajadoras sexuales queda en evidencia porque no aporta una perspectiva fresca o relevante, y el asunto parece una recopilación de clichés reciclados, carente de la urgencia necesaria para invitar a una reflexión seria al subvertir estereotipos. Sin embargo, me doy cuenta de que, en sus decisiones apresuradas, Madison ofrece una buena interpretación, que es consciente de su propio artificio como una gold digger. Ella, de algún modo, emplea un registro expresivo que es auténtico cuando improvisa y utiliza la mirada, los gestos y su voz para meterse en la piel de una prostituta irreverente, histriónica, irascible, gritona, vulnerable, que en el fondo esconde las fragilidades de una mujer ingenua que desea amar alguien para llenar el vacío afectivo que sufre por su profesión de bailarina exótica, algo que cree encontrarlo en el chico que la compra como objeto de deseo. Me creo su bullicio ensordecedor. Y me sorprende su acento ruso y la pericia física que demuestra en los bailes de barra. Es acompañada por una actuación secundaria notable de Eidelstein, quien interpreta a Vanya como un muchacho volátil, inseguro, que como buen niño rico rebelde abusa del poder del dinero para satisfacer su megalomanía.
+El estilo de Baker entrega, por lo menos, un par de florituras estéticas que agregan consistencia al submundo de la prostitución elegante. Por la parte visual, añade una autenticidad que se disemina en cada escena a través del plano general, el primer plano, el plano-contraplano, el uso proxémico de los espacios, la iluminación natural, la psicología del color y las modalidades del encuadre móvil de Drew Daniels que dinamizan con un ojo casi de documental el exotismo que ocurre en unos cabarés iluminados con luces de neón, así como unas atmósferas urbanas que se corresponden a la cultura neoyorquina. Su sentido de composición, además, evita a toda costa sexualizar a la protagonista, por lo que no es raro que muchas escenas sean deserotizadas y asexuadas. Por la parte sonora, mezcla de sonidos ambientales con una música de hip hop que no hace más que subrayar lo que ya es evidente en pantalla, a pesar de que incluye algunas canciones emblemáticas de t.A.T.u., Blondie y Take That.<br>
+La película, en última instancia, intenta ser un espejo de las realidades más duras del sueño norteamericano al sintetizar las contrariedades de una mujer que, al igual que otros inmigrantes en condiciones similares, se enfrenta a una barrera de estigma social que la obliga a prostituirse para ganar dinero y sostenerse. Baker piensa, en sus inclinaciones sociológicas, que es suficiente plantear los dilemas éticos a los que se exponen las prostitutas para darle la justicia social que se merecen, pero su enfoque apresurado, irónicamente, suspende a Anora en el estereotipo básico de la prostituta materialista (adicta al dinero, la ropa, la elegancia, las frivolidades, etc.) sin preguntarse ni siquiera por un minuto si todas están en los mismos contextos, como si todas estuvieran atrapadas en un círculo vicioso del que no pueden salir jamás para hallar el amor o una vida mejor junto a alguien que las aprecie. Esto lo trata de evocar en la secuencia final en la que Ani comparte con Igor (Yura Borisov) hasta acabar teniendo sexo con él en el carro en un día frío de enero, donde sus lágrimas de dolor metaforizan la imposibilidad de encontrar la redención con un hombre que verdaderamente la ame. Pero, desgraciadamente, veo que hay escasa sutileza en su núcleo de drama romántico y comedia alocada. Soy incapaz de sorprenderme por lo que observo. En general, su ejercicio superficial nunca alcanza a cohesionar algo significativo cuando atraviesa lugares comunes y conflictos previsibles sin profundidad.<br>
+
+Ficha técnica<br>
+
+Título original: Anora
+Año: 2024
+Duración: 2 hr. 19 min.
+País: Estados Unidos
+Director: Sean Baker
+Guion: Sean Baker
+Música: Matthew Hearon-Smith
+Fotografía: Drew Daniels
+Reparto: Mikey Madison, Mark Eydelshteyn, Yuriy Borisov, Karren Karagulian, Vache Tovmasyan
+Calificación: 6/10`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
