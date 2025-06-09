@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hilar, escribir, leer y algo de baile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="academia.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">Hilar, escribir, leer y algo de baile</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            <b>Hilar, escribir, leer, contar y algo de baile:
+la educación de las niñas en el Chile colonial</b><br>
+Ximena Azúa Ríos
+Historiadora<br>
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`Primeramente que en sus escuelas
+no se reciban ni admitan niñas
+para enseñarles a leer y rezar,
+por la indecencia que es
+y los inconvenientes que puedan suceder.1
+Benito Juárez de Gil<br>
+El acceso de las mujeres a la educación —sabemos— ha significado un gran paso en su valoración y condición de sujetos. Este ha sido un camino largo y sinuoso no exento de obstáculos, así nos lo indica el primer precepto de la reglamentación de maestros de enseñar, escribir y contar de Juárez de Gil, imperante en España en el siglo XVI, y traspasado, sin ninguna modificación, a las colonias de Hispanoamérica.
+Sin embargo, como toda la reglamentación procedente de la Corona Española para estas lejanas tierras se veía desde otra óptica. Una vez más esta instrucción —como tantas otras— no fue atendida, pues en nuestro país hubo instituciones que se ocuparon tempranamente de la educación de las niñas.
+En Chile, al igual que en toda Hispanoamérica, los conventos de monjas ofrecían la instrucción formal a las niñas, las cuales eran previamente enviadas a distintas casas, de parientes o de mujeres más o menos ilustradas, denominadas casas de amigas o sencillamente “migas”. Allí se les entregaban los primeros rudimentos de la enseñanza. Estas enseñanzas luego eran sistematizadas en el convento, ya que en él no podían ingresar con menos de siete años. Al cumplir dicha edad las niñas eran enviadas por dos o tres años, a veces muchos más, a los conventos donde se les entregaba instrucción primaria, formación religiosa y doméstica y, junto a lo anterior, se agregaba el aprendizaje de algún instrumento musical y bailes.2 En carta de una monja dominica chilena, sor Dolores Peña y Lillo, se indica:
+    … siete para ocho años me entraron mis padres en recogimiento no para que fuese religiosa, sino para que aprendiera música.3
+Los conventos fueron los únicos centros en los cuales existía un sistema de enseñanza para niñas y jóvenes, pues las casas de amigas —donde aprendían las primeras letras— no eran precisamente lugares muy formales. Lo expresado por Pilar Gonzalbo para la realidad mexicana, respecto de este mismo tema, cabe a la realidad chilena:
+    … una mujer española de buena familia, podía verse obligada a ser maestra de música, a abrir una escuela “de amiga” o a vender entre una clientela de su misma categoría pero de posición económica más desahogada, labores de costura, bordado, trabajo de flores artificiales, y otros primores “de manos”. Pero siempre que una señora o joven tenía que vivir de su trabajo debía justificar su actividad como una situación de extrema necesidad, de modo que ser maestra o costurera era sinónimo de ser pobre y desamparada de apoyo varonil. Ejemplos de esta actitud son las solicitudes de licencia que enviaban al Ayuntamiento las mujeres que pretendían trabajar como maestras, donde explican su desdichada situación, sus muchas enfermedades, su viudez o su orfandad, e incluso algún impedimento físico. Lo que nunca se menciona es la supuesta preparación pedagógica que ofrecen, ni su nivel de conocimientos, síntoma evidente de que tales datos no eran demasiado importantes para dedicarse a educar niños.4
+La preparación y el conocimiento no eran importantes para la educación de las niñas en las sociedades coloniales. Sin embargo, para los conventos sí lo eran, pero por otras razones que decían relación con el modo de acercarse a la fe. De allí entonces que los conventos coloniales femeninos desarrollaran prácticas y métodos para acercar a las mujeres a Dios y en ese camino no sólo eran alfabetizadas, sino también inmersas en una cultura letrada que las modelaba y normalizaba. Los claustros poseían ciertas “tecnologías” que permitían la imposición del modelo de mujer propiciado por la Iglesia, inclinado a la sumisión y a la dominación. No obstante, aquellas mujeres —las monjas y las educandas—, objeto de esta imposición, a través de prácticas cuidadosamente delimitadas, paradojalmente producían —en algunos casos— mujeres muchos más conscientes de sí mismas que lo que la propia jerarquía eclesiástica podría haber imaginado.
+Josefina Muriel detalla el modelo para el cual se normalizaba en los conventos a través de la enseñanza.
+    … es aquel período formativo de la niña en el cual aprendía a leer, escribir, las cuatro reglas de la aritmética y los oficios mujeriles. A esto que era “cultivo de la inteligencia” se añadía el “cultivo del corazón”, es decir la práctica de las virtudes humanas que se consideraban indispensables para vivir en óptima forma dentro de aquella sociedad que la pondría bajo la tutela del padre, marido o hermano, si los tenía. Y le daría la responsabilidad en la educación de los hijos y el manejo del hogar, lo que incluía, sobre todo en las zonas rurales, la responsabilidad moral de la vida digna de los criados, esclavos y trabajadores a su servicio.5
+La educación de las mujeres tenía como objeto formar buenas madres y esposas devotas de Dios, el Rey y sus maridos. En la Colonia, las mujeres blancas fueron, a pesar de su minoría numérica, las reproductoras directas de ese modelo, que permitió asentar la dominación, étnica y genérica. De hecho, la situación de estas mujeres fue muy distinta a la enfrentada por la mayoría de las mujeres: indias, negras y mestizas.
+La mujer española, casada, ejerció, de hecho, una cierta independencia del marido. Ella manejaba las estancias y todos los asuntos domésticos, además de cuidar a la familia y educar a los hijos. Desempeñaban bien esta labor porque “no son desperdiciadoras”, sino económicas, industriosas y laboriosas. Por su educación ellas sabían hilar, coser, bordar, tejer y cocinar. Carvallo y Goyeneche observa:
+    ...que por prudencia la mujer prefiere no recargar el trabajo de su marido, ni este hace tanta falta en casa como en otros países; en nada se conoce su ausencia cuando salen a viajar y por lo regular nada tienen que reprender a su regreso. Por eso, cuando quedan viudas con hijos tan pequeños, se saben gobernar tan bien que para los intereses no se echa de menos al padre, pues como conocen el manejo de las haciendas y de las despensas y bodegas de las casas, no se dejan engañar por los mayordomos... .6
+Para formar a estas madres y esposas estaban los conventos donde eran enviadas las niñas como educandas. Estas vivían como internas y pagaban lo que se denominaba “derecho de piso”, una costumbre que no se cumplía con mucho rigor hasta que el obispo de Santiago Juan de Sarricolea y Olea —en 1733— emitió un decreto, el cual refería la realidad de los tres conventos existentes en ese momento en esta ciudad. Los que se fueron creando posteriormente funcionaron con la misma reglamentación dada en él.
+    … que por cuanto ha llegado la noticia de Su Señoría Ilustrísima que en los tres monasterios de esta ciudad: de la Limpia Concepción, el de Santa Clara de la Antigua fundación y en el nuevo de la Victoria, se hallan muchas niñas seculares con el ánimo de criarse en la buena educación de la religión sin que éstas contribuyan con cosa alguna por razón de “piso”, que justamente y según costumbre deben pagar, y más en el tiempo presente en que están los monasterios arruinados con el terremoto del año treinta y sus rentas totalmente aniquiladas con la inopia general de los vecinos de este Reyno, en cuyas fincas se hallan situadas, por tanto, mandaba y mando que de aquí adelante todas las dichas seculares y de siete años para arriba que rindiesen en los dichos monasterios, paguen anualmente el piso… .7
+Las educandas fueron un motivo de preocupación constante para obispos y otras jerarquías eclesiásticas, pues el ingreso de estas niñas seglares de alguna manera interfería con la clausura. Así el obispo Alday en 1756 indicaba:
+    ...que las niñas de educación se mantengan con trajes decentes sin permitirles usos profanos del siglo; y que en conformidad de lo mandado por el Ilmo. Sr. Don Alejo de Romero no se les enseñe a bailar aunque sea por medio de las personas seculares, sino sólo música e instrumentos con que puedan servir para oficios divinos ... Ítem, que ninguna de las expresadas niñas pueda salir a la calle sin que a lo menos haya estado cuatro meses continuos en el Monasterio... .8
+Pareciera ser que al obispo Romero no se le hizo mucho caso, ya que 40 años más tarde el obispo Alday insistía en la prohibición de la enseñanza del baile; pero también indicaba lo de los cuatro meses continuos de permanencia en el monasterio para autorizar la salida, pues ya los cronistas conventuales hacían notar que:
+    … Por tal o cual razón las familias principales de Santiago que confiaban sus hijas a las Agustinas para su educación, introdujeron la costumbre de que las niñas saliesen a sus casas a su antojo, volviendo al monasterio cuando querían produciendo desorden y daño a la quietud y la disciplina, infringiendo las normas del derecho canónico y la regla de la casa. Algunas alumnas, contra todo reglamento, entraban y salían diariamente, yendo a sus hogares.9
+Otras, muchas, se quedaban por largo tiempo esperando un futuro marido que nunca llegaba. En estos casos el convento se transformaba en su casa, su refugio y su protección.
+Dentro de los conventos vivían también otras niñas, aquellas que recibían una educación más esmerada: las novicias. Ellas se preparaban en la doctrina cristiana para ser modelos de virtud, pues serían las esposas de Cristo. Por ello, su formación era más profunda y cuidada; debían conocer y hacer propia la palabra de Dios. Y la forma para que eso ocurriera fue aprenderla. La lectura y la escritura se transformaron en procesos claves de ese aprendizaje. La palabra de Dios era aprendida, meditada y hecha carne, por medio de métodos y todo un ordenamiento de parte de la comunidad conventual que cumplía con eficacia su cometido.
+La vocación de ser monja se ponía en juego en la educación de novicias, pues en esta etapa las jóvenes que ingresaban al convento podían arrepentirse. En este período, la maestra de novicias desempeñaba un papel clave. Úrsula Suárez relata que tuvo a lo menos tres maestras de novicias “una más estricta que la otra”.
+Profesar como monja era una decisión que para la época constituía una alternativa que ofrecía a las jóvenes una vida respetable con algunas garantías, no al alcance de las seglares. Los conventos coloniales eran centros religiosos, pero también culturales. Ejercían, además, una actividad económica intensa, por lo tanto se necesitaba una comunidad religiosa capaz de desarrollar esas actividades. Habían monjas que se ocupaban de la administración de las propiedades de la comunidad, otras de las bibliotecas, las maestras, las que atendían a los enfermos, etc. Todas estas obligaciones estaban a cargo de religiosas preparadas para ello, desde lo básico aprendiendo a leer, contar y escribir hasta algunas que llegaron a lo más alto: ser las abadesas de su comunidad. Por ello, no es casual que las autoras de los pocos textos hispanoamericanos coloniales escritos por mujeres y conservados hasta hoy, sean monjas.
+Para la enseñanza de la lectura se utilizaba un texto denominado “cartilla” por su forma de encuadernación, que contenía la doctrina cristiana. La utilizada en Chile, se imprimía en Lima y, al parecer, era un muy buen negocio, pues por muchos años el monopolio de la impresión lo tuvo Jerónimo de Soto Alvarado, con el compromiso de entregar al Hospital de Nuestra Señora de Atocha de los niños huérfanos de Lima una limosna de 100 pesos anuales. A la muerte de Soto de Alvarado varios presentaron la solicitud de imprimir las cartillas aumentando la limosna anual; por cierto, la familia del difunto defendió su derecho a continuar con este monopolio.10
+La cartilla “era un silabario engorroso y monótono, a base de deletreo y combinaciones silábicas”,11 que contenía por texto los rezos habituales, lo que al decir de Sarmiento implicaba que: “como los niños sabían rezar antes de aprender a leer, por tanto no hay cosa alguna que llame su atención sobre el sentido de las palabras”.12 Efectivamente, primaba el deletreo y la memorización que, como sabemos, son métodos muy rudimentarios para la comprensión de cualquier texto. Uno de los pocos textos coloniales chileno, conservado y producido por mujeres, es la Relación autobiográfica de Úrsula Suárez. En él se nos relata cómo la autora aprendió a leer a los seis años con este sistema
+    Impúsome mi tía el día que tomé la cartilla me encomendara a San Agustín para que me enseñara. Yo todos los días le rezaba tres padrenuestros y avemarías, después de la doctrina que ya la sabía rezar. Y era tan disparatada que cuando daba la lección mal dada, con el santo me enojaba, haciéndole represión: “Santo bendito, muy mal la has hecho conmigo hoy, que no supe la lección y mi tía se enojó; no lo hagáis así esta tarde: no asierte mi tía a pegarme, que de vos he de quejarme.13
+Los libros son parte fundamental de la formación de las novicias, por tanto es habitual su existencia al interior de los conventos. Existían algunos que se leían en conjunto como una práctica de lectura en comunidad; vale decir; una novicia leía mientras, las otras bordaban y escuchaban “asistiendo una mañana en sala de labor y leyendo en ella, como es costumbre…”.14 La práctica de hacer leer a las novicias en voz alta contribuía a facilitar la transmisión de una cultura oral, la comprensión de las convenciones gráficas de la cultura escrita, a través de la cual se transmitía la tradición cristiana.
+A la vez, se formaba a las novicias en el hábito de la lectura solitaria al interior de las celdas. Esto les brindaba un lugar de privacidad y de encuentro con ellas mismas, hecho que también se propiciaba en la formación y a lo largo de toda la vida monacal, e iba acompañada de profundos y rigurosos ejercicios espirituales, desarrollados por los jesuitas. Recordemos que fue la Compañía de Jesús la que se encargó mayoritariamente, en aquella época, de la dirección espiritual y de la confesión de las monjas.
+Quien sabía leer no necesariamente sabía escribir. Los procesos de lectura y escritura van de la mano, pero requieren el desarrollo de ciertas funciones básicas que actualmente el sistema preescolar desarrolla tempranamente en los niños y niñas. En la época que nos ocupa no era así. El desarrollo de la escritura era difícil porque los maestros no abundaban, los establecimientos educacionales eran pocos, el papel y la tinta también estaban limitados. Además, la sociedad colonial era fundamentalmente ágrafa, eran muy pocos los que dominaban la escritura. Los niños y jóvenes que iban a la escuela y aprendían algunos pobres rudimentos terminaban olvidándolos por su escaso uso.
+Para escribir se necesita desarrollar una motricidad fina, y no existía mucha posibilidad de ejercitarla en las escuelas de la época. Sin embargo, las niñas desarrollaban tempranamente esta motricidad, por medio de la costura y el bordado, pues sobre todo, este último requiere, de una motricidad tal, que escribir resulta un juego para aquellas que bordan bien. Al bordar letras, palabras, frases y enunciados, se adquiría la destreza necesaria para la escritura; a la vez, que se estimulaba en las niñas el conocimiento de lo representado y, por ende, la motivación de la lectura. Así, las labores de mano, parte fundamental de la vida doméstica, resultaban primordiales para el desarrollo de habilidades intelectuales.
+La enseñanza de la escritura propiamente tal no está tan documentada en los textos, sin embargo, como se ha dicho, la enseñanza obligatoria de labores de costura desarrollaba la motricidad fina, habilidad básica para poder escribir. Lo más probable es que se utilizaran los mismos métodos que en las escuelas de niños. Observemos una crónica que relata la enseñanza en las escuelas públicas de niños del Chile colonial:
+    … la primera enseñanza hacíase por modelos ó cartones pegados a la pared y todos ellos iban encaminados a adiestrar al alumno en esa letra española, redonda. Principiaban los muchachos por ejercitarse durante alguna semanas en hacer palotes, o rayas del tamaño de un reglón, más o menos inclinadas y a cierta distancia unos de otros. Cuando ya se habían ejercitado bastante en éstos comenzaban hacer líneas curvas, perfiladas y continuadas, que a manera de larga serpiente iban topando la parte superior de sus anillos en un reglón y la inferior en otro. Después de estos ejercicios empezaban ya a formar letras y rasgos y a saber el nombre y uso de ellas.15
+Comparemos lo que se disponía para las escuelas de niños con el reglamento de la escuela de niñas establecidas por el Monasterio de las Trinitarias en los primeros años de la Independencia respecto de la escritura:
+    7º Una hora será destinada para leer, otra para escribir, y otra para coser. De modo que este método sea tarde y mañana, incluyéndose en la primera hora la lectura del libro, o carta o de ambos cuando estén en estado las discípulas, y en la segunda a escribir y numerar. 8º Dos planas se harán en todo el día sin que ninguna de ellas pase de una llana de cuartilla.13º La comisión por ahora, y para lo sucesivo, el Protector pondrá en poder de las preceptoras una resma de papel, tinta, plumas, y tablas para las discípulas que por la pobreza de sus padres no pueden costear estos útiles, como cartillas, catones y libros.14º Según el último método adoptado en las escuelas, las niñas que principien a leer, también lo harán en la formulación de letras o palotes en tabla.16
+Lo primero que podemos pensar, gracias a las citas anteriores, es que no difería tanto la enseñanza de unos y otras.
+La escritura es un proceso complejo, implica una reflexión, pues “poseía rigidez y permanencia, un modo autónomo que remedaba la eternidad”.17 Esa fijación de la palabra escrita daba a los textos algo de sagrado “lo que Dios ha depositado en el mundo son las palabras escritas”. Había que aprenderlas y memorizarlas. Esto hacían las monjas con las educandas y con mayor énfasis aún, con las novicias.
+Las monjas hacían de la escritura una práctica cotidiana que Asunción Lavrín,18 ha denominado cartas espirituales y de lo cotidiano. Todo aquello relacionado con la administración del convento, libros de cuentas, balances a las autoridades eclesiásticas, recetas de cocina, pleitos por negocios e incluso las crónicas de los conventos y un largo etc., tienen que ver con esa textualidad de lo cotidiano. En contrapartida con lo anterior, existían los escritos confesionales que grafican la práctica de las monjas —tan habitual en la época— de comunicarse con sus confesores por escrito, para dar cuenta de todo lo que les pasaba por su alma. Son distintos entre sí, ambos tipos de escritura. Una apunta a lo terrenal, a lo pedestre; en cambio, la otra, a lo más íntimo de estas mujeres, a sus dudas, miedos, creencias y afectos. Todas estas prácticas conformaban una cultura letrada femenina, imposible de encontrar en otros lugares en la época, ni siquiera en las cortes virreinales. De allí, entonces, que la vida monástica sea fundamental al momento de preguntarse por la vida de las mujeres en la Colonia, e incluso en los albores del Estado nacional.
+Las escuelas públicas para niñas comenzaron a surgir tardíamente, pero básicamente se trataba de las escuelas conventuales o parroquiales que existían originalmente y que fueron sometidas a una regulación con el advenimiento de la República,19 En 1813, el gobierno patriota ordenó la creación de las primeras escuelas de niñas, como anexos de los conventos y se las encarga a las monjas. El mismo año, se dicta el primer Reglamento de Maestros de Primeras Letras.20
+La diferencia entre las escuelas parroquiales y la educación de los conventos radica en que las niñas asistían a la escuela, a diferencia de las educandas que vivían al interior de los monasterios. Además, a las parroquiales podían asistir todas las niñas que quisieran, no era necesario un pago. Hay que destacar que, en la gran mayoría de los casos, las monjas siguieron siendo las maestras y la religión católica se mantuvo como base para la enseñanza. Así lo indica, el artículo 3º del reglamento de las Trinitarias, ya mencionado: En esta escuela se enseñará a leer y escribir, y numerar instruyendo a las alumnas en los fundamentos de nuestra Sagrada Religión, y en la doctrina cristiana por el catecismo de Astete, Fleury, y compendio de Ponget.21
+Todo esto nos indica que los “Padres de la Patria” también pensaban que las niñas necesitaban tan sólo hilar, escribir, leer y contar, como en la Colonia. De allí que la República organizara el sistema escolar de las niñas a partir de las escuelas conventuales y parroquiales, pues estas ya funcionaban. No era un esfuerzo mayor crear un sistema escolar femenino. Además, las monjas aseguraban la formación de las futuras ciudadanas de la República en el modelo de decoro, sumisión y recato que toda madre de familia debía tener.
+Notas
+1 Instrucción del licenciado Benito Juárez de Gil a los maestros de enseñar a leer, escribir y contar del 29 de octubre de 1598. Biblioteca Nacional de Madrid, tomo J55, p. 365.
+2 Cano Roldan, Imelda, La mujer en el Reyno de Chile, Municipalidad de Santiago, Santiago, 1980, p. 332.
+3 Carta Nº 6, trascrita y editada críticamente por Raissa Kordic, proyecto Fondecyt nº 1010998
+4 Gonzalbo Pilar, ”Tradición y ruptura en la educación femenina del siglo XVI” en varios autores, Presencia y transparencia: la mujer en la historia de México, México, 1987, Colegio de México, p. 49. A lo dicho por Gonzalbo en su texto para la realidad mexicana, se puede agregar que respecto de la realidad chilena, en los estudios del siglo XIX llegan a la misma conclusión los investigadores María Loreto Egaña, Iván Núñez Prieto, Cecilia Salinas Álvarez, en su libro La educación primaria en Chile: 1860-1930. Una aventura de niñas y maestras, LOM ediciones, Santiago, 2003.
+5 Muriel, Josefina, Cultura femenina novohispana, Universidad Nacional Autónoma de México, México, 1994, p. 495.
+6 Santa Cruz, Lucía, “La mujer en el Reyno de Chile vista por cronistas y viajeros” en Tres ensayos sobre la mujer chilena, Editorial Universitaria, Santiago, 1978, p. 65.
+7 Toribio Medina, José, Literatura femenina en Chile, Imprenta Universitaria, Santiago, 1926, p. 4.
+8 De Guernica, Juan, Historia y Evolución del Monasterio de las Clarisas de Nuestra Señora de la Victoria, Editorial Sagrado Corazón de Jesús, Santiago, 1941 , p. 213. 
+9 Peña Carlos, Una Crónica Conventual, Editorial Universitaria, Santiago, 1951, p. 54.
+10 Todo el juicio por la impresión de la cartilla, que se llevó a cabo en la primera mitad del siglo XVII esta trascrito por José Toribio Medina en La imprenta en Lima, Tomo I.
+11 Labarca, Amanda, Historia de la enseñanza en Chile, Editorial Universitaria, Santiago, 1939, p. 5.
+12 Sarmiento Domingo Faustino, Ideas pedagógicas, Imprenta Gutenberg, Santiago, 1899, p. 32.
+13 Suárez Úrsula, Relación autobiográfica, Biblioteca Nacional, 1984, pág. 111. 
+14 Carta Nº19, trascrita y editada críticamente por Raissa Kordic, proyecto Fondecyt nº1010998.
+15 Frontaura, José Manuel, Las escuelas públicas en Chile, Imprenta Nacional , Santiago, 1892, p. 35.
+16 Muñoz Olave, Reinaldo, Las monjas Trinitarias de Concepción 1570-1822, Imprenta San José, Santiago, 1926, p. 308.
+17 Rama, Ángel, La ciudad letrada, Tajamar editores, Santiago, 2004, p. 43. 
+18 Lavrín, Asunción, “De su puño y letra: epístolas conventuales” en El Monacato femenino en el Imperio Español, Manuel Ramos Medina coordinador, Condumex, México, 1995, p. 44. 
+19 El reglamento de la escuela de las Trinitarias es una prueba de ello.
+20 Núñez Iván, Historia del trabajo docente y formación de profesores de Chile, PIIE, Santiago, 1989.
+21 Muñoz Olave, 1926, op. cit., p. 307.`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1150; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 50;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
