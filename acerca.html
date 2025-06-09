@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>acerca de</title>
+  <title>título de la entrada para el navegador</title>
   <style>
     * {
       margin: 0;
@@ -14,7 +14,7 @@
       font-family: Arial, sans-serif;
       background: #fff;
       color: #000;
-      font-size: 26px;
+      font-size: 27px;
       line-height: 1.0; /* interlineado 1.0 */
     }
     #container {
@@ -70,7 +70,7 @@
       margin-bottom: 0.5em;
     }
     .page h2 {
-      font-size: 25px;          /* igual que el resto del texto */
+      font-size: 30px;          /* igual que el resto del texto */
       font-weight: bold;
       text-decoration: underline;
       margin-bottom: 0.5em;
@@ -102,14 +102,16 @@
   <div id="container">
     <!-- Barra superior -->
     <div id="header">
-      <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>
-      <span id="title">Acerca de KND Magazine</span>
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">[reemplaza esto por el título de la entrada]</span>
       <span id="page-indicator">1 de 1</span>
     </div>
 
     <!-- Zona de contenido -->
     <div id="content">
-           <!-- Las demás páginas se crearán dinámicamente -->
+     
+      <!-- Las demás páginas se crearán dinámicamente -->
     </div>
 
     <!-- Botones laterales -->
@@ -121,21 +123,15 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Texto completo con subtítulos incluidos
       var textoCompleto =
-`KND Magazine aspira a ser un medio de difusión de contenido para el kindle, está diseñada para ser amigable con el usuario, no requiere usar  aplicaciones para el teléfono, programas para computador, o alterar el sistema operativo de tu kindle. Sólo necesitas una conexión a WiFi y el navegador incorporado.<br>En KND no hay desplazamiento vertical (scroll), lo que ahorra batería y hace que el texto se vea con mayor nitidez. Para pasar página, usas los botones laterales, para volver atrás pulsas el ícono de casa (&#8962;) que lleva a la página principal o el ícono de índice (&#9776;) que lleva a la lista de entradas anterior, los encontrarás a la izquierda del título.<br>Si quieres colaborar con tus escritos originales, puedes enviarlos a: <br>kndmagazine@gmail.com
-`;
-<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
-  <img alt="Licencia de Creative Commons" style="border-width:0"
-    src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" />
-</a>
-
+﻿`KND Magazine aspira a ser un medio de difusión de contenido para el kindle, está diseñada para ser amigable con el usuario, no requiere usar  aplicaciones para el teléfono, programas para computador, o alterar el sistema operativo de tu kindle. Sólo necesitas una conexión a WiFi y el navegador incorporado.<br>En KND no hay desplazamiento vertical (scroll), lo que ahorra batería y hace que el texto se vea con mayor nitidez. Para pasar página, usas los botones laterales, para volver atrás pulsas el ícono de casa (&#8962;) que lleva a la página principal o el ícono de índice (&#9776;) que lleva a la lista de entradas anterior, los encontrarás a la izquierda del título.<br>Si quieres colaborar con tus escritos originales, puedes enviarlos a: <br>kndmagazine@gmail.com`;
       // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
       var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
       var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
       var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
-      var altoDisponible    = 800 - 50 - 40 - (10 + 10); // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
-      var lineHeight        = 45;             // 30px por línea (font-size × line-height)
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
       // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
-      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 12); // aprox 16
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
       var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
 
       // Función para dividir texto sin cortar palabras
@@ -243,3 +239,4 @@
   </script>
 </body>
 </html>
+
