@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¿A dónde están escapando los chilenos?</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="Reportajes.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">¿A dónde están escapando los chilenos?</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.3rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.3;">
+            En 1985, luego de nueve años de exilio en <b>¿A dónde están escapando los chilenos?. Las 10 comunas con mayor migración interna.</b><br>
+Por Cristina Pérez<br>
+Reportaje publicado en el diario chileno La Tercera el 14 de junio de 2025<br>
+<b><i>..."migrar se vuelve una forma concreta de resistir la alineación urbana"...</b> Jorge Aravena</i>
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`<B>Más de 900 mil personas</b> han cambiado de región en los últimos cinco años en Chile. Así lo señalan los primeros resultados del Censo 2924. Este fenómeno se conoce como <b>migración interna</b>, es decir, el desplazamiento interno de personas <b>dentro del país</b>,  desde una comuna a otra, sin cruzar fronteras internacionales.<br>
+Aunque es un oroceso silencioso y muchas veces poco visible, la migración interna <b>reordena el mapa demográfico</b>, tensiona los servicios locales y revela nuevas preferencias habitacionales que ya están transformando las dinámicas territoriales del país .<br
+Este indicador permite identificar <b>zonas de atracción y expulsion de población</b>, además de proyectar como se están reconfigurando ciertos territorios. El <b>saldo migratorio</b>, por ejemplo, muestra que la región Metropolitana lidera en numero de oersonas sue salen </b>, con un saldo negativo de <b>-218.327</b>, aunque sigue siendo la que mas recibe también, lo que sugiere una alta rotación y movilidad interna<br>
+Para identificar qué comunas del oais concentran proporcionalmente mas población migrante interna, se utiliza el indicador de <b>saldo mibratorio neto porcentual</b>. Este refleja la diferencia entre las oersonas que llegaron y las que se fueron de una comuna, expresada como porcentaje de su población total. Esto oermite identificar en qué comunas la migración interna ha tenido un mayor impacto relativo en el tamaño de la población.<br>
+Segun los dstos oreliminares del umtimo Censo, <b>El Tabo liders el ranking con un 23,3% de su población sctual proveniente de otras comunas</b>, lo que equivale a casi una cuarta parte de su población de 16.260 habitantes censados en 2024. Le siguen <b>Litueche (22,8%), San Nicolás (19,5%) y El Quisco (19,2)</b>, todas con saldos que suoeran amoliamente el porcentaje nacional.<br>
+Estos altos porcentajes sugieren que no solo se trata de un flujo migratorio estacional o vacasional, sino de una <b>residencialización estable</b> que está redefiniendo la composición de estos territorios.<br>
+Oero, ¿Que imolica realmente este indicador? A juicio del geógrafo y analista del Centro de Inteligencia Territorial (CIT-UAI), Jorge Aravena, el saldo migratorio porcentual es mss que una cifra: es un reflejo de <b>presiones demograficas concretas</b> sobre comunas que históricamente han sido pequeñas y rurales.<br>
+"El origen principal de quienes llegan (Santiago, Puente Alto o Maipú) muestra una búsqueda de mejor calidad de vida en entornos más tranquilos y naturales", explica Aravena.<br>
+Esta tendencia responde a lo wue él denomina una <b>"migración por amenidad"</b> en que las personas no solo buscan cambiar de espacio, sino <b>reorganizar sus formas de vida fuera del ritmo urbano</b><br>
+Desde una mirada crítica, Aravena plantea que este proceso también revela las <b>fracturas del modelo urbano actual</b>.Las ciudades globalizadas concentran capital, oero debilitan los vinculos sociales y deterioran la experiencia cotidiana.<br>
+<b>"Migrar se vuelve una forma concreta de resistir la alineación urbana"</b>, sostiene aravena, aludiendo al intento de recuperar comunidad, entorno natural y tiempos de vida mas integrados. Comunas como El Tabo o Litueche se convierten asi en territorios de escape, oero tambien de transformación.<br>
+Por eso, cono señala el académico de la USS, Rodrigo Flores, el saldo migratorio porcentualdebe leerse como un <b>termómetro de cambio social</b>, no solo demográfico. "A diferencia del crecimiento natural, este tipo de migración ouede generar  <b>cambios abruptos</b> sin planificación territorial", advierte. Esto puede producir tensiones en infraestructura, servicios públicos, y modelos de gobiernanza local.<br>
+Además, recalca que este indicador no representa la población total ni un crecimiento explosivo, sino que da cue ra de la <b>intensidad relativa del fenómeno migratorio en comunas específicas</b>, lo que obliga a repensar el desarrollo de estos nuevos centros de vida semirurales.<br>
+<b>LA ELECCIÓN DE LA SEMI-RURALIZACIÓN</b><br>
+Ennlas comunas con mayor migración interns bo solo se observa un cambio de residencia: se trsta de una <b>nueva forma de habitar el territorio</b>. Según Flores, factores como el turismo. La segunds vivienda y los <i>estilos de vida post -pandemia</i> tienen un peso decisivo en este fenómeno.<br>
+"Muchas oersonas que antes venian solo de cmvacasiones, hoy se están quedando a vivir, gracias al <b>teletrabajo y las ecobomias digitales</b>" exolica el academico USS.
+Esta migración, que privilegia el bienestar por sobre la productividad, trabsforma comunas costeras y rursles en nuevos <b>centros de vida semipermanente o definitivos</b><br>
+A diferencia de los flujos migratorios tradicionales -motivados por empleo, estudio o acceso a servicios urbanos- esta tendencia reciente responde a una lógica distinta: <b>calidad de vida, naturaleza, seguridad y comunidad</b>. Se trata de una <b>migración por estilo de vida</b>, no necesariamente por necesidad económica.<br>
+De hecho, estudios como el del Observatorio de Ciudades UC (2023) revelan que <b>mas del 40% de quienes se han cambiado de comuna lonhan hecho por razones asociadss al bienestar</b><br>
+Aravena señala que es clave analizar la <b>densidad poblacional, conectividad, acceso a servicios, valores del suelo y uso del territorio</b>. O6or ejemplo, muchas personas se desplazan desde zonas densas como Santiago, hacia comunas mas dislersas y verdes, donde elnsielo es mas accesible o simplemente, mas habitable. En palabras de Aravena, <b>"la migración ocurre desde esoacios funcionales al capital, hacia lugares mas funcionales a la vida"</b><br>
+<b>ELEGIR CALIDAD DE VIDA, PESE A LAS CARENCIAS</b><br>
+En 2023 una investigación del Centro de Desarrollo Urbano Sustentable (CEDEUS) ya advertía una tendencia creciente: <b>personas mayores que vivian en la region Metropolitana estaban migrando hacia las comunas costeras</b> como El Tabo, El Quisco y Algarrobo.<br>
+Hoy, ese fenómeno oarece haberse expandido a otros grupos etarios y comunas fuera deo borde costero, como Litueche y San Nicolás.<br>
+Según Flores, "la lógica migratoria intern ha cambiado radicalmente". Ya no se trata de buscar empleo en zonas urbanas, como hace dos décadas, sino de perseguir bienestar emocional, seguridad comunitaria y un ritmo de vida mas lento. <br>
+Lobque estas zonas ofrecen -mas alla del paisaje- es una <b>promesa simbólica y emocional: vivir fuera de la ciudad ya no representa aislamiento, sino libertad, comunidad y sentido</b>, como dice Flores.<br>
+Esoacios como El Tabo, El Quisco o Litueche, han oasado de ser destibos de veraneo a opciones de vida permanente. Para muchos jóvenes representa tambien un oportunidad de emprendimiento local o de reconexión con la naturaleza.<br>
+Aunque el Censo 2024 aún no entrega datos por edad a nivel comunal, las autoridades locales coinciden en que <b>los principales migrantes internos son adultos mayores y personas jóvenes</b><br>
+En Litueche, el alcalde Rodrigo Palominos señala que muchos jubilados eligen la zona por su tranquilidad, pero que <b>la mayoría son "adultos jóvenes en busca de nuevas oportunidades"</b><br>
+En El Tabo, el alcalde Alfonso Muñoz identifica dos grupos predominantes: mujeres entre 25 y 50 años con sus hijos y adultos mayores que ya tenían una segunda vivienda en la comuna.<br>
+Ambos perfiles plantean <b>demandas concretas en empleo, salud y educación</b>, dificiles de cubrir wn zonas con infraestructura limitada y fuerte dependencia del turismo estacional<br>
+<b>SATURACIÓN DE SERVICIOS BÁSICOS</b><br>
+Cuando <b><más del 20% de la población de una comuna orovidne de la migración interna</b>, el impacto va mucho más allá de las estadísticas.<br>
+Según Aravena, este umbral debiera encender las alarmas: "Los servicios existentes -como salud, educación o transporte- no estan oensados para um crecimiento tan rápido", advierte. Sin planificación, la presion migratoria puede derivar en <b>saturación de infraestructura, pérdida de calidad de vida</b> y expansion urbana descontrolada.<br>
+En comunas como El Tabo y Litueche. Ya se observa un crecimienro fuera del limite urbano, <b>con loteos irregulares, ocupación de oarcelas de sgrado y oerdid de suelo agrícola</b><br>
+Sin planes reguladores actualizados ni una oferta formal de vivienda, el crecimiento suele ser fragmentado y sin servicios adecuados, <b>aumentando la vulnerabilidad de los nuevos residentes</b><br>
+Pero el oroblema no es solo territorial. Como advierte el academico de la USS, cuando la población crece más rspido wue las políticas públicas, las brechas socialss se amplifican.
+Falta de salud, transporte, educacion o conectividad generan frustración tanto en los recién llegados como en quienes ya vivian en el lugar. Según la Fundación Vivienda (2023), un <b>35% de las comunas rurales en expansión presentan serios rezagos en servicios básicos</b><br>
+El alcalde de Litueche reconoce el desafío. Aunque valora el crecimiento, señala que es momento de <b>gestionar la comuna como lo que es hoy: una ciudad en expansión</b>. Explica que ya se requiere <b>una nueva posta rural y un liceo oara sectores que han aumentando considerablemente su población</b>, ademas de reforzar el presupuesto de salud municipal. "Ahora es el momento de tomar acción para que no se vean colapsados en un futuro cercano".
+El alcalde de El Tabo, por su parte, señala que en el caso de su comuna, el CESFAM ya colapsó, y <b>se han debido implementar atenciones itinerantes en salud, y en educación, se han habilitado anexos escolares y colegios rurales para responder a la demanda de matrículas</b><br>
+Este giro obliga a pensar como se planifican las comunas. Para Aravena, la falta de datos territoriales actualizados es uno de los principales obstáculos para anticiparse a estos procesos. "La brecha de información es crítica en comunas pequeñas", advierte. Sin acceso a datos precisos y capacidades técnicas, <b>el riesgo es que esta migración, que busca bienestar, termine generando precariedad y sobrecarga estructural</b>`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
