@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El niño de 500 años</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">El niño de 500 años</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.0rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.0;">
+            En su columna, Rodrigo Guendelman reflexiona sobre la importancia histórica, cultural y espiritual del Niño del Cerro El Plomo, un cuerpo incaico momificado descubierto en 1954 y conservado en el Museo Nacional de Historia Natural. A propósito del lanzamiento del libro “El niño del Cerro El Plomo. A 70 años de su hallazgo”, destaca su valor como patrimonio único que conecta el pasado ancestral con el presente. La obra reúne investigaciones, hallazgos científicos e imágenes inéditas, rindiendo homenaje tanto al niño como a los investigadores que han profundizado en su historia. Guendelman subraya la potencia emocional del hallazgo, su dimensión simbólica para los pueblos andinos y el respeto con que se preserva.
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`Es un tesoro de relevancia mundial e histórica, un gran tesoro biológico porque nos permite tener una ventana hacia nuestro pasado como humanidad, en todo sentido. Y son pocas las oportunidades como ésta, porque los cuerpos congelados no son la norma. El cuerpo se preservó por un proceso de liofilización natural debido a las condiciones ambientales en la alta montaña, lo que le da una relevancia biológica tremenda, sobre todo para lo que podemos conocer de nuestras poblaciones ancestrales”, explica Mario Castro, director del Museo Nacional de Historia Natural, arqueólogo de la Universidad de Chile y doctor en antropología biológica por la Universidad de Toronto. Castro se refiere al Niño del Cerro El Plomo, descubierto en febrero de 1954 por un grupo de arrieros que exploraban la montaña en busca de tesoros.
+
+La reflexión del director del MNHN se da en un contexto muy importante: hace pocas semanas se lanzó el libro más completo e importante sobre este hito de la arqueología sudamericana. Se llama “El niño del Cerro El Plomo. A 70 años de su hallazgo” y es un esfuerzo que vincula a tres instituciones, la Corporación Cultural de Lo Barnechea, Ediciones UC y el museo que dirige Mario Castro. En sus más de 500 páginas, se reúnen 25 artículos científicos y recopilaciones históricas que abordan desde nuevos descubrimientos -gracias a los avances tecnológicos actuales-, hasta imágenes inéditas del Niño.
+
+El cronista Patricio Corvalán escribe, al principio del libro, un relato que vincula varios de los artículos y recopilaciones. Cuando se refiere al aporte de Silvia Quevedo y Eliana Durán (“Ofrendas a los dioses en las montañas: santuarios de altura en la cultura inka”), destaca una anécdota sobre el Niño que le compartió Quevedo. “Una vez lo llevamos al Instituto Geográfico Militar para hacerle una tomografía completa. Y los militares que estaban acostumbrados a ser rudos, estaban conmovidos con la presencia. Este niño tiene una energía muy especial. Es como ir, por ejemplo, a ver a La Gioconda”.
+
+Me sumo a las palabras de Silvia Quevedo. Hace algunos años tuve el privilegio de ver al Niño del Plomo por un reportaje que realizábamos para Teletrece. Fue una epifanía. Estaba frente a un niño de 8 años, podía ver su piel, su pelo trenzado, sus dedos, sus uñas, sus ojos cerrados, su cara, su cuerpo. Un niño que hace rato había cumplido 500 años (se estima que murió pocos años antes de la llegada de Colón a América), pero que se veía y se sigue viendo tan vivo, tan real, tan natural. Imposible encontrar en nuestro país un hito patrimonial más importante que este muchachito, sacrificado en la ceremonia de la Capacocha, uno de los rituales más solemnes y espirituales de la cultura inca, destinado a honrar a las deidades y a mantener la armonía entre los hombres y el cosmos. Un niño que está hace 71 años en una vitrina refrigerada, entre 0 y -3 grados Celsius, con una humedad relativa entre 42% y 45% y con una unidad electrógena en caso de corte de luz. Y que desde mediados de la década ochenta permanece oculto a los ojos del público, por respeto a los pueblos originarios. Por eso, quienes visitan el MNHN lo que ven es una réplica que data de la década ochenta.
+
+Aunque hay una mejor alternativa. Desde el año pasado existe una réplica mucho más fidedigna en el Centro de Interpretación del Niño del Cerro El Plomo en Yerba Loca, curva 15 camino a Farellones. “En el año 1954, no se había descubierto en el mundo un cuerpo que estuviera preservado en la condición en que estaba el Niño del Plomo. Después se han descubierto varios, como lo Cuerpos del Llullaillaco en América Latina o El hombre de los Alpes en Europa. Por eso, lo del Niño del Plomo fue un acontecimiento mundial”, explica Mario Castro, quien llevaba más de 20 años tratando de publicar este libro, que busca ser “un homenaje, primero, al Niño del cerro El Plomo, con una publicación a la altura de su relevancia, y también un homenaje a todos los investigadores, que durante 70 años han trabajado por descubrir su historia y la de nuestras poblaciones ancestrales”, agrega.
+
+Y podemos sumar en este homenaje al cerro El Plomo que, con sus 5424 msnm, era para los incas un lugar de poder y significado espiritual, un puente entre el cielo y la tierra. Qué mejor argumento para entender la importancia de esta cumbre que los ocho meses (y dos mil kilómetros) de recorrido que, se estima, duró el viaje del Niño y sus acompañantes desde Cuzco. Para quienes quieren ver y leer este libro, de edición limitada, la opción por el momento es ir al Centro Lector de Lo Barnechea (Av. Lo Barnechea 1200). Se está entregando también a todos los colegios de esa comuna y a las principales universidades del país. Muy pronto, viene una edición que se podrá comprar en librerías. Para que conozcamos, valoremos y honremos al Niño, al cerro El Plomo, a nuestra cordillera, a nuestra historia y a nuestra identidad, más mestiza y más rica de lo que sabíamos hasta 1954.
+
+Por Rodrigo Guendelman,conductor de Santiago Adicto de Radio Duna.`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight + 0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
