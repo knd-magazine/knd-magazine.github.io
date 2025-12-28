@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>puer aeternus</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="academia.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">Los superhéroes y el síndrome del niño eterno</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.0rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.0;">
+            En este artículo, Ángel Fernández Recuero trata el concepto de apropiación cultural y cómo pasó de ser usado para referirse a la explotación colonial, a la manifestación de un esencialismo que limita la verdadera cooperación intercultural.<br>
+Publicado originalmente en<br> https://www.jotdown.es
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`Hay términos que se vuelven señas de identidad de una época, como si al pronunciarlos convocaran de golpe un código compartido de agravios, reparaciones, vergüenzas y esperanzas. «Apropiación cultural» es uno de esos términos. Parecía una idea reservada a discusiones académicas sobre antropología, museología o estudios poscoloniales, y sin embargo ha impregnado el debate público con la fuerza de un dogma moral gracias al wokismo. Se denuncia, se regula, se marca con la exactitud de un interferómetros láser. El pelo, los alimentos, la moda, la música, los gestos rituales, todo puede ser etiquetado como usurpado, y de pronto se vuelve culpable. Se imponen líneas de demarcación cultural que recuerdan a las viejas castas coloniales: quién puede y quién no puede lucir un peinado, tocar un instrumento, cocinar un plato extranjero. En este clima de hipervigilancia identitaria se sitúa el artículo de Olga Thierbach-McLean, publicado en el Journal of Controversial Ideas, que merece leerse no solo como un retrato incómodo de las grietas que recorren estos tiempos que nos han tocado vivir.
+La tesis de Thierbach-McLean es contundente. La apropiación cultural, dice, ha evolucionado de una herramienta crítica legítima —capaz de denunciar el expolio colonial y las desigualdades de poder— hacia un código rígido, esencialista y finalmente segregacionista, que reafirma la supremacía blanca como criterio de comparación. O, dicho de otro modo, el debate se pervierte cuando confunde cultura con raza y asigna derechos culturales según el fenotipo. Este salto, que puede parecer exagerado al lector desprevenido, se fundamenta en hechos nada anecdóticos: desde protestas por la traducción de poemas de Amanda Gorman por parte de una escritora neerlandesa blanca, hasta campañas contra chefs que osan preparar tacos sin un certificado de autenticidad genética.
+La paradoja es amarga. Lo que empezó como un gesto emancipador termina reproduciendo la misma estructura colonial que pretendía desmantelar, aunque invertida. Como subraya la autora, «el modelo de apropiación cultural no ha dado lugar a una narrativa acorde con los principios básicos de la sociedad liberal, especialmente los principios de igualdad e intercambio pluralista». Basta pensar en la batalla dialéctica desatada por la actriz blanca Tilda Swinton al interpretar a un personaje asiático en Doctor Strange —críticas feroces que contrastan con los aplausos a Jodie Turner-Smith, actriz negra, encarnando a Ana Bolena— para comprobar que los dobles raseros se han normalizado. ¿Por qué unas transgresiones se celebran y otras se condenan? ¿Quién dicta la regla del juego? ¿Qué significa realmente la justicia cultural?
+El artículo no rehúye ejemplos concretos. Recuerda el episodio viral en la Universidad Estatal de San Francisco, cuando un joven blanco fue increpado y casi agredido por llevar rastas. El vídeo, convertido en pararrayos ideológico, reveló el cambio de paradigma: la izquierda culturalista pasó de la integración a la patrulla, de la solidaridad interracial a la parcelación de la identidad. Y mientras tanto, la derecha norteamericana, históricamente reacia al mestizaje, se erigía en defensora de un multiculturalismo abierto, al menos retóricamente. Esa inversión de papeles explica parte de la confusión actual. Thierbach-McLean describe esta deriva como una «estrategia de perseguir la diversidad mediante la segmentación monocultural». El resultado no es reconciliación, sino segregación simbólica. Se castiga el mestizaje, se vigila la hibridación, se blinda la pureza cultural. Y aquí late la contradicción más feroz: se combate la supremacía blanca mientras se refuerzan jerarquías raciales, porque se da por supuesto que solo lo blanco puede contaminar, mientras que lo no-blanco solo puede ser contaminado.
+Podría parecer un ejercicio de retórica académica, pero nada más lejos. La autora va hilando ejemplos que conocemos bien gracias a la prensa, a las redes y a la cultura pop: el debate sobre la comida «étnica» cocinada por blancos, la apropiación de danzas orientales, la incorporación de elementos afroamericanos en la música blanca comercial. La lista es larga, casi interminable. Y a cada denuncia corresponde un nuevo intento de trazar un perímetro cultural puro, sin fisuras, sin mezcla. Pero esa pureza —nos recuerda el texto— es un espejismo peligroso. La cultura no se hereda genéticamente, sino que se aprende, se practica, se transforma. Citar a Raymond Williams resulta oportuno: la cultura es «una de las palabras más complicadas del idioma inglés». Nadie la posee de manera biológica. Sin embargo, el discurso de la apropiación cultural se construye precisamente sobre la idea contraria: que hay un linaje que legitima el uso de símbolos, de gestos, de ritmos. El resultado es un neoesencialismo, un reflejo de la vieja lógica racial. Se reprime la curiosidad, la admiración, el intercambio. Se condena el préstamo cultural como parasitismo, pero a la vez se olvida que la humanidad lleva milenios mezclando lenguas, músicas, tejidos, sabores.
+Hay en el artículo una crítica implícita a cierta izquierda posmoderna que ha convertido la defensa de las minorías en un ejercicio de vigilancia obsesiva. «La equiparación de la diferencia racial con la separación cultural sugiere que esta última viene dictada por leyes naturales inalterables en lugar de por prácticas sociales históricamente desarrolladas». Esta frase debería estamparse en la puerta de cualquier departamento de estudios culturales, porque revela el agujero negro de un movimiento que, sin proponérselo, perpetúa las mismas categorías coloniales que finge criticar. Los ejemplos continúan. Jeremy Lin, jugador de la NBA de origen taiwanés, fue criticado con dureza por llevar rastas. Su respuesta fue tan reveladora como incómoda: recordó que muchos jugadores afroamericanos lucen tatuajes con caracteres chinos. El debate se convirtió en un remolino absurdo, donde se pesaba el grado de opresión de cada grupo para establecer quién podía apropiarse de qué. Como si la cultura fuera un bien escaso que hubiera que racionar.
+Lo más inquietante de este nuevo código es su deriva punitiva. La autora lo llama «un ritual colectivo de Sísifo», en el que la población blanca —o considerada dominante— debe redimirse continuamente, sin esperanza de exculpación definitiva. Se transforma el debate cultural en un juicio permanente, una expiación sin fin. Y si en otros tiempos la religión gestionaba la culpa mediante la confesión y el perdón, hoy es el activismo racial el que asume ese papel, con la salvedad de que no concede absoluciones. No cabe duda de que el concepto de apropiación cultural tiene méritos. Ha permitido denunciar abusos reales: el expolio de restos humanos por museos europeos, la explotación de símbolos religiosos indígenas, la mercantilización de expresiones artísticas negras sin reconocimiento ni beneficio para sus creadores. Sería necio negar que existe un desequilibrio de poder histórico, y que Occidente ha hecho caja con bienes culturales ajenos durante siglos. Pero la cuestión, recuerda Thierbach-McLean, es que ese desequilibrio no puede resolverse con un apartheid simbólico. La cultura no es propiedad exclusiva de nadie. Intentar blindarla con aduanas raciales equivale a reconstruir los mismos muros que costó tanto derribar.
+El texto repasa la genealogía de este debate, recordando episodios previos a la moda actual. En el siglo XIX, Frederick Douglass ya denunciaba a los juglares blancos que imitaban el folclore negro con fines lucrativos. En los años treinta, Virgil Thomson criticaba la ópera Porgy and Bess por perpetuar estereotipos. Margaret Mitchell, con Lo que el viento se llevó, encendió protestas en los años treinta y cuarenta. Marlon Brando plantó el Oscar en 1973, con la misma frialdad con que uno deja caer un cigarro en el bordillo, para sacudirle la conciencia a Hollywood y ponerse del lado de los nativos americanos. Aquello ocurrió mucho antes de que algún catedrático pusiera nombre pomposo —«apropiación cultural»— a un malestar que ya estaba ahí, retorciéndose sin etiquetas.
+La novedad de la década de 2010 ha sido la democratización digital. Las redes sociales se convirtieron en tribunal público, con juicios instantáneos y castigos mediáticos implacables. El caso de la traductora de Gorman, el atuendo de Cardi B, el sari de Beyoncé: en todos estos linchamientos se aplica la misma lógica de autenticidad racial. Se convierte la biología en un requisito de legitimidad cultural, anulando cualquier posibilidad de entendimiento cosmopolita. Al final, la autora hace una advertencia crucial: «La reducción de las complejidades de vivir en una sociedad pluralista bajo las fuerzas del capitalismo global a la única dimensión de la opresión racial distrae de la imagen más amplia». Esta frase vale oro. Porque el capitalismo global, como gran maquinaria de desigualdad, utiliza cualquier signo de diferencia para jerarquizar, clasificar, explotar. Si la izquierda se pierde persiguiendo platos de sushi y peinados rasta, olvida la raíz misma del poder.
+Sería ingenuo pensar que la cultura es inocente, neutral. No lo es. Los símbolos tienen historia, y esa historia está llena de violencia, desposesión, imposiciones. Pero también está llena de préstamos, fusiones, fertilizaciones cruzadas. El jazz no existiría sin la mezcla. El flamenco no existiría sin la mezcla. El rock no existiría sin la mezcla. Cada civilización se ha construido copiando, adaptando, transformando otras civilizaciones. Convertir la cultura en un objeto de pureza vigilada, como propone el paradigma rígido de la apropiación cultural, niega esa realidad de mestizaje constitutivo. Incluso quienes reivindican la exclusividad acaban atrapados en paradojas: ¿cómo decidir qué rasgos son «propios» cuando la historia misma es un collage de influencias?
+En un momento especialmente lúcido, Thierbach-McLean compara la lógica segregacionista de la apropiación cultural con la fantasía derechista de un pasado homogéneo, donde cada pueblo vivía en compartimentos estancos. «Al colapsar la cultura sobre la raza, ha creado un reflejo progresivo de la búsqueda por parte de la derecha política de un pasado imaginario de pureza cultural entendida en términos de delimitación racial». No hay mejor forma de describir el callejón sin salida al que nos aboca esta retórica. La pregunta de fondo, entonces, no es si la apropiación cultural existe —porque evidentemente existe—, sino qué hacemos con ella. ¿Debemos regularla como si fuera un delito? ¿Castigarla? ¿Vetarla? ¿Quién vigila al vigilante? ¿Con qué criterios? ¿Cuáles son los umbrales de legitimidad? La autora se muestra pesimista sobre la posibilidad de articular reglas estables, porque la cultura no funciona con fronteras cerradas, y mucho menos en la era de internet.
+Hay que agradecer que el artículo no caiga en la equidistancia fácil. No justifica la explotación cultural, no se burla de las denuncias de racismo, ni minimiza el dolor de comunidades que han visto sus símbolos ultrajados. Pero denuncia la trampa de encerrar ese dolor en un marco punitivo y excluyente, que sólo consolida la sospecha mutua. Es imposible no ver ecos de este fenómeno en España. Basta seguir el debate sobre el flamenco, convertido en emblema andaluz, para comprobar cómo también aquí se activan alarmas identitarias cuando alguien que no es gitano lo interpreta, o cuando se mezclan palos con músicas latinas o árabes. Lo que llamamos «pureza» cultural es casi siempre una invención retrospectiva. Y cuanto más se sacraliza, más fácilmente sirve de excusa para marginar, segregar o prohibir.
+Si la cultura debe ser libre, mestiza y cambiante, necesitamos marcos de reparación histórica que no pasen por la aduana racial. Necesitamos reconocer los abusos coloniales, compensar a las comunidades desposeídas, abrir espacios de redistribución económica y simbólica. Pero no podemos imponer castas culturales que perpetúen el esencialismo. La cultura vive del roce, del contagio, del asombro ante lo ajeno. Penalizar la curiosidad no nos hace más justos, sino más temerosos. De nada sirve aspirar a un mundo postracista si seguimos organizándonos en territorios delimitados por la genética. El texto de Thierbach-McLean lo deja claro: la reconciliación verdadera no puede surgir de la separación, sino del mestizaje vigilante, del respeto mutuo, de la reparación cuando sea necesaria, y de la valentía para dejarse influir sin pedir papeles de identidad.
+Ahí reside la paradoja final. Aquellos que más reivindican la diversidad a veces terminan anulándola. Porque la diversidad no significa compartimentos estancos, sino intersección, mezcla, transformación. Las identidades, como las lenguas, se enriquecen al rozarse. Negar esa posibilidad, blindarla tras aduanas raciales, es repetir la vieja canción de la segregación, con un ritmo más cool y unas consignas más progresistas, pero la misma melodía. Queda claro que el artículo no da soluciones fáciles. Tampoco debería darlas. Más bien invita a pensar, a matizar, a mirar la historia sin el filtro del maniqueísmo. «El poder cultural es un mero marcador de posición verbal para la raza», advierte la autora, para desmontar la retórica que confunde explotación con intercambio. En última instancia, la cultura no necesita guardianes de la pureza. Necesita cómplices que la hagan crecer, críticos que denuncien los abusos y generosos que la expandan. Solo así el mestizaje deja de ser un privilegio y se convierte en un derecho compartido. Esa es la lección —incómoda, compleja, luminosa— que late en cada línea de este estudio. Y que convendría no olvidar en estos tiempos de trincheras morales.
+`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight +0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+

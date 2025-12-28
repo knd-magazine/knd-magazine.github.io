@@ -1,0 +1,16 @@
+para probar un sitio html
+
+usar dos terminales diferentes
+la primera: 
+abre una terminal dentro de la carpeta donde está el archivo index.html y el resto de los archivos, y ejecuta el siquiente comando:
+python3 -m http.server 8000
+esto habilita un puerto en nuestra ip
+
+en la segunda terminal:
+ejecutar el siguiente comando:
+hostname -I
+te arroja un número que es tu ip
+
+en el kindle:
+abrir el navegador y pon http:// seguido de la dirección ip, seguido de :8000
+y te lanzará el sitio que tengas allí.
