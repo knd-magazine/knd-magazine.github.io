@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>puer aeternus</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">Les Années Moi-Moi</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.0rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.0;">
+            En este artículo el autor despliega una lectura aguda y provocadora sobre la centralidad del yo en los tiempos que vivimos, la obsesión por la visibilidad, la moralización exprés y la fragilidad de los vínculos contemporáneos. Con referencias filosóficas y políticas, el texto no busca dictar respuestas sino incomodar, poner palabras a algo que muchos intuyen pero no terminan de formular. Una invitación a detenerse, mirar de nuevo y preguntarse qué queda afuera cuando todo gira alrededor del yo.<br>
+          
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`
+Vivimos en un tiempo saturado de exposición, donde el <em>yo</em> es un producto. Cómo nos mostramos, qué representamos, qué tan visible y <em>opinable</em> es nuestra identidad. Si los años veinte del siglo XX fueron <em>les années folles</em>, los del siglo XXI bien podrían llamarse <em>les années moi-moi</em>: los años yo-yo. Juguemos a la RAE:
+<blockquote>
+<i><strong>Années moi-moi.</strong> <em>loc. fig.</em> Del fr. <em>années</em> («años») y <em>moi-moi</em> (repetición enfática de <em>moi</em>, «yo»;    literalmente, «años yo-yo»), en alusión a      los <a href='https://en.wikipedia.org/wiki/Ann%C3%A9es_folles'><em>années folles</em></a> del siglo XX. Época histórica, propia del siglo XXI, caracterizada     por la centralidad del yo como núcleo de valor, representación, juicio, pertenencia y</i> <i>poder.      En los <em>años yo-yo</em>, la exposición de la identidad     sustituye al vínculo, la validación externa      reemplaza a la interioridad, y la política, el consumo y la subjetividad se arti    culan en torno a la visibilidad y rendimiento del ego.</i>
+<p>Es un intento de nombrar una época en la que el <em>yo</em> se vuelve el principio organizador de lo que vale, lo que cuenta, lo que debe ser visto, dicho, juzgado y compartido. Del deseo, la afectividad, incluso la política; y donde lo importante no es la acción, ni la palabra, ni la obra, ni la escucha. Es el <em>yo</em> que las enuncia.
+A partir de este marco, pueden reconocerse al menos seis rasgos característicos que condensan esta lógica epocal:</p>
+<strong>I. La performatividad del yo como lógica dominante</strong>
+En los años yo-yo, ya no importa tanto lo que alguien hace o produce, sino quién es, qué dice, qué opina, cómo se muestra, qué representa.
+Esta lógica se puede leer como expresión de una ontología performativa del sujeto, donde la identidad se reduce a una serie de actos que deben actualizarse públicamente. Judith Butler lo planteó respecto al género, pero acá el principio se extiende: el <em>yo total</em> debe performarse continuamente. Ocupa el centro. Se convierte en una interfaz pública, diseñada para sostener una supuesta coherencia moral, estética, incluso escénica, frente a la mirada del otro. Todo se convierte en curaduría identitaria.
+La estetización de ese <em>yo</em> diseñado, construido, curado, optimizado, se alinea con las lógicas del capitalismo contemporáneo, donde la identidad se vuelve un recurso explotable. Esto se vincula directamente con el <a href='/glosario/'><em>homo instans</em></a>: un sujeto obligado a actualizarse, mostrarse, posicionarse <em>ya</em> y <em>siempre</em>, sin pausa ni interioridad.</p>
+<p><strong>II. La cancelación como ritual punitivo</strong>
+La cancelación funciona como una especie de rito colectivo de validación, reafirmando los límites de lo aceptable al castigar al desviado. No hay lugar para la discusión. El objetivo es, simplemente, la purga.
+En lugar de comunidad, se produce lo que podríamos llamar una <em>egregoría digital moralizante</em>, que se cohesiona cancelando. Castigar al otro afirma la pertenencia propia.
+El Otro como amenaza latente, cuya exclusión reafirma el relato que sostiene al sujeto colectivo.
+También desde el psicoanálisis podría leerse esto como una operación de proyección y escisión (lo intolerable en mí se lanza afuera, sobre el «enemigo público»). Y desde lo político, como forma de blindar el consenso a través del sacrificio de un otro visible.
+A la vez, repensando a Foucault, la cancelación opera también bajo la estructura de un <em>suplicio digital</em>. Ahora ya no físico, pero aún ritualizado, visible, ejemplificador. Se trata de algo así como una administración colectiva del escarnio.
+La cancelación busca primero alineamiento antes que justicia. Expulsa lo que amenaza el relato de ese yo colectivo, reforzando su imagen (pretendidamente) impoluta.</p>
+<p><strong>III. El mandato de visibilidad y opinión constante</strong>
+No manifestarse es ya un acto sospechoso. No opinar, no posicionarse,                                                 no exhibirse, no declarar algo en tiempo real, equivale a traición. La visibilidad se convierte en deber moral. Cada sujeto (famoso o anónimo; político, deportista o artista) debe exponerse, debe <em>significar algo</em>. Incluso su ausencia debe ser interpretable.
+Este imperativo puede pensarse como forma contemporánea del <em>panoptismo invertido</em> (hoy me levanté foucaultiano). Ya no es el poder el que vigila desde un punto central, sino que todos miramos a todos, reclamándonos transparencia y visibilidad.
+La tecnopolítica del yo lo amplifica: cada sujeto se convierte en emisor permanente, gestor de su imagen y curador de sus valores. <em>Self-tracking</em>, <em>branding</em> y otras formas de vigilancia voluntaria.
+También resuena con la lógica del capitalismo de plataformas, donde cada interacción (cada <em>like</em>, cada <em>share</em>) es un dato. <em>No opinar es no producir</em>.
+En contraste al <em>homo instans</em>, podríamos contraponer un <a href='/glosario/'><em>homo frater</em></a> que actúa desde otro ritmo. Un sujeto vincular, orientado por la conciencia de interdependencia, fragilidad compartida, responsabilidad mutua, cuidado recíproco y destino común. El silencio, en este marco, se vuelve una forma de disidencia.
+Su práctica no es la afirmación del yo, sino la construcción paciente de un nosotros. Ante el mandato de rendimiento, propone atención; frente al juicio, misericordia y compasión; de cara a la urgencia, demora; contra el repliegue individual, construcción de un horizonte compartido.
+En los años yo-yo, no hay afuera del espectáculo. Incluso el silencio es leído como un acto que debe tener sentido visible. Resistir es callar de una forma que no se traduzca en cinismo, sino en                                                                                           intimidad.</p>
+<p><strong>IV. La desaparición de la obra como lugar de mediación</strong>
+La obra ya no media nada. El foco está en el autor como figura pública y su obra se reduce a su testimonio. Tomás Trapé, <a href='https://www.newsdigitales.com/nota/306490/enemigos-publicos/'>en este artículo</a>, describe muy bien esto. Los artistas son sometidos a exámenes morales constantes, sus obras son evaluadas por lo que representan identitariamente, todo a través de una lente policial y un juicio público que se reduce a una ceremonia de cohesión punitiva.
+Walter Benjamin advirtió que la reproductibilidad técnica disolvía el aura de la obra, su singularidad irrepetible. Hoy, ese proceso se profundiza. Ya no sólo se pierde el aura. La obra, sin más, <em>se usa</em>. Sirve si confirma y se descarta si incomoda. Podríamos hablar del colapso del valor estético frente al valor moral o identitario inmediato. La obra vale en tanto represente identitariamente.
+En un mundo gobernado por la lógica de la inmediatez (el <em>instans</em>), la obra (que requiere tiempo, ambigüedad, elaboración, relectura, riesgo e incluso fracaso) estorba porque se contrapone al yo directo, evidente, eficaz, utilitario y literal.
+La obra sólo sirve en tanto dispositivo para escenificar un yo que busca validación.
+El arte, en los años yo-yo, pierde su profundidad. Refleja identidades. Su valor se mide en clicks morales.</p>
+<p><strong>V. La lógica de la inmediatez moral</strong>
+     Todo debe juzgarse <em>ya</em>. Sin espera, ni proceso, ni matices, ni     contexto (lo ambiguo se castiga por confuso y lo     complejo se desecha por ineficaz). El juicio   moral se comporta   como un algoritmo: binario, rápido, no deja lugar para la duda.
+Esta lógica condensa la figura del <em>homo instans</em>: el sujeto del presente absoluto, que no puede esperar, que tampoco puede <em>durar</em>, que responde de forma reactiva, casi automática, a cada estímulo. Capturado por el reflejo moral instantáneo, no puede demorarse, ni titubear. Sólo actuar, compartir, aplaudir, condenar, cancelar.
+Esto se conecta con cierta lógica de eficiencia tecnocrática que también invade lo moral. Se juzga como se optimiza: rápido y con métricas claras.
+Se pierde así el lugar de la ambivalencia ética, del tiempo necesario para el juicio.
+En los años yo-yo, la justicia se produce en masa, como un contenido más. No hay espacio para el duelo o el trámite. De cara a esto, <em>la demora puede ser un acto de responsabilidad</em>. La lentitud, una fractura en el automatismo.</p>
+<p><strong>VI. La desaparición del conflicto como motor político</strong>
+Como sustituto de una confrontación genuina de ideas, aparece una circulación de opiniones que sólo buscan reforzar posturas. El conflicto pierde su potencia transformadora. No se lo asume como parte constitutiva de lo común (¿universal?), sino como amenaza a la cohesión grupal (¿particular?). El disenso no se tramita. En todo caso (y no es lo mismo) se cancela, se minimiza,                                                                                 se caricaturiza o directamente se silencia. Todo lo que incomoda se transforma en problema identitario.
+Las afinidades se sellan con <em>likes</em>, <em>retuits</em> y <em>memes</em>. Se forma una especie de comunidad de <em>sentimientos</em> sostenida en la descarga pulsional. La diferencia o la crítica aparecen como amenaza. Por eso se cancela o se ridiculiza. Con el otro no se debate; se lo transforma en moralmente impresentable. Y en esa exclusión se obtiene el placer compartido de saberse (creerse) del lado correcto.
+En vez de abrir espacio a la diferencia, se exige un alineamiento casi tribal. Y esto ni siquiera tiene que ver con <em>argumentar</em>. Hay que demostrar pertenencia, y hacerlo de forma visible, constante y emocional. La política se vuelve una curaduría moral del nosotros, que deja afuera la discusión por lo que ese «nosotros» podría llegar a ser. El antagonismo se reemplaza por una fidelidad performativa que exige (y premia) la adhesión, la visibilidad, el señalamiento, el escrache. La política se vuelve un ejercicio donde importa más la pertenencia y menos (aunque no parezca) la confrontación.
+El desacuerdo se vuelve disfuncional. La crítica incomoda. La ambigüedad irrita. Eso que no confirma, molesta. Si algo no refuerza, se expulsa. Y así, el conflicto, que alguna vez fue motor de lo común, queda desactivado. El resultado es una comunidad más homogénea y a la vez más endeble. Más idéntica. Más vigilante. Persecutoria. Cerrada sobre sí misma, convertida en un dispositivo de cohesión moral tan estricto como frágil; en un mecanismo hostigador, casi paranoico.
+En los años yo-yo, el conflicto ya no se piensa como condición de lo político, sino como falla del algoritmo identitario.
+<p><strong>Coda.</strong>
+Estos seis puntos ilustran cómo el yo ha devenido una forma epocal. Hoy, omnipresente, organiza el deseo, la política, el juicio y los vínculos. En ese sentido, <a href='https://www.newsdigitales.com/nota/306490/enemigos-publicos/'>Tomás describe síntomas, pero sobre todo, está señalando la arquitectura imaginaria (los marcos que organizan lo pensable) de una era</a>.
+<em>Les années moi-moi</em> son más que una época narcisista. Es un régimen donde el yo se convierte en medida, en filtro, en parámetro y en criterio de pertenencia. Todo se organiza en torno a su exposición, su rendimiento, su coincidencia con los demás. Pero en donde <em>todo</em> coincide, <em>nada</em> transforma.
+Si la modernidad consagró al individuo, y la posmodernidad lo relativizó, la hipermodernidad lo absolutiza: <em>lo convierte en medida</em>. En ese sentido, <em>los años yo-yo pueden pensarse como una fase estética y también moral de la hipermodernidad</em>, donde la visibilidad del yo sustituye (o condiciona) toda otra forma de vínculo o sentido (previamente exploré esa tensión en <a href='/omnia-habentes'>este texto</a>).
+Tal vez sea hora de ensayar otra cosa.
+De la <em>tecnopolítica</em>, que disputa <em>herramientas</em>, a una <em>política del tiempo</em> (¿<em>cronopolítica</em>?), que dispute <em>ritmos</em>. Que devuelva espacio a la pausa. Al desvío, a la demora, al intervalo, al silencio, a la ambigüedad. A todo lo que escapa al cálculo, a la utilidad, al rendimiento, al reflejo. Reflejo en sus dos acepciones: como espejo y como acto automático. Quiero decir, resulta necesario interrumpir tanto el circuito narcisista (<em>todo confirma lo que ya somos</em>) como la lógica del instante (<em>todo debe resolverse ya</em>).
+Quizás lo verdaderamente político (y lo estéticamente irreductible) hoy sea <em>volver a producir aquello que no cabe en la lógica del yo</em>. Palabras que no busquen aplausos, u obras que no pretendan confirmar nada.
+Porque si todo lo que vemos confirma lo que ya somos, <em>¿para qué seguir mirando?</em></p>
+— E.`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight +0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un , con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en 
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un  separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
