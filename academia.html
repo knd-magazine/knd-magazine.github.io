@@ -71,17 +71,20 @@
       margin-top: 10px;
       padding: 0 10px;
     }
-    .fila {
-      display: flex;
-      justify-content: space-between;
-      padding: 2px 0;
-    }
+.fila {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+
+  /* línea continua tipo renglón */
+  border-bottom: 2px dotted black;
+}
 .fila .articulo {
   width: 60%;
   text-align: right;
   text-decoration: none;
-  color: white;              /* letras blancas */
-  background-color: black;   /* fondo negro */
+  color: black;              /* letras blancas */
+  background-color: white;   /* fondo negro */
   padding: 2px 6px;
 }
 
@@ -121,7 +124,6 @@
       <div class="autor">Ángel L. Fernández Recuero</div>
       <a href="apropiacion.html" class="articulo">>Apropiación cultural: el nuevo puritanismo que divide en nombre de la diversidad"</a>
     </div>
-    <div class="fila">
      <!-- Continúa agregando filas hasta 32 líneas -->
   </div>
 </body>

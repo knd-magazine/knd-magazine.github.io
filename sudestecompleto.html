@@ -38,13 +38,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-
-      border: 2px solid black;     /* línea interior */
-      outline: 2px solid black;    /* línea exterior */
-      outline-offset: -4px;        /* juntas */
-      background-color: #e0e0e0;
-
-      padding: 10px 18px;          /* ← AQUÍ está el espacio */
     }
 
     .barra-secundaria {
@@ -74,24 +67,22 @@
       padding: 0 10px;
     }
 
-    .fila {
-      display: flex;
-      justify-content: space-between;
-      padding: 2px 0;
-    }
+.fila {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
 
-    .fila .autor {
-      width: 45%;
-    }
-
-    .fila .articulo {
-      width: 60%;
-      text-align: right;
-      text-decoration: none;
-      color: white;
-      background-color: black;
-      padding: 4px 10px;   /* también un poco más de aire */
-    }
+  /* línea continua tipo renglón */
+  border-bottom: 2px dotted black;
+}
+.fila .articulo {
+  width: 60%;
+  text-align: right;
+  text-decoration: none;
+  color: black;              /* letras blancas */
+  background-color: white;   /* fondo negro */
+  padding: 2px 6px;
+}
 
     .fila .articulo:hover {
       text-decoration: underline;
