@@ -1,0 +1,16 @@
+
+Para bifurcar este proyecto, sólo debes copiar los archivos html
+están estructurados en el siguiente nivel de jerarquía:
+
+1° nivel: index.html
+    este es el archivo que conduce al inicio de la página, puedes cambiar sus valores en cualquier procesador de texto, incluyendo el bloc de notas de windows (yo uso xed de linux mint) este archivo condice a las páginas 2° nivel
+
+2° nivel: los archivos "columnas.html" "acerca.html" "viajes.html" "resenas.html" "academia.html" "columnas.html" "artes.html" "clasicos.html"
+    Este nivel contiene las categorías, en ellas está el nombre de la categoría y un ícono de casa, para volver al index.html, autores y artículos están separados en dos columnas.
+
+3° nivel: aquí ya están los artículos, en una barra superior está el nombre del artículo, el ícono de casa para volver al índex.html, el ícono de menú, para volver a la categoría "segundo nivel", los artículos tienen botones laterales que indican el paso de página, y numeración de página en la esquina superior derecha.
+
+clonar este sitio es fácil, sólo mira los archivos de plantilla, son estos:
+"plantillaindex.html" reemplaza los archivos "categoria1.html" y siguientes por los tuyos, reemplaza todo lo que diga "inserta aquí"
+"plantillacategoria.html" reemplaza todo lo que diga "inserta aquí"
+"plantillarticulo.html" reemplaza todo lo que diga "inserta aquí"
