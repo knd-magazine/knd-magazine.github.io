@@ -13,16 +13,21 @@
       background-color: white;
       color: black;
     }
-    .barra-superior {
-      width: 100%;
-      height: 70px;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-sizing: border-box;
-      padding: 0 10px;
-    }
+.barra-superior {
+  width: 100%;
+  height: 70px;
+  background-color: #e0e0e0;   /* gris clásico */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  padding: 6px 10px;           /* espacio entre contenido y marco */
+
+  border: 2px solid black;     /* marco interior */
+  outline: 2px solid black;    /* marco exterior */
+  outline-offset: -4px;        /* líneas juntas estilo Windows antiguo */
+}
     .barra-superior .icono-casa {
       width: 45px;
       height: 45px;
@@ -93,7 +98,7 @@
     <a href="index.html">
     </a>
 <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>
-    <div class="titulo-seccion">Reseñas</div>
+    <div class="titulo-seccion">Diarios de Viaje</div>
   </div>
 
   <div class="barra-secundaria">

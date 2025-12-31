@@ -13,24 +13,24 @@
       background-color: white;
       color: black;
     }
-    .barra-superior {
-      width: 100%;
-      height: 70px;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-sizing: border-box;
-      padding: 0 10px;
-    }
-    .barra-superior .icono-casa {
-      width: 45px;
-      height: 45px;
-      background-image: url('icono-casa.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      cursor: pointer;
-    }
+
+.barra-superior {
+  width: 100%;
+  height: 70px;
+  background-color: #e0e0e0;   /* gris clásico */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  padding: 6px 10px;           /* espacio entre contenido y marco */
+
+  border: 2px solid black;     /* marco interior */
+  outline: 2px solid black;    /* marco exterior */
+  outline-offset: -4px;        /* líneas juntas estilo Windows antiguo */
+}
+
+    /* TÍTULO con marco doble y espacio interno */
     .barra-superior .titulo-seccion {
       flex-grow: 1;
       text-align: center;
@@ -38,11 +38,15 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      border: 2px solid black;     /* línea interior */
+      outline: 2px solid black;    /* línea exterior */
+      outline-offset: -4px;        /* juntas */
+      background-color: #e0e0e0;
+
+      padding: 10px 18px;          /* ← AQUÍ está el espacio */
     }
-    .barra-superior .pagina {
-      width: 100px;
-      text-align: right;
-    }
+
     .barra-secundaria {
       width: 100%;
       display: flex;
@@ -51,45 +55,54 @@
       margin-top: 5px;
       border-bottom: 1px solid #ccc;
     }
+
     .columna-autor {
       width: 45%;
       font-weight: bold;
       text-decoration: underline;
     }
+
     .columna-titulo {
       width: 55%;
       font-weight: bold;
       text-decoration: underline;
       text-align: right;
     }
+
     .lista {
       margin-top: 10px;
       padding: 0 10px;
     }
+
     .fila {
       display: flex;
       justify-content: space-between;
       padding: 2px 0;
     }
+
     .fila .autor {
       width: 45%;
     }
+
     .fila .articulo {
-      width: 55%;
+      width: 60%;
       text-align: right;
       text-decoration: none;
-      color: black;
+      color: white;
+      background-color: black;
+      padding: 4px 10px;   /* también un poco más de aire */
     }
+
     .fila .articulo:hover {
       text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
+
   <div class="barra-superior">
-    <a href="index.html">
-    </a>
-<a href="index.html" id="home-btn" title="Inicio">&#8962;</a>
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>
     <div class="titulo-seccion">Viajes por el Sudeste Asiático</div>
   </div>
 
@@ -99,33 +112,32 @@
   </div>
 
   <div class="lista">
-    <!-- Ejemplo de filas. Copia hasta 32; si sobra, crea resenas2.html y ajusta indicadores -->
     <div class="fila">
       <div class="autor">Picher.</div>
-      <a href="sudeste1.html" class="articulo">I Mis días en bangkok</a>
+      <a href="sudeste1.html" class="articulo">I Mis días en Bangkok</a>
     </div>
     <div class="fila">
-      <div class="autor">Picher..</div>
+      <div class="autor">Picher.</div>
       <a href="sudeste2.html" class="articulo">II; Phuket y de vuelta a Bangkok</a>
     </div>
-<div class="fila">
-      <div class="autor">Picher..</div>
+    <div class="fila">
+      <div class="autor">Picher.</div>
       <a href="sudeste3.html" class="articulo">III; Templos de Angkor, Camboya</a>
     </div>
-<div class="fila">
-      <div class="autor">Picher..</div>
-      <a href="sudeste4.html" class="articulo">IIII; Phnom Penh. Cambodia</a>
+    <div class="fila">
+      <div class="autor">Picher.</div>
+      <a href="sudeste4.html" class="articulo">IV; Phnom Penh, Camboya</a>
     </div>
-<div class="fila">
-      <div class="autor">Picher..</div>
-      <a href="sudeste5.html" class="articulo">V; Chau Doc, Saigón y Hué. Vietnam</a>
+    <div class="fila">
+      <div class="autor">Picher.</div>
+      <a href="sudeste5.html" class="articulo">V; Chau Doc, Saigón y Hué</a>
     </div>
-<div class="fila">
-      <div class="autor">Picher..</div>
-      <a href="sudeste6.html" class="articulo">VI; Hanoi, Bangkok de nuevo y final</a>
+    <div class="fila">
+      <div class="autor">Picher.</div>
+      <a href="sudeste6.html" class="articulo">VI; Hanoi, Bangkok y final</a>
     </div>
-    <!-- Continúa agregando filas hasta 32 líneas -->
   </div>
+
 </body>
 </html>
 
