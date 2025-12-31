@@ -16,22 +16,25 @@
       color: black;
     }
 
-    /* Barra superior (AHORA NEGRA CON TEXTO BLANCO) */
     .barra-superior {
       width: 100%;
       height: 70px;
-      background-color: black;      /* cambio */
+      background-color: #e0e0e0;      /* cambio */
       display: flex;
       align-items: center;
       justify-content: center;
-      box-sizing: border-box;
-      padding: 0 10px;
-      border-bottom: 1px solid #000;
-    }
+  box-sizing: border-box;
+
+  padding: 6px 10px;           /* espacio entre contenido y marco */
+
+  border: 2px solid black;     /* marco interior */
+  outline: 2px solid black;    /* marco exterior */
+  outline-offset: -4px;        /* líneas juntas estilo Windows antiguo */
+}
 
     .barra-superior .titulo-sitio {
       font-weight: bold;
-      color: white;                 /* cambio */
+      color: black;                 /* cambio */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -65,7 +68,7 @@
 
   <!-- Barra superior -->
   <div class="barra-superior">
-    <div class="titulo-sitio">KND-Magazine</div>
+    <div class="titulo-sitio">KND MAGAZINE</div>
   </div>
 
   <!-- Contenedor con las secciones -->
