@@ -3,63 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <title>KND Magazine</title>
+
   <style>
-    /* Estilos generales para Kindle 10.ª generación con Arial 30 px */
+    /* Estilos generales para Kindle 10.ª generación */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      font-size: 30px;        
-      line-height: 1;         
+      font-size: 30px;
+      line-height: 1;
       background-color: white;
       color: black;
     }
-    /* Barra superior fija en la parte superior de la pantalla */
+
+    /* Barra superior (AHORA NEGRA CON TEXTO BLANCO) */
     .barra-superior {
       width: 100%;
-      height: 70px;          
-      background-color: #f0f0f0;
+      height: 70px;
+      background-color: black;      /* cambio */
       display: flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
       padding: 0 10px;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #000;
     }
+
     .barra-superior .titulo-sitio {
       font-weight: bold;
+      color: white;                 /* cambio */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    /* Contenedor de categorías desplazado hacia abajo para dejar espacio a la barra */
+
+    /* Contenedor de categorías */
     .contenedor {
       width: 100%;
-      height: calc(100vh - 70px); /* Resta 70px de la barra superior */
+      height: calc(100vh - 70px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      padding-left: 20px;       
+      padding-left: 20px;
       box-sizing: border-box;
     }
+
     .categoria {
-      margin-bottom: 20px;      
+      margin-bottom: 20px;
       text-decoration: none;
       color: black;
     }
+
     .categoria:hover {
       text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
-  <!-- Barra superior con el nombre del sitio -->
+
+  <!-- Barra superior -->
   <div class="barra-superior">
     <div class="titulo-sitio">KND-Magazine</div>
   </div>
+
   <!-- Contenedor con las secciones -->
   <div class="contenedor">
+
     <a href="acerca.html" class="categoria">• Cómo funciona KND Magazine</a>
     <a href="viajes.html" class="categoria">• Diarios de Viaje</a>
     <a href="resenas.html" class="categoria">• Reseñas de Libros</a>
@@ -67,9 +78,21 @@
     <a href="columnas.html" class="categoria">• Ensayos y Columnas</a>
     <a href="artes.html" class="categoria">• Artes, Música, Cine y TV</a>
     <a href="clasicos.html" class="categoria">• Obras de dominio público</a>
-<h1 style="font-size:1.25rem; text-align:left; margin-bottom:20px;">
-Esta es una plataforma experimental sin ánimo de lucro, si quieres colaborar, puedes enviar tus escritos a: kndmagazine@gmail.com<p>Esta web no se visualizará apropiadamente en teléfonos o navegadores de escritorio, pues está pensada para la cantidad de línas de pixeles de un kindle
-    </div>
-    </body>
+
+    <h1 style="font-size:1.25rem; text-align:left; margin-bottom:20px;">
+      Esta es una plataforma experimental sin ánimo de lucro.  
+      Si quieres colaborar, puedes enviar tus escritos a:  
+      kndmagazine@gmail.com
+    </h1>
+
+    <p>
+      Esta web no se visualizará apropiadamente en teléfonos o navegadores de
+      escritorio, pues está pensada para la cantidad de líneas de píxeles de un
+      Kindle.
+    </p>
+
+  </div>
+
+</body>
 </html>
 
