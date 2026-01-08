@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La intimidad de no colgar nada en redes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">La intimidad de no colgar nada en redes</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.0rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.0;">
+           Marta Morales, creadora de contenido centrada en los libros, escribe esta columna (publicada originalmente en Substack) como parte de sus reflexiones sobre la toxicidad de estar permanentemente conectados y lo satisfactorio que puede llegar a ser retomar lo personal como algo íntimo, de rechazar el vivir para publicar la foto del momento, en vez de vivir el momento<br>
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`Este año mi novio ha dejado de usar las redes. Se desinstaló Instagram y TikTok hace meses y no ha vuelto a mirar atrás. Lo sorprendente es que no es la primera persona de mi entorno que lo hace. ¿Estamos frente a una nueva tendencia? ¿Una contra corriente de la generación que hasta ahora dominaba la comunidad en línea?
+ 	Lo único que sé es que, cuando me lo dijo, pensé: “<i>Qué bien me parece, que envidia me da y yo no sería capaz de hacerlo</i>”. Por un lado, soy consciente de que hasta cierto punto tengo dependencia y adicción a las redes. Es una distracción fácil, una vía de escape a momentos de aburrimiento, días malos y situaciones incómodas. Por otro lado, el hecho de que “crear contenido” fuera una de mis aficiones me permitía excusarme con facilidad.
+ 	Pero este año, he empezado a conocer la libertad de estar desconectada. Todo empezó con un vídeo de YouTube que hice sobre <i>Goodreads</i>, en el cual me di cuenta de la toxicidad de la plataforma. Este punto de partida me llevó a reflexionar sobre muchas áreas de mi relación con la lectura, que en ese momento era una parte central en mi vida, hasta que poco a poco fui desconectándome de las tendencias, los creadores de contenido, los retos… De esta manera me di cuenta de lo sofocada que había estado hasta ese momento por culpa de las exigencias que me generaba a mí misma a partir de lo que veía en redes.
+    	Sin embargo, el hecho de seguir creando contenido en Instagram y TikTok tampoco me permitía desconectar del todo. Aunque yo no siguiera lo que hacían otros, mi relación con el libro estaba mediada por una cámara y una pantalla. Leía algo, hacía algo y sentía que debía tomar una foto para compartirlo en redes. Pasaba unos días sin colgar nada y empezaba a sentir como si hubiera una cuenta atrás en números rojos a punto de explotarme en la cara.
+ 	Y fue entonces cuando empecé a trabajar. De repente, ya no tenía tantas horas para leer y, mucho menos, para estar grabando vídeos y fotos al respecto. Eso causó que mi ritmo de creación de contenido disminuyera, que mis horas alejada de la pantalla crecieran y que, en definitiva, pudiera tomar distancia de aquello que durante los últimos años me había absorbido.
+ 	Fue solo en este punto, con un alejamiento “forzoso”, que entendí las emociones, intenciones y objetivos que me habían movido hasta ese momento. Yo nunca quise que las redes fueran mi trabajo o mi fuente de validación. No obstante, actuaba con tal sentido de la responsabilidad que lo parecía.
+ 	Un día terminé un libro que no me había ni disgustado, ni encantado, y pensar en grabar un vídeo sobre él me daba una pereza terrible. En ese momento sentí como mi cuerpo se obligaba a levantarse, maquillarse, ponerse frente a una cámara… “¿para qué?” – pensé. Si esto era mi hobby y afición, ¿por qué estaba dedicando parte de mi tiempo libre a algo que no me apetecía hacer?
+ 	Soy la primera que sé que algunas aficiones requieren de cierto esfuerzo y durante mucho tiempo crear contenido sobre libros en redes me ha llenado, me ha hecho conocer personas increíbles y es algo que no voy a dejar de hacer. Sin embargo, lo que sí que quiero es sentirme libre haciéndolo.
+ 	Con esta idea en mente, empezó a resonar en mi cabeza un “¿para qué?”, siempre que hacía una foto y pretendía colgarla en redes. Muchas veces la intención de colgar una foto es compartir con amigos algo que estás haciendo, de lo que te sientes orgulloso o que vean lo guap@ que estás ese día. Todo esto me parecen razones válidas para colgar una foto.
+ 	No obstante, muchas otras veces cuelgas algo porque sientes que tienes que hacerlo. Porque es un plan demasiado chulo para que nadie se entere, para que vean lo <i>cultureta</i> que eres o para transmitir que estás la mar de contento cuando tu día ha sido una mierda. Yo llegué a un punto donde colgaba vídeos y fotos por impulso, porque lo tenía que hacer.
+ 	Ahora, gracias a esta voluntad de desconectarme y hacer las cosas con intención, empecé a colgar cada vez menos y menos cosas, hasta el punto de que cada vez me apetecía menos y menos colgar nada y, hasta el punto, que empecé a tomar menos fotos “<i>instagrameables</i>” y más fotos para mí, para el recuerdo.
+ 	<i>Sorpresa, sorpresa</i>, ahora que no cuelgo fotos de repente mi galería se ha vaciado de fotos de todos los libros que leo, todos los planes de fin de semana que hago y todos los cafés que me tomo. <i>Sorpresa, sorpresa</i>, cuanto menos fotos y vídeos cuelgo menos me apetece hacerlo porque lo veo un poco ridículo.
+ 	La semana pasada salí del trabajo y decidí acercarme sola al mercadillo navideño de “Santa Llúcia”. Paseé por tiendas, me probé ropa, merendé una tarta de queso de un local que quería probar, vi las decoraciones navideñas de la ciudad y, llegado el momento, hice una foto del árbol navideño frente a la catedral. Fue una tarde perfecta, tan perfecta y mía que colgar esa foto me parecía compartir un secreto. Me hizo sentir que transformaba una experiencia hecha por y para mí en algo performativo.
+ 	Otro ejemplo… Hace pocos días fui a ver una obra de teatro con mi novio que fue excepcionalmente buena. Al terminar, los propios organizadores abrían algunos espacios para que los espectadores se tomaran fotos. Eran fondos y atrezos hechos especialmente para ese propósito. Inicialmente, fui hacia el escenario para tomar mi foto, pero vi que había cola y tenía que esperar. Fue entonces cuando me di cuenta de que la experiencia era la obra, que yo ya la había visto y disfrutado, que me llevaba un folleto de recuerdo y que esa foto que iba a tomar tenía la única función de ser colgada en Instagram. ¿Para eso iba a hacer una cola?
+ 	Estos pensamientos me cayeron como jarrones de agua fría en ambas ocasiones y fue cuando sentí la libertad de no tener que colgar nada, de vivir la obra o la tarde por lo que era y la satisfacción de sentir que eso quedaba como un pequeño secreto, solo mío. Y es en esta intimidad de que nadie sepa dónde, cuándo y qué estás haciendo que sentí la libertad de estar desconectada.
+ 	De esta forma, lo que empezó con el propósito de transformar y cambiar mi relación, la lectura acabó por convertirse en un replanteamiento completo de mi uso de las redes sociales.
+ 	Ahora bien, volviendo a mi reacción cuando mi novio dejó sus redes “<i>Qué bien me parece, que envidia me da y yo no sería capaz de hacerlo</i>”, desgraciadamente lo mantengo un poco. A pesar de todo lo que he contado, aún no he dado el paso de desinstalarme nada… No quiero perder contacto con los amigos que he hecho ahí, aún sigo a ciertos creadores de contenido que me gustan y, aunque sea de vez en cuando, no quiero dejar de compartir la lectura y recomendarla. Pero, ¿acaso, esto no serán solo excusas?
+ 	Esta es la tesitura en la que me encuentro y que no acabo de ver cómo abordar…
+ 	¿Es posible tener una relación sana en las redes sociales?
+ 	¿Es posible generar contenido sin que sea performativo?
+ 	Por ahora, voy a seguir disfrutando de la libertad de guardarme algunas cosas para mí y de crear contenido, cuándo y cómo me apetece. He aquí esta reflexión, ya que hoy me he despertado con más ganas de escribir que de hablar.
+ 	Gracias por leerme,
+ 	Marta Morales`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight +0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
