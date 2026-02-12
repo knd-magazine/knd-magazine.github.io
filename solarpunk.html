@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SolarPunk: Uniendo natiraleza y tecnología</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      font-size: 27px;
+      line-height: 1.0; /* interlineado 1.0 */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100vh;          /* ocupa toda la pantalla */
+      display: flex;
+      flex-direction: column; /* header + content */
+    }
+    /* ===== Barra superior ===== */
+    #header {
+      flex: 0 0 50px;         /* altura fija 50px */
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      z-index: 5;
+    }
+    #back-btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      margin-right: 10px;
+    }
+    #title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    #page-indicator {
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    /* ===== Zona de contenido ===== */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 10px 40px; /* 10px arriba/abajo, 40px izquierda/derecha */
+      overflow: hidden;   /* sin scroll vertical */
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .page.active {
+      display: block;
+    }
+    .page p {
+      text-align: justify;
+      margin-bottom: 0.5em;
+    }
+    .page h2 {
+      font-size: 30px;          /* igual que el resto del texto */
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    /* ===== Botones laterales (fondo negro, triángulo blanco) ===== */
+    .button-prev,
+    .button-next {
+      position: absolute;
+      top: calc(50%);
+      transform: translateY(-50%);
+      width: 35px;
+      height: 70px;
+      background: #000;       /* fondo negro */
+      color: #fff;            /* triángulo blanco */
+      font-size: 2.5rem;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      z-index: 2;
+    }
+    .button-prev { left: 5px; }
+    .button-next { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Barra superior -->
+    <div id="header">
+    <a href="index.html" id="home-btn" title="Inicio">&#8962;</a>&nbsp;
+      <a href="columnas.html" id="home-btn" title="Índice">&#9776;</a>
+      <span id="title">SolarPunk: Uniendo natiraleza y tecnología</span>
+      <span id="page-indicator">1 de 1</span>
+    </div>
+
+    <!-- Zona de contenido -->
+    <div id="content">
+      <!-- Página 0: Portada fija -->
+      <div class="page" id="page-0">
+        <div id="cover">
+          <h1 style="font-size:1.0rem; text-align:center; margin-bottom:15px;">
+          </h1>
+          <p style="text-align:justify; line-height:1.0;">
+           ¿Y si el futuro no fuera una distopía de neón ni un desierto apocalíptico, sino un jardín tecnológico de alta eficiencia? El solarpunk surge como la respuesta cultural al pesimismo climático, proponiendo el paso del Antropoceno al Simbioceno: una era donde nuestras herramientas no dominan a la naturaleza, sino que colaboran con ella.<br>
+por Yogi Hale Hendlin
+en Aeon Essays.<br>  
+          </p>
+        </div>
+      </div>
+      <!-- Las demás páginas se crearán dinámicamente -->
+    </div>
+
+    <!-- Botones laterales -->
+    <div class="button-prev" id="btn-prev">&#x25C0;</div>
+    <div class="button-next" id="btn-next">&#x25B6;</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Texto completo con subtítulos incluidos
+      var textoCompleto =
+﻿`«<i>Cualquier tecnología lo suficientemente avanzada es indistinguible de la magia</i>».
+    — de Perfiles del futuro (1973) por Arthur C. Clarke<br>
+    «<i>Cualquier tecnología lo suficientemente avanzada es indistinguible de la naturaleza</i>».
+    — de The Deepening Paradox (2011) por Karl Schroeder<br>
+En la Red de Indra, hecha de perlas y joyas, cada gema refleja a todas las demás: una imagen resplandeciente de interdependencia. Esta antigua metáfora védica sobre la conexión en todo el cosmos también ilumina lo que el filósofo ambiental Glenn Albrecht propuso por primera vez en 2014 como el «Simbioceno»: la era               posterior al Antropoceno, en la que las tecnologías humanas siguen el ejemplo de los sistemas vivos y trabajan en colaboración en lugar de mediante el        dominio.          <br>
+El término vincula la curiosidad tecnológica con la biofilia —nuestro amor por la vida— para que lo que fabriquemos esté moldeado por el mundo vivo al que pertenecemos, hasta que la frontera entre el mundo construido y la naturaleza comience a suavizarse. Si el Antropoceno comenzó cuando la Revolución Industrial enfrentó a la industria contra el mundo vivo, el Simbioceno imagina lo que             debería seguir: democracia interespecies, vida dentro de los límites de la Tierra y reciprocidad ecológica. Este no es un futuro en el que manipulamos la naturaleza para que se ajuste a la comodidad y conveniencia humanas. En su lugar, la creación se convierte en una conversación: un alejamiento de nuestro largo hábito de usar la tecnología contra la naturaleza, hacia la escucha, la humildad y el florecimiento de la vida.          <br>
+<b>¿Qué es el Solarpunk?</b><br>
+¿Pero cómo aflojamos el control de la modernidad cuando todavía dependemos de sus herramientas? La respuesta es el solarpunk, el movimiento cultural vanguardista pero sincero que une la tecnología con la naturaleza, reimaginando herramientas basadas en concepciones de la ciencia que persuaden en lugar de torturar.<br>
+    El «punk» en solarpunk proviene de sus raíces mixtas: no rechaza la tecnología como un ludita, ni la abraza ciegamente como un ecomodernista, sino que vincula el desarrollo tecnológico a principios ecológicos y biológicos para servir al bien del conjunto.<br>
+    El elemento «solar» conecta la maravilla fotosintética           de las plantas como comedoras                 de luz, con la energía libre del                  Sol aprovechada                    por paneles solares y otras fuerzas de la         naturaleza como el             viento, el agua y la energía geotérmica.<br>
+El objetivo del solarpunk no es que un «futuro solar» empiece y termine con los dispositivos que ya conocemos. Amplía el significado de la tecnología para incluir prácticas indígenas y locales, como las chinampas: lechos de cultivo elevados tejidos con juncos, anclados en lagos poco profundos y refrescados con limo rico en nutrientes de los canales. No producen electricidad, pero producen abundancia: comida, suelo y una ecología local estable.<br>
+El solarpunk sitúa ese tipo de ingenio de baja energía y alto rendimiento junto a la alta ecotecnología, como los cosechadores de agua atmosférica para extraer agua potable del aire y las microredes regenerativas para almacenar energía. En otras palabras, trata la ciencia y la tecnología como algo plural: moldeadas por la cultura, el paisaje y los valores, no dictadas por un único plano industrial. Por eso el solarpunk a menudo recurre a la biomímesis (aprender de los diseños de la naturaleza) para dirigir el ingenio humano hacia la reparación: restaurar los ecosistemas y, al mismo tiempo, restaurar las formas en que vivimos unos con otros.<br>
+<b>Una Estética de la Interdependencia</b><br>
+Piensa en: dirigibles flotando sobre los tejados, paneles solares que se reparan a sí mismos, permacultura y agroecología —cultivar alimentos diseñando granjas y jardines que funcionen como ecosistemas, donde el suelo se reconstruye, el agua se conserva y el «desperdicio» se convierte en nutriente—, comidas hechas con lo que tú y tus amigos ayudaron a cultivar, hologramas que suavizan el resplandor de las pantallas y una vida medida menos por objetos desechables brillantes que por experiencias compartidas.<br>
+El punto no es la ecología o la tecnología, sino el rechazo de esa división. En su veta queer y eco-anárquica, las fronteras permanecen permeables, las jerarquías son sospechosas y el mundo se entiende como un conjunto de relaciones superpuestas en lugar de categorías selladas. De ahí surgen sus compromisos culturales:<br>
+    <b>Inclusividad.
+    Post-escasez</b> (la idea de que la sociedad puede satisfacer las necesidades de todos).
+    <b>Post-blancura</b>, lo que significa que ninguna cultura individual llega a definir el futuro por                                        defecto                   .
+Frente a la desigualdad fabricada del capitalismo, esboza una forma de vida más porosa, modelada en la interdependencia de la naturaleza. En ese marco más amplio, decir la verdad vuelve a ser posible, las heridas de hace tiempo pueden empezar a sanar y el humor regresa, no como negación, sino como el alivio de no tomarnos a nosotros mismos, ni a nuestras herramientas, tan en serio.<br>
+Si la unidad con la naturaleza es nuestra herencia evolutiva, y elevarnos por encima de la naturaleza es nuestro presente post-Ilustración, entonces el solarpunk imagina un futuro de vuelta al equilibrio. Conserva lo que la tecnología hace posible, pero lo redirige hacia la satisfacción de necesidades reales mientras coopera con el mundo vivo. El «solar» en el nombre sugiere un poder que es abundante, amable y compartible, y conlleva una afirmación simple: la buena vida no tiene por qué ser complicada, derrochadora ni construirse sobre la pérdida de otra persona.<br>
+<b>Raíces y Visionarios</b><br>
+Una forma de ver esto con más claridad es compararlo con el steampunk, el movimiento retrofuturista que romantiza una era de vapor y máquinas lo suficientemente simples como para ser reparadas a mano. Para el solarpunk, ese afecto por las herramientas reparables se mantiene, pero los valores cambian. Aquí, la planificación del paisaje, la arquitectura y la infraestructura se tratan como preguntas ecológicas, no solo de ingeniería. El progreso se mide por la paz y la suficiencia, y por tecnologías que fortalecen a las comunidades y protegen los bienes comunes.<br>
+Las ciudades autosuficientes han                               aparecido en visiones futuristas durante décadas. Durante la posguerra, a medida que el cemento y lo prefabricado se convirtieron en las herramientas del comercio global, las ciudades se diseñaron para los coches, no para los humanos. La urbanización a expensas de la habitabilidad no solo daña nuestra salud, sino que mata el espíritu.<br>
+El solarpunk cambia la estética, desafiando el utilitarismo austero de la fábrica. En su lugar, introduce:<br>
+    Una economía próspera pero no codiciosa.
+    Democracias directas descentralizadas.
+    Comunidades anidadas y afectuosas.<br>
+El diseño urbano de Richard Register, quien presentó el concepto de Ecocity Berkeley en 1987, fue una voz temprana. Desafió los valores predeterminados de la planificación moderna tratando a la ciudad como un ecosistema de cuerpos y comportamientos. Otros precursores incluyen Ecotopía (1975) de Ernest Callenbach y las novelas de Ursula K. Le Guin. También está el arquitecto Paolo Soleri, quien propuso las «arcologías», una mezcla de arquitectura y ecología: ciudades autónomas diseñadas para comportarse como ecosistemas para permitir que grandes áreas de tierra vuelvan a ser salvajes (rewilding).<br>
+<b>Entre la Alta Tecnología y la Sabiduría Ancestral</b><br>
+Mientras que el cottagecore mira hacia atrás, el solarpunk mira hacia adelante. Se presenta como una reimaginación verde del cyberpunk (ese género de distopías de neón, poder corporativo y alienación). El solarpunk conserva la elegancia DIY (hazlo tú mismo) de ambos géneros pero los sintetiza con un anarquismo verde. Películas como Black Panther (2018) y su ciudad de Wakanda han llevado esta visión a las masas.<br>
+En un nivel más metafísico, la bióloga Robin Wall Kimmerer en Una trenza de hierba sagrada vinculó el activismo con una visión del futuro basada en «convertirse en indígena de un lugar». El solarpunk cumple esa promesa al pasar de una economía extractiva a una bioeconomía de compostaje, donde los materiales están diseñados para volver de forma segura al suelo.<br>
+Imagina una sociedad donde el objetivo es desarrollar nuestra inteligencia ecológica, que alimenta nuestra inteligencia emocional en un ciclo virtuoso. Como dijo el investigador Adam Flynn: «El solarpunk es un futuro con rostro humano y suciedad tras las orejas».
+Incluso ideas provocadoras como el uso de la ingeniería genética para crear «árboles bioluminiscentes para iluminar nuestras calles» o «bambúes tan fuertes como el acero» tienen cabida, siempre que sirvan para empoderar a las personas y al medio ambiente, no a las corporaciones. Si logramos un futuro solarpunk, lo que significa modificar genéticamente un organismo cambiaría por completo: tal vez ni siquiera sería necesaria nuestra intervención si dejamos que las nuevas ecologías que cuidamos hagan el trabajo de creación.<br>
+<b>Solarpunk vs. el Futuro Corporativo</b><br>
+El solarpunk trata de imaginar cómo sería el mundo si usáramos la tecnología y el trabajo para mejorar todas las vidas, en lugar de concentrar la riqueza para unos pocos. Esto requiere libertad del motivo de lucro.<br>
+Recientemente, propuestas como el proyecto Quayside de Sidewalk Labs (Google) en Toronto fracasaron porque los ciudadanos rechazaron una                   «Googlelandia» estéril y llena de sensores. La gente quiere ciudades vibrantes y democráticas, no ser drones bajo una cúpula eficiente pero corporativa.<br>
+Otro contraste es Neom, la megaciudad lineal de Arabia Saudita. Aunque toma prestada la estética solarpunk (cero emisiones, granjas verticales), carece de sus valores morales. En Neom, la escala es lo primero; en el solarpunk, lo no negociable es el consentimiento, la propiedad compartida y la reparación.<br>
+La pluralidad tecnológica es evidente en el libro Lo-TEK de Julia Watson. En la India, describe los puentes de raíces vivas de los Khasi, que se cultivan en lugar de construirse. En Iraq, la arquitectura de juncos de los Ma’dan, donde aldeas enteras se adaptan al nivel del agua. Estas son tecnologías que la mirada occidental a menudo no reconoce porque se mezclan perfectamente con los ecosistemas.<br>
+Honrar nuestra pertenencia a ecosistemas complejos nos quita la carga de inventar todas las soluciones técnicas nosotros mismos. Entregarse a lo que los budistas llaman Pratītyasamutpāda, o originación dependiente, significa que nuestras tecnologías deben sonar al unísono con las ecologías que las rodean.<br>
+El solarpunk da la bienvenida a una visión integrada de la naturaleza y la tecnología. Redefine el territorio, preguntando cómo podemos usar nuestras herramientas para servir al mundo vivo, y no al revés. Este futuro atractivo de paz global y abundancia nos invita a notar lo que ya está germinando en las grietas del presente.`;
+      // Parámetros para Kindle 10ª generación (800×600 px, Arial 30px, line-height 1.0)
+      var anchoDisponible   = 600 - (40 + 40); // 600px ancho − 40px padding izq − 40px padding der
+      var anchoChar         = 15;             // aprox ancho medio de un carácter en Arial 30px
+      var charsPorLinea     = Math.floor(anchoDisponible / anchoChar); // ≈ 34
+      var altoDisponible    = 1700; // 800px alto − header(50) − footer eliminado − padding vert(10+10) = 690
+      var lineHeight        = 70;             // 30px por línea (font-size × line-height)
+      // Restamos 6.2 líneas para dejar 17 líneas útiles (23 − 6.2 ≈ 16.8 → 16 o 17)
+      var lineasPorPagina   = Math.floor(altoDisponible / lineHeight +0); // aprox 16
+      var maxCharsPorPagina = charsPorLinea * lineasPorPagina;                // ≈ 34 × 16 = 544
+
+      // Función para dividir texto sin cortar palabras
+      function dividirEnPaginas(texto, maxChars) {
+        var paginas = [];
+        var indice = 0;
+        while (indice < texto.length) {
+          var trozo = texto.substr(indice, maxChars);
+          if (indice + maxChars >= texto.length) {
+            paginas.push(texto.substr(indice).trim());
+            break;
+          }
+          // Buscar el último espacio antes de maxChars
+          var ultimoEspacio = trozo.lastIndexOf(' ');
+          if (ultimoEspacio === -1) {
+            ultimoEspacio = maxChars;
+          }
+          paginas.push(texto.substr(indice, ultimoEspacio).trim());
+          indice += ultimoEspacio;
+          // Saltar espacios adicionales
+          while (texto.charAt(indice) === ' ') {
+            indice++;
+          }
+        }
+        return paginas;
+      }
+
+      // Obtener array de páginas según máximo de caracteres
+      var paginasText = dividirEnPaginas(textoCompleto, maxCharsPorPagina);
+
+      // Insertar cada página en #content (dentro de un <p>, con saltos de línea)
+      var contentDiv = document.getElementById('content');
+      paginasText.forEach(function(trozo, i) {
+        var paginaDiv = document.createElement('div');
+        paginaDiv.className = 'page';
+        // Reconvertir saltos de línea dobles en <br><br>, simples en <br>
+        var htmlPagina = trozo
+          .replace(/\n\s*\n/g, '<br><br>') // dobles saltos → doble <br>
+          .replace(/\n/g, '<br>');          // saltos simples → <br>
+        // Dentro del trozo pueden haber subtítulos: buscamos líneas que empiecen con "1 –", "2 –", etc.
+        // Si detectamos un subtítulo, lo metemos en <h2> y el resto en <p>
+        var fragmentos = htmlPagina.split(/<br><br>/g);
+        fragmentos.forEach(function(frag, idx) {
+          // Si una línea comienza con dígito + espacio + '–', lo tratamos como subtítulo
+          var matchSub = frag.match(/^(\d+\s*–\s*[^<]+)/);
+          if (matchSub) {
+            var h2 = document.createElement('h2');
+            h2.textContent = matchSub[1].trim();
+            paginaDiv.appendChild(h2);
+            // Si hay texto a continuación en la misma línea, lo ponemos en un <p> separado
+            var resto = frag.substr(matchSub[1].length).trim();
+            if (resto) {
+              var p2 = document.createElement('p');
+              p2.innerHTML = resto;
+              paginaDiv.appendChild(p2);
+            }
+          } else {
+            var p = document.createElement('p');
+            p.innerHTML = frag;
+            paginaDiv.appendChild(p);
+          }
+        });
+        contentDiv.appendChild(paginaDiv);
+      });
+
+      // Marcar IDs y mostrar la primera página
+      var pageElements = Array.prototype.slice.call(document.querySelectorAll('.page'));
+      var totalPages = pageElements.length;
+      pageElements.forEach(function(pg, idx) {
+        pg.id = 'page-' + idx;
+      });
+
+      var indicator = document.getElementById('page-indicator');
+      indicator.textContent = '1 de ' + totalPages;
+      pageElements[0].classList.add('active');
+
+      // Configurar botones de navegación
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var backBtn = document.getElementById('back-btn');
+      var currentIndex = 0;
+
+      function showPage(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= totalPages) idx = totalPages - 1;
+        pageElements.forEach(function(pg, i) {
+          pg.classList.toggle('active', i === idx);
+        });
+        currentIndex = idx;
+        indicator.textContent = (currentIndex + 1) + ' de ' + totalPages;
+        btnPrev.style.visibility = (currentIndex === 0 ? 'hidden' : 'visible');
+        btnNext.style.visibility = (currentIndex === totalPages - 1 ? 'hidden' : 'visible');
+      }
+
+      btnPrev.addEventListener('click', function() {
+        showPage(currentIndex - 1);
+      });
+      btnNext.addEventListener('click', function() {
+        showPage(currentIndex + 1);
+      });
+      backBtn.addEventListener('click', function() {
+        showPage(0);
+      });
+    });
+  </script>
+</body>
+</html>
+
